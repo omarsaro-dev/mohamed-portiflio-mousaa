@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Founder {
+  id          String   @id @default(cuid())
+  name        String
+  title       String
+  bio         String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  location    String
+  year        Int
+  category    String
+  description String
+  images      String[]
+  video       String?
+  materials   String[]
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Award {
+  id          String   @id @default(cuid())
+  title       String
+  organization String
+  year        Int
+  project     String
+  createdAt   DateTime @default(now())
+}
+
+model Testimonial {
+  id      String   @id @default(cuid())
+  name    String
+  role    String
+  content String
+  project String?
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  projectType String
+  budget      String
+  timeline    String
+  message     String
+  createdAt   DateTime @default(now())
+}

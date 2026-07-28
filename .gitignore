@@ -1,0 +1,13 @@
+node_modules
+.next
+.env
+.env.local
+.env.production
+dist
+build
+*.log
+.DS_Store
+.env
+.env.*
+.vscode/mcp.json
+.mcp.json

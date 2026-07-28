@@ -1,0 +1,15 @@
+export const siteConfig = {
+  name: 'Mousaa',
+  description: 'Creating timeless spaces through architecture, emotion and precision.',
+  founder: 'Mohamed Moussa',
+  title: 'Founder & Creative Director',
+  url: 'https://mousaa.com',
+  ogImage: '/og.jpg',
+  links: {
+    email: 'Arch.Mohamed_mousa@ya-hoo.com',
+    phone: '01063300788',
+    whatsapp: 'https://wa.me/201063300788',
+    instagram: 'https://instagram.com/mousaa',
+    linkedin: 'https://linkedin.com/in/mohamedmoussa',
+  },
+}
