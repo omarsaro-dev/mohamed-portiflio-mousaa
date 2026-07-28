@@ -5,14 +5,11 @@ import { gsap } from 'gsap'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
 import { siteConfig } from '@/config/site'
-import { isMobileDevice } from '@/lib/utils'
 
 export default function Founder() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.founder-tag', 0)
       animations.fadeUp('.founder-title', 0.2)

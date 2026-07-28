@@ -4,14 +4,11 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
-import { isMobileDevice } from '@/lib/utils'
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.hero-avatar', 0)
       animations.fadeUp('.hero-logo', 0.2)

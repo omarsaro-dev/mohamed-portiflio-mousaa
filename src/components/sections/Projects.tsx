@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
-import { isMobileDevice } from '@/lib/utils'
 
 export interface ProjectItem {
   id: number
@@ -23,7 +22,7 @@ export interface ProjectItem {
 const projects: ProjectItem[] = [
   {
     id: 1,
-    title: 'Boho Style Project 1',
+    title: 'Boho Style Project',
     location: 'Cairo, Egypt',
     style: 'Boho Style',
     category: 'Residential',
@@ -39,7 +38,7 @@ const projects: ProjectItem[] = [
   },
   {
     id: 2,
-    title: 'New Classic Project 1',
+    title: 'New Classic Project',
     location: 'Cairo, Egypt',
     style: 'New Classic',
     category: 'Luxury Villas',
@@ -56,7 +55,7 @@ const projects: ProjectItem[] = [
   },
   {
     id: 3,
-    title: 'New Classic Project 2',
+    title: 'New Classic Project',
     location: 'Cairo, Egypt',
     style: 'New Classic',
     category: 'Luxury Villas',
@@ -72,7 +71,7 @@ const projects: ProjectItem[] = [
   },
   {
     id: 4,
-    title: 'Modern Project 1',
+    title: 'Modern Project',
     location: 'Cairo, Egypt',
     style: 'Modern',
     category: 'Residential',
@@ -90,7 +89,7 @@ const projects: ProjectItem[] = [
   },
   {
     id: 5,
-    title: 'Modern Project 2',
+    title: 'Modern Project',
     location: 'Cairo, Egypt',
     style: 'Modern',
     category: 'Residential',
@@ -106,7 +105,7 @@ const projects: ProjectItem[] = [
   },
   {
     id: 6,
-    title: 'Office Project 1',
+    title: 'Office Project',
     location: 'Cairo, Egypt',
     style: 'Office',
     category: 'Commercial',
@@ -123,7 +122,7 @@ const projects: ProjectItem[] = [
   },
   {
     id: 7,
-    title: 'Office Project 2',
+    title: 'Office Project',
     location: 'Cairo, Egypt',
     style: 'Office',
     category: 'Commercial',
@@ -153,8 +152,6 @@ export default function Projects() {
     : projects.filter(p => p.style === activeStyle)
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.projects-title', 0)
       animations.fadeUp('.project-card', 0.1)

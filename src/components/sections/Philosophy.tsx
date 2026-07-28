@@ -3,14 +3,11 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { animations } from '@/lib/animations'
-import { isMobileDevice } from '@/lib/utils'
 
 export default function Philosophy() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.philosophy-title', 0)
       animations.stagger('.philosophy-item', 0.15)

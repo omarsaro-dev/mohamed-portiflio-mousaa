@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
-import { isMobileDevice } from '@/lib/utils'
 
 const materials = [
   {
@@ -49,8 +48,6 @@ export default function MaterialExperience() {
   const [activeMaterial, setActiveMaterial] = useState(materials[0])
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.materials-title', 0)
       animations.fadeUp('.material-preview', 0.2)

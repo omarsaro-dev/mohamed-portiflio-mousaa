@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { animations } from '@/lib/animations'
 import { siteConfig } from '@/config/site'
-import { isMobileDevice } from '@/lib/utils'
 
 export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -20,8 +19,6 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.contact-title', 0)
       animations.fadeUp('.contact-subtitle', 0.2)

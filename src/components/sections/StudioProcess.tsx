@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { animations } from '@/lib/animations'
-import { isMobileDevice } from '@/lib/utils'
 
 const processSteps = [
   { step: '01', title: 'Discovery', description: 'Understanding vision, requirements, and context' },
@@ -18,8 +17,6 @@ export default function StudioProcess() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isMobileDevice()) return
-
     const ctx = gsap.context(() => {
       animations.fadeUp('.process-title', 0)
       animations.stagger('.process-step', 0.15)
