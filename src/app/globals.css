@@ -12,10 +12,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -25,20 +28,9 @@
     overflow-x: hidden;
   }
 
-  html.lenis {
-    height: auto;
-  }
-
-  .lenis.lenis-smooth {
-    scroll-behavior: auto;
-  }
-
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
-
-  .lenis.lenis-stopped {
-    overflow: hidden;
+  /* Optimize images for smooth rendering */
+  img {
+    content-visibility: auto;
   }
 }
 
@@ -49,5 +41,24 @@
 
   .text-pretty {
     text-wrap: pretty;
+  }
+}
+
+/* Mobile-specific performance optimizations */
+@media (max-width: 767px) {
+  /* Disable heavy GPU-taxing backdrop filters on mobile screens */
+  .backdrop-blur-md, 
+  .backdrop-blur-xl, 
+  .backdrop-blur-2xl, 
+  .backdrop-blur-3xl {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(8, 8, 8, 0.96) !important;
+  }
+
+  /* Force hardware acceleration for smooth scrolling */
+  section {
+    transform: translateZ(0);
+    will-change: transform, opacity;
   }
 }

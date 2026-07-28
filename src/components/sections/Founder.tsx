@@ -23,9 +23,9 @@ export default function Founder() {
 
   return (
     <section id="founder" ref={containerRef} className="min-h-screen py-32 bg-[#060606] relative overflow-hidden border-b border-white/5">
-      {/* Background Architectural Ambient Glow */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-500/5 blur-[140px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-emerald-500/5 blur-[140px] pointer-events-none rounded-full" />
+      {/* Background Architectural Ambient Glow (Desktop only for GPU speed) */}
+      <div className="hidden md:block absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-500/5 blur-[140px] pointer-events-none rounded-full" />
+      <div className="hidden md:block absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-emerald-500/5 blur-[140px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -41,6 +41,8 @@ export default function Founder() {
               <img 
                 src="/images/founder-portrait.jpg" 
                 alt="Arch. Mohamed Moussa" 
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               />
 

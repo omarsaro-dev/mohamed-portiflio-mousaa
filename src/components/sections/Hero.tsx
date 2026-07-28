@@ -21,8 +21,8 @@ export default function Hero() {
 
   return (
     <section ref={containerRef} className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#050505] pt-20">
-      {/* Background Soft Glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-amber-500/5 blur-[160px] pointer-events-none rounded-full" />
+      {/* Background Soft Glow (Desktop only for GPU speed) */}
+      <div className="hidden md:block absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-amber-500/5 blur-[160px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         
@@ -33,6 +33,8 @@ export default function Hero() {
               <img 
                 src="/images/mohamed-moussa.jpg" 
                 alt="Arch. Mohamed Moussa" 
+                loading="eager"
+                decoding="async"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
             </div>
