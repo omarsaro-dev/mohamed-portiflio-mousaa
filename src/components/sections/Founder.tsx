@@ -2,14 +2,17 @@
 
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import Image from 'next/image'
 import { animations } from '@/lib/animations'
 import { siteConfig } from '@/config/site'
+import { isMobileDevice } from '@/lib/utils'
 
 export default function Founder() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (isMobileDevice()) return
+
     const ctx = gsap.context(() => {
       animations.fadeUp('.founder-tag', 0)
       animations.fadeUp('.founder-title', 0.2)
@@ -37,13 +40,13 @@ export default function Founder() {
               {/* Outer Decorative Architectural Lines */}
               <div className="absolute -inset-2 border border-amber-500/20 rounded-sm pointer-events-none opacity-40 group-hover:opacity-100 group-hover:border-amber-500/50 transition-all duration-700" />
 
-              {/* Main Founder Image */}
-              <img 
-                src="/images/founder-portrait.jpg" 
-                alt="Arch. Mohamed Moussa" 
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+              <Image
+                src="/images/founder-portrait.jpg"
+                alt="Arch. Mohamed Moussa"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                priority
+                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               />
 
               {/* Gradient Overlays */}

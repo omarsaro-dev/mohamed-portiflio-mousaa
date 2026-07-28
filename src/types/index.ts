@@ -3,6 +3,7 @@ export interface Project {
   title: string
   location: string
   year: number
+  style: string
   category: 'Luxury Villas' | 'Residential' | 'Commercial' | 'Hospitality'
   description: string
   images: string[]

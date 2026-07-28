@@ -1,17 +1,19 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useLenis } from '@/lib/lenis'
-import Cursor from '@/components/ui/Cursor'
 import Navigation from '@/components/ui/Navigation'
-import PageTransition from '@/components/ui/PageTransition'
 import Hero from '@/components/sections/Hero'
-import Founder from '@/components/sections/Founder'
-import Philosophy from '@/components/sections/Philosophy'
-import Projects from '@/components/sections/Projects'
-import StudioProcess from '@/components/sections/StudioProcess'
-import MaterialExperience from '@/components/sections/MaterialExperience'
-import Contact from '@/components/sections/Contact'
-import Background3D from '@/components/three/Background3D'
+
+const Cursor = dynamic(() => import('@/components/ui/Cursor'), { ssr: false })
+const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
+const PageTransition = dynamic(() => import('@/components/ui/PageTransition'), { ssr: false })
+const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: false })
+const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { ssr: false })
+const Projects = dynamic(() => import('@/components/sections/Projects'), { ssr: false })
+const StudioProcess = dynamic(() => import('@/components/sections/StudioProcess'), { ssr: false })
+const MaterialExperience = dynamic(() => import('@/components/sections/MaterialExperience'), { ssr: false })
+const Contact = dynamic(() => import('@/components/sections/Contact'), { ssr: false })
 
 export default function Home() {
   useLenis()

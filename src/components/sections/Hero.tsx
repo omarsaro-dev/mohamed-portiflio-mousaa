@@ -2,12 +2,16 @@
 
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import Image from 'next/image'
 import { animations } from '@/lib/animations'
+import { isMobileDevice } from '@/lib/utils'
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (isMobileDevice()) return
+
     const ctx = gsap.context(() => {
       animations.fadeUp('.hero-avatar', 0)
       animations.fadeUp('.hero-logo', 0.2)
@@ -29,13 +33,14 @@ export default function Hero() {
         {/* Founder Avatar Badge */}
         <div className="hero-avatar mb-8 inline-block">
           <a href="#founder" className="group flex items-center gap-3 bg-white/[0.03] border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300 backdrop-blur-md">
-            <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative">
-              <img 
-                src="/images/mohamed-moussa.jpg" 
-                alt="Arch. Mohamed Moussa" 
-                loading="eager"
-                decoding="async"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative shrink-0">
+              <Image
+                src="/images/mohamed-moussa.jpg"
+                alt="Arch. Mohamed Moussa"
+                fill
+                sizes="40px"
+                priority
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
             </div>
             <div className="text-left pr-2">

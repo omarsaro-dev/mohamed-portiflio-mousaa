@@ -28,8 +28,7 @@
     overflow-x: hidden;
   }
 
-  /* Optimize images for smooth rendering */
-  img {
+  img, video, canvas {
     content-visibility: auto;
   }
 }
@@ -44,9 +43,7 @@
   }
 }
 
-/* Mobile-specific performance optimizations */
 @media (max-width: 767px) {
-  /* Disable heavy GPU-taxing backdrop filters on mobile screens */
   .backdrop-blur-md, 
   .backdrop-blur-xl, 
   .backdrop-blur-2xl, 
@@ -54,11 +51,5 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background-color: rgba(8, 8, 8, 0.96) !important;
-  }
-
-  /* Force hardware acceleration for smooth scrolling */
-  section {
-    transform: translateZ(0);
-    will-change: transform, opacity;
   }
 }

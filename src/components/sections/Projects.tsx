@@ -2,12 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import Image from 'next/image'
 import { animations } from '@/lib/animations'
+import { isMobileDevice } from '@/lib/utils'
 
 export interface ProjectItem {
   id: number
   title: string
   location: string
+  style: string
   category: string
   year: number
   description: string
@@ -20,80 +23,138 @@ export interface ProjectItem {
 const projects: ProjectItem[] = [
   {
     id: 1,
-    title: 'The Emerald Lounge & Botanical Sanctum',
+    title: 'Boho Style Project 1',
     location: 'Cairo, Egypt',
-    category: 'Luxury Villas',
+    style: 'Boho Style',
+    category: 'Residential',
     year: 2024,
-    description: 'A sanctuary of modern organic luxury blending illuminated backlit emerald onyx shelving, sculpted bouclé lounge seating, custom leaf-petal cluster chandeliers, and natural warm oak paneling.',
-    mainImage: '/images/projects/al-nour-1.jpg',
+    description: 'A vibrant residential interior blending natural textures, eclectic patterns, and warm earthy tones to create a relaxed artistic atmosphere.',
+    mainImage: '/images/projects/boho style/project 1/mousaa 1.jpg',
     gallery: [
-      '/images/projects/al-nour-1.jpg',
-      '/images/projects/al-nour-2.jpg'
+      '/images/projects/boho style/project 1/mousaa 1.jpg',
+      '/images/projects/boho style/project 1/mousaa 2.jpg',
     ],
-    materials: ['Emerald Onyx Marble', 'Warm Oak', 'Bouclé Upholstery', 'Bronze Metalwork'],
-    featured: true
+    materials: ['Natural Wood', 'Textured Fabrics', 'Warm Earth Tones'],
+    featured: true,
   },
   {
     id: 2,
-    title: 'Sculpted Dining Sanctuary',
-    location: 'New Cairo, Egypt',
-    category: 'Residential',
+    title: 'New Classic Project 1',
+    location: 'Cairo, Egypt',
+    style: 'New Classic',
+    category: 'Luxury Villas',
     year: 2024,
-    description: 'Harmonious dining atmosphere centered around sculpted double-dome pendant lighting, an organic oval dining table with custom curved oak chairs, textured plaster artwork, and subtle ambient architectural light strips.',
-    mainImage: '/images/projects/sculpted-haven-1.jpg',
+    description: 'A refined living space where timeless classical elements meet contemporary sophistication, featuring elegant proportions and luxurious finishes.',
+    mainImage: '/images/projects/new classic/project 1/mousaa 1.jpg',
     gallery: [
-      '/images/projects/sculpted-haven-1.jpg',
-      '/images/projects/sculpted-haven-2.jpg',
-      '/images/projects/sculpted-haven-3.jpg'
+      '/images/projects/new classic/project 1/mousaa 1.jpg',
+      '/images/projects/new classic/project 1/mousaa 2.jpg',
+      '/images/projects/new classic/project 1/mousaa 3.jpg',
     ],
-    materials: ['Travertine Marble', 'Natural Walnut', 'Textured Plaster', 'Micro-cement Tile'],
-    featured: true
+    materials: ['Marble', 'Warm Oak', 'Brass Details', 'Luxury Fabrics'],
+    featured: true,
   },
   {
     id: 3,
-    title: 'The Obsidian Pavilion',
-    location: 'Dubai, UAE',
-    category: 'Commercial',
-    year: 2023,
-    description: 'Architectural commercial suite showcasing back-lit green marble accents, architectural vertical timber slats, minimalist brass fixtures, and lush integrated greenery.',
-    mainImage: '/images/projects/al-nour-2.jpg',
+    title: 'New Classic Project 2',
+    location: 'Cairo, Egypt',
+    style: 'New Classic',
+    category: 'Luxury Villas',
+    year: 2024,
+    description: 'An elegant classical interior with modern restraint, balancing ornate detailing with clean lines and subtle sophistication.',
+    mainImage: '/images/projects/new classic/project 2/mousa 1.jpg',
     gallery: [
-      '/images/projects/al-nour-2.jpg',
-      '/images/projects/al-nour-1.jpg'
+      '/images/projects/new classic/project 2/mousa 1.jpg',
+      '/images/projects/new classic/project 2/mousa 2.jpg',
     ],
-    materials: ['Smoked Glass', 'Black Granite', 'Brushed Brass', 'Veined Onyx'],
-    featured: false
+    materials: ['Natural Stone', 'Walnut', 'Gold Accents', 'Silk Textiles'],
+    featured: false,
   },
   {
     id: 4,
-    title: 'Marina Grand Residence',
-    location: 'Alexandria, Egypt',
-    year: 2023,
-    category: 'Hospitality',
-    description: 'A boutique luxury suite featuring soft curved dining furniture, double sculptural light globes, layered sheer drapery, and warm plaster wall finishes.',
-    mainImage: '/images/projects/sculpted-haven-3.jpg',
+    title: 'Modern Project 1',
+    location: 'Cairo, Egypt',
+    style: 'Modern',
+    category: 'Residential',
+    year: 2024,
+    description: 'A sleek modern residence defined by clean geometry, open spatial flow, and a restrained palette of natural materials and minimal ornamentation.',
+    mainImage: '/images/projects/modern/project 1/mousaa 1.jpg',
     gallery: [
-      '/images/projects/sculpted-haven-3.jpg',
-      '/images/projects/sculpted-haven-2.jpg'
+      '/images/projects/modern/project 1/mousaa 1.jpg',
+      '/images/projects/modern/project 1/mousaa 2.jpg',
+      '/images/projects/modern/project 1/mousaa 3.jpg',
+      '/images/projects/modern/project 1/mousaa 4.jpg',
     ],
-    materials: ['Volakas Marble', 'Organic Linen', 'Soft Walnut', 'Warm Brass'],
-    featured: true
-  }
+    materials: ['Concrete', 'Glass', 'Steel', 'Natural Wood'],
+    featured: true,
+  },
+  {
+    id: 5,
+    title: 'Modern Project 2',
+    location: 'Cairo, Egypt',
+    style: 'Modern',
+    category: 'Residential',
+    year: 2024,
+    description: 'A contemporary living space with clean architectural lines, neutral tones, and carefully curated material contrasts.',
+    mainImage: '/images/projects/modern/project 2/mousaa 1.jpg',
+    gallery: [
+      '/images/projects/modern/project 2/mousaa 1.jpg',
+      '/images/projects/modern/project 2/mousaa 2.jpg',
+    ],
+    materials: ['Micro-cement', 'Oak', 'Black Metal', 'Textured Plaster'],
+    featured: false,
+  },
+  {
+    id: 6,
+    title: 'Office Project 1',
+    location: 'Cairo, Egypt',
+    style: 'Office',
+    category: 'Commercial',
+    year: 2024,
+    description: 'A professional office environment designed for productivity and comfort, with clean lines, functional布局, and a sophisticated neutral palette.',
+    mainImage: '/images/projects/office/project 1/ofice 1.jpg',
+    gallery: [
+      '/images/projects/office/project 1/ofice 1.jpg',
+      '/images/projects/office/project 1/office 2.jpg',
+      '/images/projects/office/project 1/oficce 3.jpg',
+    ],
+    materials: ['Glass Partitions', 'Engineered Wood', 'Carpet Tiles', 'Aluminum'],
+    featured: false,
+  },
+  {
+    id: 7,
+    title: 'Office Project 2',
+    location: 'Cairo, Egypt',
+    style: 'Office',
+    category: 'Commercial',
+    year: 2024,
+    description: 'A modern workspace with open-plan flexibility, private meeting zones, and a calm professional aesthetic.',
+    mainImage: '/images/projects/office/project 2/ofice 1.jpg',
+    gallery: [
+      '/images/projects/office/project 2/ofice 1.jpg',
+      '/images/projects/office/project 2/ofice 2.jpg',
+      '/images/projects/office/project 2/office 3.jpg',
+    ],
+    materials: ['Acoustic Panels', 'Glass', 'Steel', 'Wood Veneer'],
+    featured: false,
+  },
 ]
 
-const categories = ['All', 'Luxury Villas', 'Residential', 'Commercial', 'Hospitality']
+const styles = ['All', 'Boho Style', 'New Classic', 'Modern', 'Office']
 
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [activeCategory, setActiveCategory] = useState('All')
+  const [activeStyle, setActiveStyle] = useState('All')
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
 
-  const filteredProjects = activeCategory === 'All' 
-    ? projects 
-    : projects.filter(p => p.category === activeCategory)
+  const filteredProjects = activeStyle === 'All'
+    ? projects
+    : projects.filter(p => p.style === activeStyle)
 
   useEffect(() => {
+    if (isMobileDevice()) return
+
     const ctx = gsap.context(() => {
       animations.fadeUp('.projects-title', 0)
       animations.fadeUp('.project-card', 0.1)
@@ -123,17 +184,17 @@ export default function Projects() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {categories.map((cat) => (
+            {styles.map((style) => (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
+                key={style}
+                onClick={() => setActiveStyle(style)}
                 className={`px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 border ${
-                  activeCategory === cat 
-                    ? 'border-amber-500/60 bg-amber-500/10 text-[#F5F5F5]' 
+                  activeStyle === style
+                    ? 'border-amber-500/60 bg-amber-500/10 text-[#F5F5F5]'
                     : 'border-white/10 text-white/50 hover:text-white hover:border-white/30'
                 }`}
               >
-                {cat}
+                {style}
               </button>
             ))}
           </div>
@@ -141,24 +202,24 @@ export default function Projects() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {filteredProjects.map((project) => (
-            <div 
-              key={project.id} 
+            <div
+              key={project.id}
               onClick={() => openModal(project)}
               className="project-card group cursor-pointer bg-white/[0.02] border border-white/5 p-4 rounded-sm transition-all duration-500 hover:border-amber-500/30 hover:bg-white/[0.04]"
             >
               <div className="aspect-[4/3] bg-neutral-900 overflow-hidden mb-6 relative rounded-sm">
-                <img 
-                  src={project.mainImage} 
+                <Image
+                  src={project.mainImage}
                   alt={project.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                
+
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[10px] tracking-widest text-amber-300 uppercase border border-amber-500/30">
-                    {project.category}
+                    {project.style}
                   </span>
                 </div>
 
@@ -193,16 +254,16 @@ export default function Projects() {
 
       {/* Lightbox Modal */}
       {selectedProject && (
-        <div 
+        <div
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 overflow-y-auto"
           onClick={closeModal}
         >
-          <div 
+          <div
             className="bg-[#0D0D0D] border border-white/10 max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-sm p-6 md:p-8 relative text-[#F5F5F5]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <button 
+            <button
               onClick={closeModal}
               className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors"
             >
@@ -213,10 +274,12 @@ export default function Projects() {
               {/* Main Image & Gallery Selector */}
               <div className="lg:col-span-7">
                 <div className="aspect-[4/3] bg-black overflow-hidden mb-4 border border-white/10 relative rounded-sm">
-                  <img 
-                    src={selectedProject.gallery[activeImageIndex]} 
-                    alt={selectedProject.title} 
-                    className="w-full h-full object-cover"
+                  <Image
+                    src={selectedProject.gallery[activeImageIndex]}
+                    alt={selectedProject.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="object-cover"
                   />
                 </div>
 
@@ -226,11 +289,11 @@ export default function Projects() {
                       <button
                         key={idx}
                         onClick={() => setActiveImageIndex(idx)}
-                        className={`w-20 h-16 border overflow-hidden rounded-xs transition-all ${
+                        className={`w-20 h-16 border overflow-hidden rounded-xs transition-all relative ${
                           activeImageIndex === idx ? 'border-amber-500 scale-105' : 'border-white/20 opacity-60 hover:opacity-100'
                         }`}
                       >
-                        <img src={img} alt="" className="w-full h-full object-cover" />
+                        <Image src={img} alt="" fill sizes="80px" className="object-cover" />
                       </button>
                     ))}
                   </div>
@@ -242,7 +305,7 @@ export default function Projects() {
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-amber-500 text-xs tracking-widest uppercase font-mono">
-                      {selectedProject.category}
+                      {selectedProject.style}
                     </span>
                     <span className="text-white/30">•</span>
                     <span className="text-white/50 text-xs font-mono">{selectedProject.year}</span>
@@ -260,24 +323,26 @@ export default function Projects() {
                     {selectedProject.description}
                   </p>
 
-                  <div className="mb-8">
-                    <h4 className="text-xs uppercase tracking-widest text-white/40 mb-3 font-mono">
-                      Crafted Materials
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.materials.map((mat) => (
-                        <span key={mat} className="text-xs bg-amber-500/10 text-amber-200 border border-amber-500/20 px-3 py-1 rounded-xs">
-                          {mat}
-                        </span>
-                      ))}
+                  {selectedProject.materials.length > 0 && (
+                    <div className="mb-8">
+                      <h4 className="text-xs uppercase tracking-widest text-white/40 mb-3 font-mono">
+                        Crafted Materials
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.materials.map((mat) => (
+                          <span key={mat} className="text-xs bg-amber-500/10 text-amber-200 border border-amber-500/20 px-3 py-1 rounded-xs">
+                            {mat}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="pt-6 border-t border-white/10 flex items-center justify-between">
                   <span className="text-xs text-white/40 font-mono">Designed by Mohamed Moussa</span>
-                  <a 
-                    href="#contact" 
+                  <a
+                    href="#contact"
                     onClick={closeModal}
                     className="px-5 py-2.5 bg-amber-500 text-black font-medium text-xs tracking-wider uppercase hover:bg-amber-400 transition-colors"
                   >

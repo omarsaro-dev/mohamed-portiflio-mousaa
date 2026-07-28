@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import Image from 'next/image'
 import { animations } from '@/lib/animations'
+import { isMobileDevice } from '@/lib/utils'
 
 const materials = [
   {
@@ -47,6 +49,8 @@ export default function MaterialExperience() {
   const [activeMaterial, setActiveMaterial] = useState(materials[0])
 
   useEffect(() => {
+    if (isMobileDevice()) return
+
     const ctx = gsap.context(() => {
       animations.fadeUp('.materials-title', 0)
       animations.fadeUp('.material-preview', 0.2)
@@ -72,12 +76,12 @@ export default function MaterialExperience() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Material Image Preview */}
           <div className="lg:col-span-7 material-preview aspect-[4/3] relative rounded-sm overflow-hidden border border-white/10 shadow-2xl group">
-            <img 
-              src={activeMaterial.image} 
-              alt={activeMaterial.name} 
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            <Image
+              src={activeMaterial.image}
+              alt={activeMaterial.name}
+              fill
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
             <div className="absolute top-4 left-4">
