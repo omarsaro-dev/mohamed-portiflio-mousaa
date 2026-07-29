@@ -178,7 +178,7 @@ const projects: ProjectItem[] = [
   },
 ]
 
-const styles = ['All', 'Boho Style', 'Classic', 'Exterior', 'Landscape', 'Modern', 'New Classic', 'Office']
+const styles = ['All', 'Classic', 'New Classic', 'Modern', 'Office', 'Landscape', 'Exterior', 'Boho Style']
 
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null)
