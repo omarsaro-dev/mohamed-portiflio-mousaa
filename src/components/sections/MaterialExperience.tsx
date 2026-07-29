@@ -41,6 +41,20 @@ const materials = [
     description: 'Custom pendant chandeliers and integrated warm LED strip channels designed to create dramatic spatial depth and intimate evening atmospheres.',
     image: '/images/projects/sculpted-haven-2.jpg',
     tag: 'LIGHTING DESIGN'
+  },
+  {
+    name: 'Botanical Plaster',
+    subtitle: 'Organic Fiber-Infused Texture',
+    description: 'Hand-applied natural plaster blended with dried botanical fibers, creating a warm earthy surface that breathes life into walls. The subtle organic speckle and fiber veins catch light softly, evoking the raw beauty of ancient earthen architecture.',
+    image: '/images/generated/botanical-plaster.svg',
+    tag: 'NATURAL TEXTURES'
+  },
+  {
+    name: 'Living Wall',
+    subtitle: 'Biophilic Vertical Garden',
+    description: 'A thriving vertical ecosystem of cascading greenery, moss, and ferns integrated into architectural surfaces. This living texture purifies the air while creating a stunning visual dialogue between built form and nature\'s untamed elegance.',
+    image: '/images/generated/living-wall.svg',
+    tag: 'BIOPHILIC DESIGN'
   }
 ]
 

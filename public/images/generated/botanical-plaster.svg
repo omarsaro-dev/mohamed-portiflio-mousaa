@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a3728"/>
+      <stop offset="30%" stop-color="#5c4a34"/>
+      <stop offset="60%" stop-color="#6b5a42"/>
+      <stop offset="100%" stop-color="#4a3728"/>
+    </linearGradient>
+    <radialGradient id="g1" cx="30%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#7d8a5a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7d8a5a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="70%" cy="60%" r="40%">
+      <stop offset="0%" stop-color="#8a7a5a" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#8a7a5a" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="fibers" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <line x1="5" y1="10" x2="55" y2="15" stroke="#7d8a5a" stroke-width="0.5" opacity="0.15"/>
+      <line x1="10" y1="35" x2="50" y2="40" stroke="#8a7a5a" stroke-width="0.3" opacity="0.12"/>
+      <line x1="0" y1="55" x2="55" y2="50" stroke="#6d7a4a" stroke-width="0.4" opacity="0.1"/>
+    </pattern>
+    <pattern id="speckle" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="1" fill="#9a8a6a" opacity="0.08"/>
+      <circle cx="15" cy="12" r="0.8" fill="#7a8a5a" opacity="0.06"/>
+      <circle cx="8" cy="18" r="0.5" fill="#5a6a3a" opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#g1)"/>
+  <rect width="800" height="600" fill="url(#g2)"/>
+  <rect width="800" height="600" fill="url(#fibers)"/>
+  <rect width="800" height="600" fill="url(#speckle)"/>
+  <line x1="200" y1="0" x2="250" y2="600" stroke="#6d7a4a" stroke-width="0.3" opacity="0.08"/>
+  <line x1="450" y1="0" x2="480" y2="600" stroke="#7d6a4a" stroke-width="0.4" opacity="0.06"/>
+  <line x1="600" y1="0" x2="630" y2="600" stroke="#5a7a4a" stroke-width="0.3" opacity="0.07"/>
+</svg>
