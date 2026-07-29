@@ -28,10 +28,6 @@
     overflow-x: hidden;
   }
 
-  img, video, canvas {
-    content-visibility: auto;
-  }
-
   .gpu-layer {
     transform: translateZ(0);
     will-change: transform;
