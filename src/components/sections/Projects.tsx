@@ -150,9 +150,35 @@ const projects: ProjectItem[] = [
     materials: ['Limestone', 'Smoked Oak', 'Bronze', 'Linen'],
     featured: false,
   },
+  {
+    id: 11,
+    title: 'Exterior Project',
+    location: 'Cairo, Egypt',
+    style: 'Exterior',
+    category: 'Luxury Villas',
+    year: 2024,
+    description: 'A commanding exterior composition featuring sculptural massing, warm stone cladding, and dramatic architectural lighting that establishes a powerful street presence.',
+    mainImage: '/images/projects/Exterior/project 1/mousa 1.jpg',
+    gallery: ['/images/projects/Exterior/project 1/mousa 1.jpg', '/images/projects/Exterior/project 1/mousa 2.jpg', '/images/projects/Exterior/project 1/mousa 3.jpg'],
+    materials: ['Natural Stone', 'Stucco', 'Architectural Glass', 'Bronze Cladding'],
+    featured: false,
+  },
+  {
+    id: 12,
+    title: 'Landscape Project',
+    location: 'Cairo, Egypt',
+    style: 'Landscape',
+    category: 'Luxury Villas',
+    year: 2024,
+    description: 'A lush outdoor oasis with layered planting, natural stone pathways, and tranquil water features that seamlessly extend the indoor living experience into the garden.',
+    mainImage: '/images/projects/land scape/project 1/mousa 1.jpg',
+    gallery: ['/images/projects/land scape/project 1/mousa 1.jpg', '/images/projects/land scape/project 1/mousa 3.jpg', '/images/projects/land scape/project 1/mousa 4.jpg', '/images/projects/land scape/project 1/mousa2.jpg'],
+    materials: ['Natural Stone', 'Water Features', 'Exterior Wood', 'Landscape Lighting'],
+    featured: false,
+  },
 ]
 
-const styles = ['All', 'Boho Style', 'Classic', 'New Classic', 'Modern', 'Office']
+const styles = ['All', 'Boho Style', 'Classic', 'Exterior', 'Landscape', 'Modern', 'New Classic', 'Office']
 
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null)
