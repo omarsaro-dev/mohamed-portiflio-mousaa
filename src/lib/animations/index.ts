@@ -467,6 +467,49 @@ export const animations = {
   scaleYReveal: (element: string | Element, delay = 0) => {
     gsap.fromTo(element, { opacity: 0, scaleY: 0, transformOrigin: 'bottom center' }, { opacity: 1, scaleY: 1, duration: 1, delay, ease: 'power3.out', ...GP })
   },
+
+  tilt3d: (element: string | Element, maxTilt = 8) => {
+    if (isMobile() || prefersReducedMotion()) return
+    const el = $(element) as HTMLElement
+    if (!el) return
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect()
+      const x = (e.clientX - rect.left) / rect.width
+      const y = (e.clientY - rect.top) / rect.height
+      gsap.to(el, { rotateY: (x - 0.5) * maxTilt, rotateX: (0.5 - y) * maxTilt, transformPerspective: 800, duration: 0.4, ease: 'power2.out', ...GP })
+    }
+    const onLeave = () => { gsap.to(el, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)', ...GP }) }
+    el.addEventListener('mousemove', onMove, { passive: true })
+    el.addEventListener('mouseleave', onLeave, { passive: true })
+    return () => { el.removeEventListener('mousemove', onMove); el.removeEventListener('mouseleave', onLeave) }
+  },
+
+  staggerChars: (element: string | Element, delay = 0, duration = 1.2) => {
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el, { type: 'chars' })
+    gsap.fromTo(split.chars, { opacity: 0, y: 40, rotateX: -20 }, { opacity: 1, y: 0, rotateX: 0, duration, stagger: 0.03, delay, ease: 'power3.out', ...GP })
+  },
+
+  staggerWords: (element: string | Element, delay = 0, duration = 1) => {
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el, { type: 'words' })
+    gsap.fromTo(split.words, { opacity: 0, y: 30, filter: 'blur(4px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration, stagger: 0.08, delay, ease: 'power3.out', ...GP })
+  },
+
+  mouseParallax: (element: string | Element, strength = 0.08) => {
+    if (isMobile() || prefersReducedMotion()) return
+    const el = $(element) as HTMLElement
+    if (!el) return
+    const onMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2
+      const y = (e.clientY / window.innerHeight - 0.5) * 2
+      gsap.to(el, { x: x * 30 * strength, y: y * 20 * strength, duration: 0.6, ease: 'power2.out', ...GP })
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => window.removeEventListener('mousemove', onMove)
+  },
 }
 
 export type AnimationFunction = (...args: any[]) => any

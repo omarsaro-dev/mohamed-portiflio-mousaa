@@ -21,6 +21,8 @@ export default function Hero() {
         .fromTo('.hero-subtitle', { opacity: 0, y: 30, filter: 'blur(5px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 }, 1.6)
         .fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.15 }, 2)
 
+      animations.staggerChars('.hero-name', 0.9, 1.4)
+
       if (bgRef.current) {
         gsap.to(bgRef.current, {
           scale: 1.2,
@@ -33,6 +35,7 @@ export default function Hero() {
       }
 
       animations.float('.hero-avatar', 6, 4, 3)
+      animations.mouseParallax('.hero-avatar', 0.12)
     }, containerRef)
 
     return () => ctx.revert()
@@ -78,9 +81,8 @@ export default function Hero() {
           Luxury Architecture & Interior Design
         </p>
 
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 leading-none tracking-tight">
-          <span className="hero-title-line block">Mohamed</span>
-          <span className="hero-title-line block">Moussa</span>
+        <h1 className="hero-name font-serif text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 leading-none tracking-tight">
+          Mohamed Moussa
         </h1>
 
         <p className="hero-subtitle text-white/60 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">

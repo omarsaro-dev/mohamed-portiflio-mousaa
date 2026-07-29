@@ -33,10 +33,18 @@ export default function StudioProcess() {
         .fromTo('.process-desc', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
         .fromTo('.process-step', { opacity: 0, y: 60, rotateX: -15, scale: 0.9 }, { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1, stagger: 0.15 }, '-=0.4')
 
+      gsap.utils.toArray('.step-number').forEach((el) => {
+        if (el instanceof HTMLElement) {
+          const target = parseInt(el.textContent || '0', 10)
+          el.textContent = '0'
+          animations.counter(el, 0, target, 1.2, 0)
+        }
+      })
+
       if (lineRef.current) {
         gsap.fromTo(lineRef.current, { scaleX: 0, transformOrigin: 'left center' }, {
           scaleX: 1,
-          duration: 1.8,
+          duration: 2,
           ease: 'power3.inOut',
           scrollTrigger: {
             trigger: lineRef.current,
@@ -49,10 +57,12 @@ export default function StudioProcess() {
       gsap.utils.toArray('.process-step').forEach((step) => {
         if (step instanceof HTMLElement) {
           step.addEventListener('mouseenter', () => {
-            gsap.to(step.querySelector('.step-icon'), { scale: 1.2, color: '#fbbf24', duration: 0.3, ease: 'power2.out' })
+            gsap.to(step.querySelector('.step-icon'), { scale: 1.2, color: '#fbbf24', duration: 0.3, ease: 'power2.out', force3D: true })
+            gsap.to(step.querySelector('.step-number'), { color: '#fbbf24', duration: 0.3, ease: 'power2.out', force3D: true })
           })
           step.addEventListener('mouseleave', () => {
-            gsap.to(step.querySelector('.step-icon'), { scale: 1, color: 'rgba(251, 191, 36, 0.8)', duration: 0.3, ease: 'power2.out' })
+            gsap.to(step.querySelector('.step-icon'), { scale: 1, color: 'rgba(251, 191, 36, 0.8)', duration: 0.3, ease: 'power2.out', force3D: true })
+            gsap.to(step.querySelector('.step-number'), { color: 'rgba(251, 191, 36, 0.6)', duration: 0.3, ease: 'power2.out', force3D: true })
           })
         }
       })
@@ -74,11 +84,11 @@ export default function StudioProcess() {
         <div ref={lineRef} className="hidden lg:block h-[1px] bg-gradient-to-r from-transparent via-amber-500/30 to-transparent mb-16" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {processSteps.map((item, i) => (
+          {processSteps.map((item) => (
             <div key={item.step} className="process-step group relative p-6 bg-white/[0.02] border border-white/5 rounded-sm hover:border-amber-500/20 hover:bg-white/[0.04] transition-all duration-500">
               <div className="flex items-center gap-4 mb-4">
                 <span className="step-icon text-amber-400/80 text-2xl transition-all duration-300">{item.icon}</span>
-                <span className="text-amber-400/60 font-mono text-xs tracking-widest">{item.step}</span>
+                <span className="step-number text-amber-400/60 font-mono text-xs tracking-widest">{item.step}</span>
               </div>
               <h3 className="font-serif text-xl text-[#F5F5F5] mb-3">{item.title}</h3>
               <p className="text-white/50 text-sm leading-relaxed">{item.description}</p>

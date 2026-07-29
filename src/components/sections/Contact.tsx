@@ -39,6 +39,15 @@ export default function Contact() {
         .fromTo('.contact-detail-card', { opacity: 0, x: -40, skewX: 3 }, { opacity: 1, x: 0, skewX: 0, duration: 0.8, stagger: 0.1 }, '-=0.4')
         .fromTo('.contact-form-wrap', { opacity: 0, x: 40, skewX: -3 }, { opacity: 1, x: 0, skewX: 0, duration: 0.9 }, '-=0.6')
         .fromTo('.form-field', { opacity: 0, y: 15, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.06 }, '-=0.4')
+
+      gsap.utils.toArray<HTMLElement>('input, textarea, select').forEach((el) => {
+        el.addEventListener('focus', () => {
+          gsap.to(el, { borderColor: 'rgba(251, 191, 36, 0.8)', boxShadow: '0 0 20px rgba(251, 191, 36, 0.08)', duration: 0.3, ease: 'power2.out', force3D: true })
+        })
+        el.addEventListener('blur', () => {
+          gsap.to(el, { borderColor: 'rgba(255, 255, 255, 0.1)', boxShadow: 'none', duration: 0.3, ease: 'power2.out', force3D: true })
+        })
+      })
     }, containerRef)
 
     return () => ctx.revert()
@@ -78,17 +87,13 @@ export default function Contact() {
     } finally {
       setIsSubmitting(false)
       if (successRef.current) {
-        gsap.fromTo(successRef.current, { opacity: 0, y: -15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'power3.out' })
-        gsap.to(successRef.current, {
-          borderColor: 'rgba(251, 191, 36, 0.6)',
-          duration: 0.3,
-          yoyo: true,
-          repeat: 1,
-          ease: 'power2.inOut',
-        })
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
+        tl.fromTo(successRef.current, { opacity: 0, y: -15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5 })
+          .to(successRef.current, { borderColor: 'rgba(251, 191, 36, 0.6)', duration: 0.3 }, '-=0.2')
+          .to(successRef.current, { boxShadow: '0 0 30px rgba(251, 191, 36, 0.1)', duration: 0.4 }, '-=0.1')
       }
       if (submitBtnRef.current) {
-        gsap.to(submitBtnRef.current, { scale: 1, duration: 0.3, ease: 'elastic.out(1, 0.4)' })
+        gsap.to(submitBtnRef.current, { scale: 1, duration: 0.3, ease: 'elastic.out(1, 0.4)', force3D: true })
       }
     }
   }
@@ -238,7 +243,7 @@ export default function Contact() {
               </div>
 
               {statusMsg && (
-                <div ref={successRef} className="form-field p-4 bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs">
+                <div ref={successRef} className="form-field p-4 bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs rounded-sm">
                   {statusMsg}
                 </div>
               )}
@@ -247,7 +252,7 @@ export default function Contact() {
                 ref={submitBtnRef}
                 type="submit"
                 disabled={isSubmitting}
-                className="form-field w-full py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase hover:bg-amber-400 transition-colors disabled:opacity-50 relative overflow-hidden group"
+                className="form-field w-full py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase hover:bg-amber-400 transition-colors disabled:opacity-50 relative overflow-hidden group rounded-sm"
               >
                 <span className="relative z-10">{isSubmitting ? 'Transmitting Message...' : 'Submit Architecture Inquiry'}</span>
                 <span className="absolute inset-0 bg-amber-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />

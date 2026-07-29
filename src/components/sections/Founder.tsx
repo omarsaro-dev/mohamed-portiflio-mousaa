@@ -25,10 +25,11 @@ export default function Founder() {
       })
 
       tl.fromTo('.founder-tag', { opacity: 0, x: -40, skewX: 5 }, { opacity: 1, x: 0, skewX: 0, duration: 0.8 })
-        .fromTo('.founder-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, '-=0.3')
-        .fromTo('.founder-text', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }, '-=0.6')
+        .fromTo('.founder-text', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }, '-=0.3')
         .fromTo('.founder-pillar', { opacity: 0, y: 50, scale: 0.85, rotation: -3 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.9, stagger: 0.12 }, '-=0.4')
         .fromTo('.founder-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, '-=0.2')
+
+      animations.staggerWords('.founder-title', 0.2, 1.2)
 
       gsap.fromTo('.founder-image-wrapper', {
         opacity: 0,
@@ -56,6 +57,11 @@ export default function Founder() {
 
       animations.imageParallax('.founder-image-wrapper img', 0.25)
       animations.float('.founder-image-wrapper .arch-lines', 4, 4, 1.5)
+      animations.mouseParallax('.founder-image-wrapper', 0.1)
+
+      gsap.utils.toArray('.founder-pillar').forEach((p) => {
+        if (p instanceof HTMLElement) animations.tilt3d(p, 6)
+      })
     }, containerRef)
 
     return () => ctx.revert()

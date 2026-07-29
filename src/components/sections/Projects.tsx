@@ -144,6 +144,9 @@ export default function Projects() {
     gsap.fromTo('.project-card', { opacity: 0, y: 50, scale: 0.97 }, {
       opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', force3D: true, overwrite: 'auto',
     })
+    gsap.utils.toArray('.project-card').forEach((c) => {
+      if (c instanceof HTMLElement) animations.tilt3d(c, 6)
+    })
   }, [filteredProjects])
 
   useEffect(() => {
