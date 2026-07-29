@@ -45,7 +45,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body>{children}</body>
+      <body>
+        <script dangerouslySetInnerHTML={{
+          __html: 'setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&e.style.visibility!=="hidden"){e.style.visibility="hidden";e.style.pointerEvents="none";}},7000)'
+        }} />
+        {children}
+      </body>
     </html>
   )
 }

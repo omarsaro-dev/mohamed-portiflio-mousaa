@@ -17,14 +17,19 @@ export default function LoadingScreen() {
     }, containerRef)
 
     const fallback = setTimeout(() => {
-      const el = document.querySelector('.loading-screen') as HTMLElement
-      if (el && el.style.visibility !== 'hidden') {
-        el.style.visibility = 'hidden'
-        el.style.pointerEvents = 'none'
-      }
+      hideLoadingScreen()
     }, 5000)
 
-    return () => { ctx.revert(); clearTimeout(fallback) }
+    const originalHandler = window.onerror
+    window.onerror = function () {
+      hideLoadingScreen()
+      if (originalHandler) return originalHandler.apply(window, arguments as any)
+      return false
+    }
+
+    return () => {
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -44,4 +49,13 @@ export default function LoadingScreen() {
       </div>
     </div>
   )
+}
+
+function hideLoadingScreen() {
+  const el = document.querySelector('.loading-screen') as HTMLElement | null
+  if (el && (el.style.visibility !== 'hidden' || getComputedStyle(el).visibility !== 'hidden')) {
+    el.style.visibility = 'hidden'
+    el.style.pointerEvents = 'none'
+    el.style.opacity = '0'
+  }
 }

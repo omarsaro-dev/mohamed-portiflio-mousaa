@@ -23,7 +23,7 @@ export default function Home() {
   useEffect(() => {
     const fallback = setTimeout(() => {
       document.querySelectorAll('[style*="opacity: 0"]').forEach((el) => {
-        if (el instanceof HTMLElement) {
+        if (el instanceof HTMLElement && !el.classList.contains('loading-screen')) {
           el.style.opacity = '1'
           el.style.visibility = 'visible'
         }
