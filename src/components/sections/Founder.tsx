@@ -76,7 +76,7 @@ export default function Founder() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           <div className="lg:col-span-5 relative">
-            <div className="founder-image-wrapper relative aspect-[3/4] group rounded-sm overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.9)] bg-neutral-900">
+            <div className="founder-image-wrapper relative aspect-[3/4] min-h-[360px] group rounded-sm overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.9)] bg-neutral-900">
               
               <div className="arch-lines absolute -inset-3 border border-amber-500/15 rounded-sm pointer-events-none opacity-40 group-hover:opacity-100 group-hover:border-amber-500/50 transition-all duration-700" />
               <div className="arch-lines absolute -inset-5 border border-white/5 rounded-sm pointer-events-none opacity-20 group-hover:opacity-40 transition-all duration-700" />

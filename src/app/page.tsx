@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import dynamic from 'next/dynamic'
 import { useLenis } from '@/lib/lenis'
 import Navigation from '@/components/ui/Navigation'
 import Hero from '@/components/sections/Hero'
@@ -9,14 +8,14 @@ import LoadingScreen from '@/components/ui/LoadingScreen'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 import AnimatedDivider from '@/components/ui/AnimatedDivider'
 import MarqueeStrip from '@/components/ui/MarqueeStrip'
-const Cursor = dynamic(() => import('@/components/ui/Cursor'), { ssr: false })
-const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
-const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: false })
-const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { ssr: false })
-const Projects = dynamic(() => import('@/components/sections/Projects'), { ssr: false })
-const StudioProcess = dynamic(() => import('@/components/sections/StudioProcess'), { ssr: false })
-const MaterialExperience = dynamic(() => import('@/components/sections/MaterialExperience'), { ssr: false })
-const Contact = dynamic(() => import('@/components/sections/Contact'), { ssr: false })
+import Founder from '@/components/sections/Founder'
+import Philosophy from '@/components/sections/Philosophy'
+import Projects from '@/components/sections/Projects'
+import StudioProcess from '@/components/sections/StudioProcess'
+import MaterialExperience from '@/components/sections/MaterialExperience'
+import Contact from '@/components/sections/Contact'
+import Cursor from '@/components/ui/Cursor'
+import Background3D from '@/components/three/Background3D'
 
 export default function Home() {
   useLenis()
@@ -29,7 +28,7 @@ export default function Home() {
           el.style.visibility = 'visible'
         }
       })
-    }, 4000)
+    }, 3000)
     return () => clearTimeout(fallback)
   }, [])
 

@@ -11,17 +11,24 @@ export default function Hero() {
   const bgRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      if (isMobile) {
+        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-title-line, .hero-subtitle, .hero-cta', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewX: 0, rotateX: 0 })
+      } else {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      tl.fromTo('.hero-avatar', { opacity: 0, y: 30, scale: 0.9, filter: 'blur(5px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.2 }, 0.1)
-        .fromTo('.hero-logo', { opacity: 0, y: 40, scale: 1.2, filter: 'blur(12px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.4 }, 0.3)
-        .fromTo('.hero-tagline', { opacity: 0, x: -40, skewX: 5 }, { opacity: 1, x: 0, skewX: 0, duration: 1 }, 0.6)
-        .fromTo('.hero-title-line', { opacity: 0, y: 80, rotateX: -20, scale: 1.1 }, { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1.2, stagger: 0.2 }, 0.9)
-        .fromTo('.hero-subtitle', { opacity: 0, y: 30, filter: 'blur(5px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 }, 1.6)
-        .fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.15 }, 2)
+        tl.fromTo('.hero-avatar', { opacity: 0, y: 30, scale: 0.9, filter: 'blur(5px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.2 }, 0.1)
+          .fromTo('.hero-logo', { opacity: 0, y: 40, scale: 1.2, filter: 'blur(12px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.4 }, 0.3)
+          .fromTo('.hero-tagline', { opacity: 0, x: -40, skewX: 5 }, { opacity: 1, x: 0, skewX: 0, duration: 1 }, 0.6)
+          .fromTo('.hero-title-line', { opacity: 0, y: 80, rotateX: -20, scale: 1.1 }, { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1.2, stagger: 0.2 }, 0.9)
+          .fromTo('.hero-subtitle', { opacity: 0, y: 30, filter: 'blur(5px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 }, 1.6)
+          .fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.15 }, 2)
 
-      animations.staggerChars('.hero-name', 0.9, 1.4)
+        animations.staggerChars('.hero-name', 0.9, 1.4)
+        animations.mouseParallax('.hero-avatar', 0.12)
+      }
 
       if (bgRef.current) {
         gsap.to(bgRef.current, {
@@ -35,7 +42,6 @@ export default function Hero() {
       }
 
       animations.float('.hero-avatar', 6, 4, 3)
-      animations.mouseParallax('.hero-avatar', 0.12)
     }, containerRef)
 
     return () => ctx.revert()

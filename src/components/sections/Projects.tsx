@@ -207,7 +207,7 @@ export default function Projects() {
               onClick={() => openModal(project)}
               className="project-card group cursor-pointer bg-white/[0.02] border border-white/5 p-4 rounded-sm transition-all duration-500 hover:border-amber-500/30 hover:bg-white/[0.04]"
             >
-              <div className="aspect-[4/3] bg-neutral-900 overflow-hidden mb-6 relative rounded-sm">
+              <div className="aspect-[4/3] min-h-[240px] bg-neutral-900 overflow-hidden mb-6 relative rounded-sm">
                 <Image
                   src={project.mainImage}
                   alt={project.title}
@@ -260,7 +260,7 @@ export default function Projects() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-7">
-                <div className="modal-image aspect-[4/3] bg-black overflow-hidden mb-4 border border-white/10 relative rounded-sm">
+                <div className="modal-image aspect-[4/3] min-h-[240px] bg-black overflow-hidden mb-4 border border-white/10 relative rounded-sm">
                   <Image src={selectedProject.gallery[activeImageIndex]} alt={selectedProject.title} fill sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover" />
                 </div>
                 {selectedProject.gallery.length > 1 && (
