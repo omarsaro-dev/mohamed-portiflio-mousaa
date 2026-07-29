@@ -32,14 +32,6 @@
     content-visibility: auto;
   }
 
-  section {
-    contain: layout style paint;
-  }
-
-  [data-scramble] {
-    will-change: contents;
-  }
-
   .gpu-layer {
     transform: translateZ(0);
     will-change: transform;

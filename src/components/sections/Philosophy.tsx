@@ -16,8 +16,6 @@ export default function Philosophy() {
           start: 'top 65%',
           toggleActions: 'play none none reverse',
           invalidateOnRefresh: true,
-          fastScrollEnd: true,
-          preventOverlaps: true,
         },
         defaults: { ease: 'power3.out', force3D: true, overwrite: 'auto' },
       })
@@ -26,18 +24,9 @@ export default function Philosophy() {
         .fromTo('.philosophy-desc', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
         .fromTo('.philosophy-item', { opacity: 0, y: 60, rotateY: -15, scale: 0.9 }, { opacity: 1, y: 0, rotateY: 0, scale: 1, duration: 1.2, stagger: 0.2 }, '-=0.4')
 
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.philosophy-stats',
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-          fastScrollEnd: true,
-          preventOverlaps: true,
-        },
-      })
-        .call(() => animations.counterFormatted('.philosophy-counter-1', 0, 15, '', '+', 1.5))
-        .call(() => animations.counterFormatted('.philosophy-counter-2', 0, 200, '', '+', 1.5), [], '-=1')
-        .call(() => animations.counterFormatted('.philosophy-counter-3', 0, 50, '', '+', 1.5), [], '-=1')
+      animations.counterFormatted('.philosophy-counter-1', 0, 15, '', '+', 1.5)
+      animations.counterFormatted('.philosophy-counter-2', 0, 200, '', '+', 1.5)
+      animations.counterFormatted('.philosophy-counter-3', 0, 50, '', '+', 1.5)
     }, containerRef)
 
     return () => ctx.revert()
