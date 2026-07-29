@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useLenis } from '@/lib/lenis'
 import Navigation from '@/components/ui/Navigation'
@@ -19,6 +20,18 @@ const Contact = dynamic(() => import('@/components/sections/Contact'), { ssr: fa
 
 export default function Home() {
   useLenis()
+
+  useEffect(() => {
+    const fallback = setTimeout(() => {
+      document.querySelectorAll('[style*="opacity: 0"]').forEach((el) => {
+        if (el instanceof HTMLElement) {
+          el.style.opacity = '1'
+          el.style.visibility = 'visible'
+        }
+      })
+    }, 4000)
+    return () => clearTimeout(fallback)
+  }, [])
 
   return (
     <>

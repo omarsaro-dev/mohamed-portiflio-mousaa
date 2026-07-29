@@ -16,7 +16,15 @@ export default function LoadingScreen() {
         .set('.loading-screen', { visibility: 'hidden', pointerEvents: 'none', yPercent: -100 })
     }, containerRef)
 
-    return () => ctx.revert()
+    const fallback = setTimeout(() => {
+      const el = document.querySelector('.loading-screen') as HTMLElement
+      if (el && el.style.visibility !== 'hidden') {
+        el.style.visibility = 'hidden'
+        el.style.pointerEvents = 'none'
+      }
+    }, 5000)
+
+    return () => { ctx.revert(); clearTimeout(fallback) }
   }, [])
 
   return (

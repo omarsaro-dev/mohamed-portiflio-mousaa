@@ -27,13 +27,10 @@ function $(selector: string | Element): Element | null {
   return typeof selector === 'string' ? document.querySelector(selector) : selector
 }
 
-const GP = { force3D: true, overwrite: 'auto', lazy: true } as const
+const GP = { force3D: true, overwrite: 'auto' } as const
 
 const ST_DEFAULTS = {
-  lazy: true,
   invalidateOnRefresh: true,
-  fastScrollEnd: true,
-  preventOverlaps: true,
 } as const
 
 export const animations = {
