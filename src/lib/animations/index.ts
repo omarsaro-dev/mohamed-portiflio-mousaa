@@ -5,7 +5,7 @@ import { SplitText } from 'gsap/SplitText'
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
 gsap.ticker.lagSmoothing(0)
-gsap.config({ autoSleep: 60, force3D: true })
+gsap.config({ autoSleep: 0, force3D: true })
 
 function isMobile(): boolean {
   if (typeof window === 'undefined') return false

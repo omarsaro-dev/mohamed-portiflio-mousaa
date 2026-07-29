@@ -8,8 +8,6 @@ import LoadingScreen from '@/components/ui/LoadingScreen'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 import AnimatedDivider from '@/components/ui/AnimatedDivider'
 import MarqueeStrip from '@/components/ui/MarqueeStrip'
-import PageTransition from '@/components/ui/PageTransition'
-
 const Cursor = dynamic(() => import('@/components/ui/Cursor'), { ssr: false })
 const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
 const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: false })
@@ -30,28 +28,26 @@ export default function Home() {
         <Navigation />
         <Cursor />
         <Background3D />
-        <PageTransition>
-          <Hero />
-          <MarqueeStrip />
-          <Founder />
-          <AnimatedDivider variant="ornate" />
-          <Philosophy />
-          <MarqueeStrip
-            text="PRECISION • ELEGANCE • EMOTION • CRAFT • LIGHT • SPACE •"
-            direction="right"
-            speed={50}
-          />
-          <Projects />
-          <AnimatedDivider variant="diamond" />
-          <StudioProcess />
-          <MarqueeStrip
-            text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
-            speed={45}
-          />
-          <MaterialExperience />
-          <AnimatedDivider variant="double" />
-          <Contact />
-        </PageTransition>
+        <Hero />
+        <MarqueeStrip />
+        <Founder />
+        <AnimatedDivider variant="ornate" />
+        <Philosophy />
+        <MarqueeStrip
+          text="PRECISION • ELEGANCE • EMOTION • CRAFT • LIGHT • SPACE •"
+          direction="right"
+          speed={50}
+        />
+        <Projects />
+        <AnimatedDivider variant="diamond" />
+        <StudioProcess />
+        <MarqueeStrip
+          text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
+          speed={45}
+        />
+        <MaterialExperience />
+        <AnimatedDivider variant="double" />
+        <Contact />
       </div>
     </>
   )
