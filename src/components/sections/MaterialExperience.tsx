@@ -11,49 +11,49 @@ const materials = [
     name: 'Emerald Onyx',
     subtitle: 'Natural Veining & Illuminated Marble',
     description: 'Selected from rare stone quarries, illuminated onyx features striking green, gold, and white veining that elevates living room display units and bespoke accent walls into artistic masterpieces.',
-    image: '/images/projects/al-nour-2.jpg',
+    image: 'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=80&fit=crop',
     tag: 'RARE STONE'
   },
   {
     name: 'Travertine & Plaster',
     subtitle: 'Raw Texture & Earthy Elegance',
     description: 'Combining tactile plaster techniques with natural beige travertine tiles to reflect natural ambient light softly across dining and reception spaces.',
-    image: '/images/projects/sculpted-haven-3.jpg',
+    image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80&fit=crop',
     tag: 'TACTILE FINISHES'
   },
   {
     name: 'Warm Oak & Walnut',
     subtitle: 'Organic Warmth & Precision Joinery',
     description: 'Precision architectural wall paneling and custom dining tables finished in matte oils, infusing natural warmth into contemporary minimalist architecture.',
-    image: '/images/projects/al-nour-1.jpg',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80&fit=crop',
     tag: 'ARCHITECTURAL TIMBER'
   },
   {
     name: 'Bouclé & Linen',
     subtitle: 'Sculptural Upholstery & Softness',
     description: 'Curved organic lounge sofas and dining seating wrapped in premium textured bouclé and linen fabrics for maximum comfort and sophisticated tactile luxury.',
-    image: '/images/projects/sculpted-haven-1.jpg',
+    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80&fit=crop',
     tag: 'TEXTILE LUXURY'
   },
   {
     name: 'Sculptural Lighting',
     subtitle: 'Bespoke Ambient Illumination',
     description: 'Custom pendant chandeliers and integrated warm LED strip channels designed to create dramatic spatial depth and intimate evening atmospheres.',
-    image: '/images/projects/sculpted-haven-2.jpg',
+    image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800&q=80&fit=crop',
     tag: 'LIGHTING DESIGN'
   },
   {
     name: 'Botanical Plaster',
     subtitle: 'Organic Fiber-Infused Texture',
     description: 'Hand-applied natural plaster blended with dried botanical fibers, creating a warm earthy surface that breathes life into walls. The subtle organic speckle and fiber veins catch light softly, evoking the raw beauty of ancient earthen architecture.',
-    image: '/images/generated/botanical-plaster.svg',
+    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80&fit=crop',
     tag: 'NATURAL TEXTURES'
   },
   {
     name: 'Living Wall',
     subtitle: 'Biophilic Vertical Garden',
     description: 'A thriving vertical ecosystem of cascading greenery, moss, and ferns integrated into architectural surfaces. This living texture purifies the air while creating a stunning visual dialogue between built form and nature\'s untamed elegance.',
-    image: '/images/generated/living-wall.svg',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80&fit=crop',
     tag: 'BIOPHILIC DESIGN'
   }
 ]
