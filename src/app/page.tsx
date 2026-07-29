@@ -8,10 +8,10 @@ import LoadingScreen from '@/components/ui/LoadingScreen'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 import AnimatedDivider from '@/components/ui/AnimatedDivider'
 import MarqueeStrip from '@/components/ui/MarqueeStrip'
+import PageTransition from '@/components/ui/PageTransition'
 
 const Cursor = dynamic(() => import('@/components/ui/Cursor'), { ssr: false })
 const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
-const PageTransition = dynamic(() => import('@/components/ui/PageTransition'), { ssr: false })
 const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: false })
 const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { ssr: false })
 const Projects = dynamic(() => import('@/components/sections/Projects'), { ssr: false })
