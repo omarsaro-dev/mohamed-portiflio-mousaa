@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
 
@@ -46,40 +47,72 @@ const materials = [
 export default function MaterialExperience() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeMaterial, setActiveMaterial] = useState(materials[0])
+  const imageRef = useRef<HTMLDivElement>(null)
+  const descRef = useRef<HTMLDivElement>(null)
+  const prevMaterial = useRef(materials[0])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      animations.fadeUp('.materials-title', 0)
-      animations.fadeUp('.material-preview', 0.2)
-      animations.stagger('.material-btn', 0.1)
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 65%',
+          toggleActions: 'play none none reverse',
+        },
+        defaults: { ease: 'power3.out' },
+      })
+
+      tl.fromTo('.materials-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 })
+        .fromTo('.materials-desc', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.6')
+        .fromTo('.material-btn', { opacity: 0, x: -40, skewX: 3 }, { opacity: 1, x: 0, skewX: 0, duration: 0.7, stagger: 0.08 }, '-=0.4')
+        .fromTo('.material-preview', { opacity: 0, scale: 0.9, rotation: -2 }, { opacity: 1, scale: 1, rotation: 0, duration: 1.2 }, '-=0.8')
+
+      animations.parallax('.material-preview img', 0.25)
     }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
+  const handleMaterialChange = (material: typeof materials[0]) => {
+    prevMaterial.current = activeMaterial
+    setActiveMaterial(material)
+  }
+
+  useEffect(() => {
+    if (prevMaterial.current !== activeMaterial) {
+      if (imageRef.current) {
+        gsap.fromTo(imageRef.current, { opacity: 0, scale: 0.92, filter: 'blur(8px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' })
+      }
+      if (descRef.current) {
+        gsap.fromTo(descRef.current, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.2 })
+      }
+    }
+  }, [activeMaterial])
+
   return (
-    <section ref={containerRef} className="py-32 bg-[#0A0A0A] border-t border-white/5">
+    <section ref={containerRef} className="relative py-32 bg-[#0A0A0A] border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <p className="text-amber-500/80 text-xs tracking-[0.3em] uppercase mb-3">Tactile Excellence</p>
-          <h2 className="materials-title font-serif text-4xl md:text-5xl lg:text-6xl text-text">
+          <h2 className="materials-title font-serif text-4xl md:text-5xl lg:text-6xl text-[#F5F5F5]">
             Material Experience
           </h2>
-          <p className="text-white/50 text-sm md:text-base mt-4">
+          <p className="materials-desc text-white/50 text-sm md:text-base mt-4">
             Every material chosen by Mohamed Moussa is selected for its sensory richness, durability, and timeless aesthetic synergy.
           </p>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Material Image Preview */}
           <div className="lg:col-span-7 material-preview aspect-[4/3] relative rounded-sm overflow-hidden border border-white/10 shadow-2xl group">
-            <Image
-              src={activeMaterial.image}
-              alt={activeMaterial.name}
-              fill
-              sizes="(max-width: 1024px) 100vw, 55vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            <div ref={imageRef} className="absolute inset-0">
+              <Image
+                src={activeMaterial.image}
+                alt={activeMaterial.name}
+                fill
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
             <div className="absolute top-4 left-4">
               <span className="bg-amber-500/20 text-amber-300 text-[10px] tracking-widest px-3 py-1 uppercase border border-amber-500/30 backdrop-blur-md">
@@ -92,16 +125,15 @@ export default function MaterialExperience() {
             </div>
           </div>
           
-          {/* Material Selector Controls */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             <div className="flex flex-col gap-3 mb-8">
               {materials.map((material) => (
                 <button
                   key={material.name}
-                  onClick={() => setActiveMaterial(material)}
+                  onClick={() => handleMaterialChange(material)}
                   className={`material-btn text-left p-4 rounded-sm border transition-all duration-300 ${
                     activeMaterial.name === material.name
-                      ? 'border-amber-500/60 bg-amber-500/10 text-white pl-6'
+                      ? 'border-amber-500/60 bg-amber-500/10 text-white pl-6 shadow-lg shadow-amber-950/20'
                       : 'border-white/5 bg-white/[0.02] text-white/50 hover:border-white/20 hover:text-white'
                   }`}
                 >
@@ -113,7 +145,7 @@ export default function MaterialExperience() {
               ))}
             </div>
 
-            <div className="bg-white/[0.03] p-6 rounded-sm border border-white/5">
+            <div ref={descRef} className="bg-white/[0.03] p-6 rounded-sm border border-white/5">
               <p className="text-white/80 text-sm leading-relaxed">
                 {activeMaterial.description}
               </p>

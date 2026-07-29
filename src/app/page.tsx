@@ -4,6 +4,10 @@ import dynamic from 'next/dynamic'
 import { useLenis } from '@/lib/lenis'
 import Navigation from '@/components/ui/Navigation'
 import Hero from '@/components/sections/Hero'
+import LoadingScreen from '@/components/ui/LoadingScreen'
+import ScrollProgress from '@/components/ui/ScrollProgress'
+import AnimatedDivider from '@/components/ui/AnimatedDivider'
+import MarqueeStrip from '@/components/ui/MarqueeStrip'
 
 const Cursor = dynamic(() => import('@/components/ui/Cursor'), { ssr: false })
 const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
@@ -19,19 +23,36 @@ export default function Home() {
   useLenis()
 
   return (
-    <main className="min-h-screen">
-      <Navigation />
-      <Cursor />
-      <Background3D />
-      <PageTransition>
-        <Hero />
-        <Founder />
-        <Philosophy />
-        <Projects />
-        <StudioProcess />
-        <MaterialExperience />
-        <Contact />
-      </PageTransition>
-    </main>
+    <>
+      <LoadingScreen />
+      <ScrollProgress />
+      <div className="min-h-screen">
+        <Navigation />
+        <Cursor />
+        <Background3D />
+        <PageTransition>
+          <Hero />
+          <MarqueeStrip />
+          <Founder />
+          <AnimatedDivider variant="ornate" />
+          <Philosophy />
+          <MarqueeStrip
+            text="PRECISION • ELEGANCE • EMOTION • CRAFT • LIGHT • SPACE •"
+            direction="right"
+            speed={50}
+          />
+          <Projects />
+          <AnimatedDivider variant="diamond" />
+          <StudioProcess />
+          <MarqueeStrip
+            text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
+            speed={45}
+          />
+          <MaterialExperience />
+          <AnimatedDivider variant="double" />
+          <Contact />
+        </PageTransition>
+      </div>
+    </>
   )
 }

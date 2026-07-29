@@ -1,7 +1,10 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
+import { gsap } from 'gsap'
 import { isMobileDevice } from '@/lib/utils'
+
+const FRAME_SKIP = 2
 
 export default function Background3D() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -19,15 +22,16 @@ export default function Background3D() {
       if (!containerRef.current) return
 
       const scene = new THREE.Scene()
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
       const renderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: false,
         powerPreference: 'high-performance',
       })
 
+      const pixelRatio = Math.min(window.devicePixelRatio, 1)
       renderer.setSize(window.innerWidth, window.innerHeight)
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1))
+      renderer.setPixelRatio(pixelRatio)
       renderer.domElement.style.position = 'fixed'
       renderer.domElement.style.top = '0'
       renderer.domElement.style.left = '0'
@@ -36,37 +40,41 @@ export default function Background3D() {
       renderer.domElement.style.opacity = '0.3'
       containerRef.current.appendChild(renderer.domElement)
 
-      const geometry = new THREE.IcosahedronGeometry(2, 0)
+      const geometry = new THREE.IcosahedronGeometry(1.8, 0)
       const material = new THREE.MeshBasicMaterial({
         color: 0x111111,
         wireframe: true,
         transparent: true,
-        opacity: 0.25,
+        opacity: 0.2,
       })
       const mesh = new THREE.Mesh(geometry, material)
       scene.add(mesh)
 
+      const particleCount = 30
       const particlesGeometry = new THREE.BufferGeometry()
-      const particleCount = 40
       const positions = new Float32Array(particleCount * 3)
-
       for (let i = 0; i < particleCount * 3; i++) {
-        positions[i] = (Math.random() - 0.5) * 20
+        positions[i] = (Math.random() - 0.5) * 18
       }
-
       particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
       const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.03,
+        size: 0.025,
         color: 0xC9A962,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.25,
       })
       const particles = new THREE.Points(particlesGeometry, particlesMaterial)
       scene.add(particles)
 
-      camera.position.z = 8
+      camera.position.z = 7
+
+      gsap.to(mesh.rotation, { x: Math.PI * 2, duration: 150, ease: 'none', repeat: -1, overwrite: 'auto' })
+      gsap.to(mesh.rotation, { y: Math.PI * 2, duration: 100, ease: 'none', repeat: -1, overwrite: 'auto' })
+      gsap.to(particles.rotation, { y: Math.PI * 2, duration: 240, ease: 'none', repeat: -1, overwrite: 'auto' })
+      gsap.to(mesh.position, { y: 0.2, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1, overwrite: 'auto' })
 
       let animationId: number
+      let frameCount = 0
       let isVisible = true
 
       const observer = new IntersectionObserver(([entry]) => {
@@ -77,12 +85,19 @@ export default function Background3D() {
       const animate = () => {
         animationId = requestAnimationFrame(animate)
         if (document.hidden || !isVisible) return
-        mesh.rotation.x += 0.0008
-        mesh.rotation.y += 0.0015
-        particles.rotation.y += 0.0004
+        frameCount++
+        if (frameCount % FRAME_SKIP !== 0) return
         renderer.render(scene, camera)
       }
       animate()
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 0.015
+        const y = (e.clientY / window.innerHeight - 0.5) * 0.015
+        gsap.to(camera.position, { x: -x * 2, y: y * 2, duration: 1.5, ease: 'power2.out', overwrite: 'auto' })
+      }
+
+      window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
       let resizeTimeout: ReturnType<typeof setTimeout>
       const handleResize = () => {
@@ -92,12 +107,13 @@ export default function Background3D() {
           camera.aspect = window.innerWidth / window.innerHeight
           camera.updateProjectionMatrix()
           renderer.setSize(window.innerWidth, window.innerHeight)
-        }, 200)
+        }, 300)
       }
-      window.addEventListener('resize', handleResize)
+      window.addEventListener('resize', handleResize, { passive: true })
 
       cleanup = () => {
         window.removeEventListener('resize', handleResize)
+        window.removeEventListener('mousemove', handleMouseMove)
         observer.disconnect()
         cancelAnimationFrame(animationId)
         clearTimeout(resizeTimeout)

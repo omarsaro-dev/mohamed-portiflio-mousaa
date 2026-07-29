@@ -29,10 +29,7 @@ const projects: ProjectItem[] = [
     year: 2024,
     description: 'A vibrant residential interior blending natural textures, eclectic patterns, and warm earthy tones to create a relaxed artistic atmosphere.',
     mainImage: '/images/projects/boho style/project 1/mousaa 1.jpg',
-    gallery: [
-      '/images/projects/boho style/project 1/mousaa 1.jpg',
-      '/images/projects/boho style/project 1/mousaa 2.jpg',
-    ],
+    gallery: ['/images/projects/boho style/project 1/mousaa 1.jpg', '/images/projects/boho style/project 1/mousaa 2.jpg'],
     materials: ['Natural Wood', 'Textured Fabrics', 'Warm Earth Tones'],
     featured: true,
   },
@@ -43,13 +40,9 @@ const projects: ProjectItem[] = [
     style: 'New Classic',
     category: 'Luxury Villas',
     year: 2024,
-    description: 'A refined living space where timeless classical elements meet contemporary sophistication, featuring elegant proportions and luxurious finishes.',
+    description: 'A refined living space where timeless classical elements meet contemporary sophistication.',
     mainImage: '/images/projects/new classic/project 1/mousaa 1.jpg',
-    gallery: [
-      '/images/projects/new classic/project 1/mousaa 1.jpg',
-      '/images/projects/new classic/project 1/mousaa 2.jpg',
-      '/images/projects/new classic/project 1/mousaa 3.jpg',
-    ],
+    gallery: ['/images/projects/new classic/project 1/mousaa 1.jpg', '/images/projects/new classic/project 1/mousaa 2.jpg', '/images/projects/new classic/project 1/mousaa 3.jpg'],
     materials: ['Marble', 'Warm Oak', 'Brass Details', 'Luxury Fabrics'],
     featured: true,
   },
@@ -60,12 +53,9 @@ const projects: ProjectItem[] = [
     style: 'New Classic',
     category: 'Luxury Villas',
     year: 2024,
-    description: 'An elegant classical interior with modern restraint, balancing ornate detailing with clean lines and subtle sophistication.',
+    description: 'An elegant classical interior with modern restraint, balancing ornate detailing with clean lines.',
     mainImage: '/images/projects/new classic/project 2/mousa 1.jpg',
-    gallery: [
-      '/images/projects/new classic/project 2/mousa 1.jpg',
-      '/images/projects/new classic/project 2/mousa 2.jpg',
-    ],
+    gallery: ['/images/projects/new classic/project 2/mousa 1.jpg', '/images/projects/new classic/project 2/mousa 2.jpg'],
     materials: ['Natural Stone', 'Walnut', 'Gold Accents', 'Silk Textiles'],
     featured: false,
   },
@@ -76,14 +66,9 @@ const projects: ProjectItem[] = [
     style: 'Modern',
     category: 'Residential',
     year: 2024,
-    description: 'A sleek modern residence defined by clean geometry, open spatial flow, and a restrained palette of natural materials and minimal ornamentation.',
+    description: 'A sleek modern residence defined by clean geometry, open spatial flow, and a restrained palette.',
     mainImage: '/images/projects/modern/project 1/mousaa 1.jpg',
-    gallery: [
-      '/images/projects/modern/project 1/mousaa 1.jpg',
-      '/images/projects/modern/project 1/mousaa 2.jpg',
-      '/images/projects/modern/project 1/mousaa 3.jpg',
-      '/images/projects/modern/project 1/mousaa 4.jpg',
-    ],
+    gallery: ['/images/projects/modern/project 1/mousaa 1.jpg', '/images/projects/modern/project 1/mousaa 2.jpg', '/images/projects/modern/project 1/mousaa 3.jpg', '/images/projects/modern/project 1/mousaa 4.jpg'],
     materials: ['Concrete', 'Glass', 'Steel', 'Natural Wood'],
     featured: true,
   },
@@ -94,12 +79,9 @@ const projects: ProjectItem[] = [
     style: 'Modern',
     category: 'Residential',
     year: 2024,
-    description: 'A contemporary living space with clean architectural lines, neutral tones, and carefully curated material contrasts.',
+    description: 'A contemporary living space with clean architectural lines, neutral tones, and curated material contrasts.',
     mainImage: '/images/projects/modern/project 2/mousaa 1.jpg',
-    gallery: [
-      '/images/projects/modern/project 2/mousaa 1.jpg',
-      '/images/projects/modern/project 2/mousaa 2.jpg',
-    ],
+    gallery: ['/images/projects/modern/project 2/mousaa 1.jpg', '/images/projects/modern/project 2/mousaa 2.jpg'],
     materials: ['Micro-cement', 'Oak', 'Black Metal', 'Textured Plaster'],
     featured: false,
   },
@@ -110,13 +92,9 @@ const projects: ProjectItem[] = [
     style: 'Office',
     category: 'Commercial',
     year: 2024,
-    description: 'A professional office environment designed for productivity and comfort, with clean lines, functional布局, and a sophisticated neutral palette.',
+    description: 'A professional office environment designed for productivity and comfort with clean lines.',
     mainImage: '/images/projects/office/project 1/ofice 1.jpg',
-    gallery: [
-      '/images/projects/office/project 1/ofice 1.jpg',
-      '/images/projects/office/project 1/office 2.jpg',
-      '/images/projects/office/project 1/oficce 3.jpg',
-    ],
+    gallery: ['/images/projects/office/project 1/ofice 1.jpg', '/images/projects/office/project 1/office 2.jpg', '/images/projects/office/project 1/oficce 3.jpg'],
     materials: ['Glass Partitions', 'Engineered Wood', 'Carpet Tiles', 'Aluminum'],
     featured: false,
   },
@@ -129,11 +107,7 @@ const projects: ProjectItem[] = [
     year: 2024,
     description: 'A modern workspace with open-plan flexibility, private meeting zones, and a calm professional aesthetic.',
     mainImage: '/images/projects/office/project 2/ofice 1.jpg',
-    gallery: [
-      '/images/projects/office/project 2/ofice 1.jpg',
-      '/images/projects/office/project 2/ofice 2.jpg',
-      '/images/projects/office/project 2/office 3.jpg',
-    ],
+    gallery: ['/images/projects/office/project 2/ofice 1.jpg', '/images/projects/office/project 2/ofice 2.jpg', '/images/projects/office/project 2/office 3.jpg'],
     materials: ['Acoustic Panels', 'Glass', 'Steel', 'Wood Veneer'],
     featured: false,
   },
@@ -146,6 +120,7 @@ export default function Projects() {
   const [activeStyle, setActiveStyle] = useState('All')
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
+  const modalRef = useRef<HTMLDivElement>(null)
 
   const filteredProjects = activeStyle === 'All'
     ? projects
@@ -153,12 +128,33 @@ export default function Projects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      animations.fadeUp('.projects-title', 0)
-      animations.fadeUp('.project-card', 0.1)
+      gsap.fromTo('.projects-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, {
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out', force3D: true,
+        scrollTrigger: { trigger: '.projects-title', start: 'top 75%', toggleActions: 'play none none reverse', invalidateOnRefresh: true, fastScrollEnd: true, preventOverlaps: true },
+      })
+      gsap.fromTo('.projects-filter-btn', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out', delay: 0.3, force3D: true,
+        scrollTrigger: { trigger: '.projects-filter-btn', start: 'top 75%', toggleActions: 'play none none reverse', fastScrollEnd: true, preventOverlaps: true },
+      })
     }, containerRef)
-
     return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    gsap.fromTo('.project-card', { opacity: 0, y: 50, scale: 0.97 }, {
+      opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', force3D: true, overwrite: 'auto',
+    })
   }, [filteredProjects])
+
+  useEffect(() => {
+    if (selectedProject && modalRef.current) {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
+      tl.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+        .fromTo('.modal-content', { opacity: 0, y: 60, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.6 }, '-=0.15')
+        .fromTo('.modal-image', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8 }, '-=0.4')
+        .fromTo('.modal-details > *', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06 }, '-=0.4')
+    }
+  }, [selectedProject])
 
   const openModal = (project: ProjectItem) => {
     setSelectedProject(project)
@@ -166,7 +162,11 @@ export default function Projects() {
   }
 
   const closeModal = () => {
-    setSelectedProject(null)
+    if (modalRef.current) {
+      gsap.to(modalRef.current, { opacity: 0, scale: 0.97, duration: 0.3, ease: 'power2.in', force3D: true, onComplete: () => setSelectedProject(null) })
+    } else {
+      setSelectedProject(null)
+    }
   }
 
   return (
@@ -185,7 +185,7 @@ export default function Projects() {
               <button
                 key={style}
                 onClick={() => setActiveStyle(style)}
-                className={`px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 border ${
+                className={`projects-filter-btn px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 border ${
                   activeStyle === style
                     ? 'border-amber-500/60 bg-amber-500/10 text-[#F5F5F5]'
                     : 'border-white/10 text-white/50 hover:text-white hover:border-white/30'
@@ -213,14 +213,12 @@ export default function Projects() {
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[10px] tracking-widest text-amber-300 uppercase border border-amber-500/30">
                     {project.style}
                   </span>
                 </div>
-
-                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                   <span className="text-xs text-white/80 tracking-widest uppercase bg-black/70 px-3 py-1.5 backdrop-blur-md border border-white/10">
                     View Project Gallery →
                   </span>
@@ -229,9 +227,7 @@ export default function Projects() {
 
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="font-serif text-2xl text-[#F5F5F5] group-hover:text-amber-200 transition-colors">
-                    {project.title}
-                  </h3>
+                  <h3 className="font-serif text-2xl text-[#F5F5F5] group-hover:text-amber-200 transition-colors">{project.title}</h3>
                   <p className="text-white/40 text-sm mt-1">{project.location}</p>
                 </div>
                 <span className="text-amber-500/70 font-mono text-sm">{project.year}</span>
@@ -239,9 +235,7 @@ export default function Projects() {
 
               <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/5">
                 {project.materials.map((mat) => (
-                  <span key={mat} className="text-[11px] text-white/50 bg-white/5 px-2.5 py-1 rounded-xs">
-                    {mat}
-                  </span>
+                  <span key={mat} className="text-[11px] text-white/50 bg-white/5 px-2.5 py-1 rounded-xs">{mat}</span>
                 ))}
               </div>
             </div>
@@ -249,43 +243,27 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
       {selectedProject && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+          ref={modalRef}
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 overflow-y-auto"
           onClick={closeModal}
         >
           <div
-            className="bg-[#0D0D0D] border border-white/10 max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-sm p-6 md:p-8 relative text-[#F5F5F5]"
+            className="modal-content bg-[#0D0D0D] border border-white/10 max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-sm p-6 md:p-8 relative text-[#F5F5F5]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button
-              onClick={closeModal}
-              className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors"
-            >
-              ✕
-            </button>
+            <button onClick={closeModal} className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors z-10">✕</button>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              {/* Main Image & Gallery Selector */}
               <div className="lg:col-span-7">
-                <div className="aspect-[4/3] bg-black overflow-hidden mb-4 border border-white/10 relative rounded-sm">
-                  <Image
-                    src={selectedProject.gallery[activeImageIndex]}
-                    alt={selectedProject.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="object-cover"
-                  />
+                <div className="modal-image aspect-[4/3] bg-black overflow-hidden mb-4 border border-white/10 relative rounded-sm">
+                  <Image src={selectedProject.gallery[activeImageIndex]} alt={selectedProject.title} fill sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover" />
                 </div>
-
                 {selectedProject.gallery.length > 1 && (
                   <div className="flex gap-3 overflow-x-auto pb-2">
                     {selectedProject.gallery.map((img, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActiveImageIndex(idx)}
+                      <button key={idx} onClick={() => setActiveImageIndex(idx)}
                         className={`w-20 h-16 border overflow-hidden rounded-xs transition-all relative ${
                           activeImageIndex === idx ? 'border-amber-500 scale-105' : 'border-white/20 opacity-60 hover:opacity-100'
                         }`}
@@ -297,52 +275,31 @@ export default function Projects() {
                 )}
               </div>
 
-              {/* Project Meta Info */}
-              <div className="lg:col-span-5 flex flex-col justify-between h-full">
+              <div className="modal-details lg:col-span-5 flex flex-col justify-between h-full">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-amber-500 text-xs tracking-widest uppercase font-mono">
-                      {selectedProject.style}
-                    </span>
+                    <span className="text-amber-500 text-xs tracking-widest uppercase font-mono">{selectedProject.style}</span>
                     <span className="text-white/30">•</span>
                     <span className="text-white/50 text-xs font-mono">{selectedProject.year}</span>
                   </div>
-
-                  <h3 className="font-serif text-3xl text-white mb-4 leading-tight">
-                    {selectedProject.title}
-                  </h3>
-
-                  <p className="text-amber-200/60 text-sm mb-6 flex items-center gap-2">
-                    <span>📍</span> {selectedProject.location}
-                  </p>
-
-                  <p className="text-white/70 text-sm leading-relaxed mb-8">
-                    {selectedProject.description}
-                  </p>
-
+                  <h3 className="font-serif text-3xl text-white mb-4 leading-tight">{selectedProject.title}</h3>
+                  <p className="text-amber-200/60 text-sm mb-6 flex items-center gap-2"><span>📍</span> {selectedProject.location}</p>
+                  <p className="text-white/70 text-sm leading-relaxed mb-8">{selectedProject.description}</p>
                   {selectedProject.materials.length > 0 && (
                     <div className="mb-8">
-                      <h4 className="text-xs uppercase tracking-widest text-white/40 mb-3 font-mono">
-                        Crafted Materials
-                      </h4>
+                      <h4 className="text-xs uppercase tracking-widest text-white/40 mb-3 font-mono">Crafted Materials</h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedProject.materials.map((mat) => (
-                          <span key={mat} className="text-xs bg-amber-500/10 text-amber-200 border border-amber-500/20 px-3 py-1 rounded-xs">
-                            {mat}
-                          </span>
+                          <span key={mat} className="text-xs bg-amber-500/10 text-amber-200 border border-amber-500/20 px-3 py-1 rounded-xs">{mat}</span>
                         ))}
                       </div>
                     </div>
                   )}
                 </div>
-
                 <div className="pt-6 border-t border-white/10 flex items-center justify-between">
                   <span className="text-xs text-white/40 font-mono">Designed by Mohamed Moussa</span>
-                  <a
-                    href="#contact"
-                    onClick={closeModal}
-                    className="px-5 py-2.5 bg-amber-500 text-black font-medium text-xs tracking-wider uppercase hover:bg-amber-400 transition-colors"
-                  >
+                  <a href="#contact" onClick={(e) => { closeModal(); setTimeout(() => window.location.hash = '#contact', 400) }}
+                    className="px-5 py-2.5 bg-amber-500 text-black font-medium text-xs tracking-wider uppercase hover:bg-amber-400 transition-colors">
                     Inquire Similar Project
                   </a>
                 </div>
