@@ -6,7 +6,7 @@ export const siteConfig = {
   url: 'https://mousaa.com',
   ogImage: '/og.jpg',
   links: {
-    email: 'Arch.Mohamed_mousa@ya-hoo.com',
+    email: 'Arch.Mohamed_mousa@yahoo.com',
     phone: '01063300788',
     whatsapp: 'https://wa.me/201063300788',
     instagram: 'https://instagram.com/mousaa',

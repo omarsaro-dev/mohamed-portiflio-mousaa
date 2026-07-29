@@ -416,7 +416,7 @@ export default function Projects() {
                     <span className="text-white/50 text-xs font-mono">{selectedProject.year}</span>
                   </div>
                   <h3 className="font-serif text-3xl text-white mb-4 leading-tight">{selectedProject.title}</h3>
-                  <p className="text-amber-200/60 text-sm mb-6 flex items-center gap-2"><span>📍</span> {selectedProject.location}</p>
+                  <p className="text-amber-200/60 text-sm mb-6 flex items-center gap-2">{selectedProject.location}</p>
                   <p className="text-white/70 text-sm leading-relaxed mb-8">{selectedProject.description}</p>
                   {selectedProject.materials.length > 0 && (
                     <div className="mb-8">
