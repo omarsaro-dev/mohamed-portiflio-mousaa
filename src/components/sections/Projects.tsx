@@ -111,9 +111,48 @@ const projects: ProjectItem[] = [
     materials: ['Acoustic Panels', 'Glass', 'Steel', 'Wood Veneer'],
     featured: false,
   },
+  {
+    id: 8,
+    title: 'Boho Style Living Room',
+    location: 'Cairo, Egypt',
+    style: 'Boho Style',
+    category: 'Residential',
+    year: 2024,
+    description: 'A warm bohemian living space with layered textures, natural fiber accents, and an earthy color palette that creates a cozy artistic atmosphere.',
+    mainImage: '/images/projects/boho style/project 2/mousaa 1.jpg',
+    gallery: ['/images/projects/boho style/project 2/mousaa 1.jpg'],
+    materials: ['Natural Fibers', 'Macrame', 'Terracotta', 'Rattan'],
+    featured: false,
+  },
+  {
+    id: 9,
+    title: 'Classic Project',
+    location: 'Cairo, Egypt',
+    style: 'Classic',
+    category: 'Residential',
+    year: 2024,
+    description: 'A timeless classic interior with symmetrical composition, ornate moldings, and a refined neutral palette that exudes understated grandeur.',
+    mainImage: '/images/projects/classic/project q/mousaa 1.jpg',
+    gallery: ['/images/projects/classic/project q/mousaa 1.jpg', '/images/projects/classic/project q/mousaa 2.jpg'],
+    materials: ['Carrara Marble', 'Crystal', 'Gold Leaf', 'Velvet'],
+    featured: false,
+  },
+  {
+    id: 10,
+    title: 'New Classic Living Space',
+    location: 'Cairo, Egypt',
+    style: 'New Classic',
+    category: 'Luxury Villas',
+    year: 2024,
+    description: 'A sophisticated new classic interior blending traditional proportions with contemporary comforts and subtle luxurious detailing.',
+    mainImage: '/images/projects/new classic/project 3/mousaa 1.jpg',
+    gallery: ['/images/projects/new classic/project 3/mousaa 1.jpg', '/images/projects/new classic/project 3/mousaa 2.jpg'],
+    materials: ['Limestone', 'Smoked Oak', 'Bronze', 'Linen'],
+    featured: false,
+  },
 ]
 
-const styles = ['All', 'Boho Style', 'New Classic', 'Modern', 'Office']
+const styles = ['All', 'Boho Style', 'Classic', 'New Classic', 'Modern', 'Office']
 
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -141,11 +180,23 @@ export default function Projects() {
   }, [])
 
   useEffect(() => {
-    gsap.fromTo('.project-card', { opacity: 0, y: 50, scale: 0.97 }, {
-      opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', force3D: true, overwrite: 'auto',
+    gsap.fromTo('.project-card', { opacity: 0, y: 50, scale: 0.97, filter: 'blur(4px)' }, {
+      opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, ease: 'power3.out', force3D: true, overwrite: 'auto',
     })
     gsap.utils.toArray('.project-card').forEach((c) => {
       if (c instanceof HTMLElement) animations.tilt3d(c, 6)
+    })
+
+    gsap.utils.toArray('.project-card').forEach((c) => {
+      if (c instanceof HTMLElement) {
+        const img = c.querySelector('img')
+        if (img) {
+          gsap.to(img, {
+            yPercent: -5, ease: 'none',
+            scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: 1.5 },
+          })
+        }
+      }
     })
   }, [filteredProjects])
 
@@ -157,6 +208,14 @@ export default function Projects() {
         .fromTo('.modal-image', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8 }, '-=0.4')
         .fromTo('.modal-details > *', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06 }, '-=0.4')
     }
+  }, [selectedProject])
+
+  useEffect(() => {
+    if (!selectedProject || selectedProject.gallery.length <= 1) return
+    const interval = setInterval(() => {
+      setActiveImageIndex((prev) => (prev + 1) % selectedProject.gallery.length)
+    }, 4000)
+    return () => clearInterval(interval)
   }, [selectedProject])
 
   const openModal = (project: ProjectItem) => {
@@ -172,6 +231,29 @@ export default function Projects() {
     }
   }
 
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (!selectedProject) return
+      if (e.key === 'Escape') closeModal()
+      if (e.key === 'ArrowRight' && selectedProject.gallery.length > 1) {
+        setActiveImageIndex((prev) => (prev + 1) % selectedProject.gallery.length)
+      }
+      if (e.key === 'ArrowLeft' && selectedProject.gallery.length > 1) {
+        setActiveImageIndex((prev) => (prev - 1 + selectedProject.gallery.length) % selectedProject.gallery.length)
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [selectedProject])
+
+  useEffect(() => {
+    if (!selectedProject) return
+    selectedProject.gallery.forEach((src) => {
+      const img = new window.Image()
+      img.src = src
+    })
+  }, [selectedProject])
+
   return (
     <section id="projects" ref={containerRef} className="py-32 bg-[#080808]">
       <div className="max-w-7xl mx-auto px-6">
@@ -181,6 +263,9 @@ export default function Projects() {
             <h2 className="projects-title font-serif text-4xl md:text-5xl lg:text-6xl text-[#F5F5F5]">
               Selected Works
             </h2>
+            <p className="text-white/40 text-xs font-mono mt-2 tracking-wider">
+              Showing <span className="text-amber-400/80">{filteredProjects.length}</span> of {projects.length} projects
+            </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -264,16 +349,35 @@ export default function Projects() {
                   <Image src={selectedProject.gallery[activeImageIndex]} alt={selectedProject.title} fill sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover" />
                 </div>
                 {selectedProject.gallery.length > 1 && (
-                  <div className="flex gap-3 overflow-x-auto pb-2">
-                    {selectedProject.gallery.map((img, idx) => (
-                      <button key={idx} onClick={() => setActiveImageIndex(idx)}
-                        className={`w-20 h-16 border overflow-hidden rounded-xs transition-all relative ${
-                          activeImageIndex === idx ? 'border-amber-500 scale-105' : 'border-white/20 opacity-60 hover:opacity-100'
-                        }`}
-                      >
-                        <Image src={img} alt="" fill sizes="80px" className="object-cover" />
-                      </button>
-                    ))}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex gap-3 overflow-x-auto pb-2">
+                        {selectedProject.gallery.map((img, idx) => (
+                          <button key={idx} onClick={() => setActiveImageIndex(idx)}
+                            className={`w-20 h-16 border overflow-hidden rounded-xs transition-all relative ${
+                              activeImageIndex === idx ? 'border-amber-500 scale-105' : 'border-white/20 opacity-60 hover:opacity-100'
+                            }`}
+                          >
+                            <Image src={img} alt="" fill sizes="80px" className="object-cover" />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono text-white/40 tracking-wider">
+                        {activeImageIndex + 1} / {selectedProject.gallery.length}
+                      </span>
+                      <div className="flex gap-2">
+                        <button onClick={() => setActiveImageIndex((prev) => (prev - 1 + selectedProject.gallery.length) % selectedProject.gallery.length)}
+                          className="w-7 h-7 border border-white/20 flex items-center justify-center text-[10px] text-white/60 hover:text-white hover:border-amber-500 transition-colors rounded-xs">
+                          ‹
+                        </button>
+                        <button onClick={() => setActiveImageIndex((prev) => (prev + 1) % selectedProject.gallery.length)}
+                          className="w-7 h-7 border border-white/20 flex items-center justify-center text-[10px] text-white/60 hover:text-white hover:border-amber-500 transition-colors rounded-xs">
+                          ›
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
