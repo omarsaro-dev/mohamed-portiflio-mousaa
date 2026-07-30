@@ -31,6 +31,8 @@ const GP = { force3D: true, overwrite: 'auto' } as const
 
 const ST_DEFAULTS = {
   invalidateOnRefresh: true,
+  fastScrollEnd: true,
+  preventOverlaps: true,
 } as const
 
 function createScrollTrigger(trigger: gsap.DOMTarget, settings: Partial<ScrollTrigger.Vars> = {}): ScrollTrigger.Vars {

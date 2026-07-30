@@ -87,7 +87,8 @@ export default function Founder() {
                 alt="Arch. Mohamed Moussa"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
+                loading="lazy"
+                decoding="async"
                 className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               />
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from '@/lib/lenis'
@@ -8,46 +9,39 @@ import Navigation from '@/components/ui/Navigation'
 import Hero from '@/components/sections/Hero'
 import LoadingScreen from '@/components/ui/LoadingScreen'
 import ScrollProgress from '@/components/ui/ScrollProgress'
-import AnimatedDivider from '@/components/ui/AnimatedDivider'
-import MarqueeStrip from '@/components/ui/MarqueeStrip'
-import Founder from '@/components/sections/Founder'
-import Philosophy from '@/components/sections/Philosophy'
-import Projects from '@/components/sections/Projects'
-import StudioProcess from '@/components/sections/StudioProcess'
-import MaterialExperience from '@/components/sections/MaterialExperience'
-import Contact from '@/components/sections/Contact'
 import Cursor from '@/components/ui/Cursor'
-import Background3D from '@/components/three/Background3D'
+
+const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
+const MarqueeStrip = dynamic(() => import('@/components/ui/MarqueeStrip'), { ssr: false })
+const AnimatedDivider = dynamic(() => import('@/components/ui/AnimatedDivider'), { ssr: false })
+const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: false })
+const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { ssr: false })
+const Projects = dynamic(() => import('@/components/sections/Projects'), { ssr: false })
+const StudioProcess = dynamic(() => import('@/components/sections/StudioProcess'), { ssr: false })
+const MaterialExperience = dynamic(() => import('@/components/sections/MaterialExperience'), { ssr: false })
+const Contact = dynamic(() => import('@/components/sections/Contact'), { ssr: false })
 
 export default function Home() {
   useLenis()
   const mainRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const fallback = setTimeout(() => {
-      document.querySelectorAll('[style*="opacity: 0"]').forEach((el) => {
-        if (el instanceof HTMLElement && !el.classList.contains('loading-screen')) {
-          el.style.opacity = '1'
-          el.style.visibility = 'visible'
-        }
-      })
-    }, 3000)
-    return () => clearTimeout(fallback)
-  }, [])
-
-  useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>('section').forEach((section) => {
-        gsap.fromTo(section, { opacity: 0, y: 30, scale: 0.99 }, {
-          opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out',
-          scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none', invalidateOnRefresh: true },
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top 80%',
+          onEnter: () => gsap.to(section, { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out', force3D: true }),
+          once: true,
         })
       })
     }, mainRef)
 
     ScrollTrigger.refresh()
 
-    return () => ctx.revert()
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh())
+
+    return () => { ctx.revert(); cancelAnimationFrame(raf) }
   }, [])
 
   return (

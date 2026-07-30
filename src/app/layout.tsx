@@ -6,12 +6,14 @@ const inter = Inter({
   variable: '--font-sans',
   subsets: ['latin'],
   display: 'swap',
+  preload: true,
 })
 
 const playfair = Playfair_Display({
   variable: '--font-serif',
   subsets: ['latin'],
   display: 'swap',
+  preload: true,
 })
 
 export const metadata: Metadata = {
@@ -45,10 +47,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="preload" href="/images/mohamed-moussa.jpg" as="image" type="image/jpeg" fetchPriority="high" />
+      </head>
       <body>
-        <script dangerouslySetInnerHTML={{
-          __html: 'setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&e.style.visibility!=="hidden"){e.style.visibility="hidden";e.style.pointerEvents="none";}},7000)'
-        }} />
         {children}
       </body>
     </html>

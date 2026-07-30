@@ -30,8 +30,6 @@ export default function Hero() {
 
         animations.splitTextReveal('.hero-name', { type: 'chars', stagger: 0.025, duration: 0.7, delay: 1.2 })
 
-        animations.mouseParallax('.hero-avatar', 0.12)
-
         if (containerRef.current) {
           const scrollTl = gsap.timeline({
             scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: 2, invalidateOnRefresh: true },
@@ -43,27 +41,30 @@ export default function Hero() {
         }
       }
 
-      if (bgRef.current) {
-        gsap.to(bgRef.current, {
-          scale: 1.3,
-          opacity: 0.1,
-          duration: 4,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        })
-        gsap.to(bgRef.current, {
-          x: 40, y: -30, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        })
-      }
+      if (typeof requestIdleCallback !== 'undefined') {
+        requestIdleCallback(() => {
+          if (!containerRef.current) return
+          const idleCtx = gsap.context(() => {
+            animations.mouseParallax('.hero-avatar', 0.12)
+            animations.float('.hero-avatar', 6, 4, 3)
 
-      if (ambientRef.current) {
-        gsap.to(ambientRef.current, {
-          opacity: 0.06, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        })
+            if (bgRef.current) {
+              gsap.to(bgRef.current, {
+                scale: 1.3, opacity: 0.1, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1,
+              })
+              gsap.to(bgRef.current, {
+                x: 40, y: -30, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1,
+              })
+            }
+            if (ambientRef.current) {
+              gsap.to(ambientRef.current, {
+                opacity: 0.06, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1,
+              })
+            }
+          }, containerRef)
+          return () => idleCtx.revert()
+        }, { timeout: 2000 })
       }
-
-      animations.float('.hero-avatar', 6, 4, 3)
     }, containerRef)
 
     return () => ctx.revert()
@@ -95,6 +96,7 @@ export default function Hero() {
                 fill
                 sizes="40px"
                 priority
+                decoding="async"
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
             </div>

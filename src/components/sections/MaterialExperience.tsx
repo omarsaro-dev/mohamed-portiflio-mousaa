@@ -125,6 +125,8 @@ export default function MaterialExperience() {
                 alt={activeMaterial.name}
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
+                loading="lazy"
+                decoding="async"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>

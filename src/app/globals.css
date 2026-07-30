@@ -48,6 +48,10 @@
     transform: translateZ(0);
   }
 
+  img {
+    color: transparent;
+  }
+
   @media (max-width: 767px) {
     * {
       -webkit-overflow-scrolling: touch;
