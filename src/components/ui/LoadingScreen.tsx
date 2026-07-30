@@ -7,13 +7,13 @@ function hardHide() {
   try {
     const el = document.querySelector('.loading-screen') as HTMLElement | null
     if (el && getComputedStyle(el).visibility !== 'hidden') {
-      el.style.transition = 'transform 0.5s ease, opacity 0.3s ease'
+      el.style.transition = 'transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.2s ease'
       el.style.transform = 'translateY(-100%)'
       el.style.opacity = '0'
       setTimeout(() => {
         el.style.visibility = 'hidden'
         el.style.pointerEvents = 'none'
-      }, 600)
+      }, 400)
     }
   } catch {}
 }
@@ -37,7 +37,7 @@ export default function LoadingScreen() {
     let isMounted = true
 
     const barCtx = gsap.context(() => {
-      gsap.fromTo('.loading-bar', { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: 'power3.inOut', force3D: true })
+      gsap.fromTo('.loading-bar', { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: 'power2.out', force3D: true })
     }, containerRef)
 
     function hideLoader() {
@@ -46,9 +46,9 @@ export default function LoadingScreen() {
       try {
         const exitCtx = gsap.context(() => {
           gsap.timeline()
-            .to('.loading-text', { opacity: 0, y: -10, duration: 0.3, force3D: true })
-            .to('.loading-bar-container', { scaleY: 0, transformOrigin: 'bottom center', duration: 0.5, ease: 'power4.inOut', force3D: true }, '-=0.1')
-            .to('.loading-screen', { yPercent: -100, duration: 0.8, ease: 'power4.inOut', force3D: true }, '-=0.3')
+            .to('.loading-text', { opacity: 0, y: -8, duration: 0.15, force3D: true })
+            .to('.loading-bar-container', { scaleY: 0, transformOrigin: 'bottom center', duration: 0.3, ease: 'power3.inOut', force3D: true }, '-=0.05')
+            .to('.loading-screen', { yPercent: -100, duration: 0.5, ease: 'power3.inOut', force3D: true }, '-=0.15')
             .set('.loading-screen', { visibility: 'hidden', pointerEvents: 'none', yPercent: -100 })
         }, containerRef)
         return () => exitCtx.revert()
@@ -61,7 +61,7 @@ export default function LoadingScreen() {
     const checks: Promise<void>[] = []
 
     checks.push(
-      withFallback(document.fonts.ready, 1500, 'document.fonts.ready')
+      withFallback(document.fonts.ready, 1000, 'document.fonts.ready')
     )
 
     checks.push(
@@ -76,13 +76,13 @@ export default function LoadingScreen() {
           img.onerror = () => { if (!done) { done = true; console.warn('[LoadingScreen] img onerror, continuing'); resolve() } }
           if (img.complete) resolve()
         }
-      }), 2000, 'hero image decode')
+      }), 1200, 'hero image decode')
     )
 
     const safety = setTimeout(() => {
-      console.warn('[LoadingScreen] Safety timeout (3s) — forcing hide')
+      console.warn('[LoadingScreen] Safety timeout (2s) — forcing hide')
       if (isMounted) hideLoader()
-    }, 3000)
+    }, 2000)
 
     Promise.allSettled(checks).then(() => {
       clearTimeout(safety)
