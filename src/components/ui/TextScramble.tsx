@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 interface TextScrambleProps {
   text: string
@@ -102,6 +103,8 @@ export default function TextScramble({
   }, [text, doScramble])
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
     const el = elRef.current
     if (!el) return
 

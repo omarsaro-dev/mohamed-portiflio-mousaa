@@ -1,21 +1,19 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
-import { isMobileDevice } from '@/lib/utils'
+import { useRef, useEffect } from 'react'
 
 export default function Background3D() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [showCanvas, setShowCanvas] = useState(false)
   const needsPaint = useRef(true)
-  const isMobile = typeof window !== 'undefined' && isMobileDevice()
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    const isMobile = window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0
     if (isMobile) return
 
     const initAfterPaint = () => {
       if (!containerRef.current || !needsPaint.current) return
       needsPaint.current = false
-      setShowCanvas(true)
 
       let cleanup: (() => void) | null = null
 
@@ -169,13 +167,12 @@ export default function Background3D() {
     scheduleInit()
 
     return () => { needsPaint.current = false }
-  }, [isMobile])
+  }, [])
 
-  if (!showCanvas || isMobile) {
-    return (
+  return (
+    <>
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-[#050505] via-[#080808] to-[#040404] pointer-events-none" />
-    )
-  }
-
-  return <div ref={containerRef} className="fixed inset-0 -z-10 hidden md:block" />
+      <div ref={containerRef} className="fixed inset-0 -z-10 hidden md:block" />
+    </>
+  )
 }
