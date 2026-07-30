@@ -2,10 +2,11 @@
 
 import { useEffect } from 'react'
 import Lenis from '@studio-freight/lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export function useLenis() {
   useEffect(() => {
-    // Disable Lenis on mobile and touch devices for smooth native touch scrolling
     const isTouchOrMobile = window.innerWidth < 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
     if (isTouchOrMobile) return
 
@@ -18,6 +19,8 @@ export function useLenis() {
       touchMultiplier: 0.8,
       infinite: false,
     })
+
+    lenis.on('scroll', ScrollTrigger.update)
 
     let rafId: number
     function raf(time: number) {

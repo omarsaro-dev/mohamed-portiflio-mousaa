@@ -52,7 +52,7 @@ export default function RootLayout({
       </head>
       <body>
         <script dangerouslySetInnerHTML={{
-          __html: `setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&getComputedStyle(e).visibility!=="hidden"){e.style.transition="transform 0.35s cubic-bezier(0.65,0,0.35,1), opacity 0.2s ease";e.style.transform="translateY(-100%)";e.style.opacity="0";setTimeout(function(){e.style.visibility="hidden";e.style.pointerEvents="none")}},400)}},1500);window.addEventListener("error",function(e){if(e.message&&e.message.includes("Cannot access")){e.preventDefault();console.warn("[TDZ Guard] Caught and suppressed:",e.message)}})` 
+          __html: `setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&getComputedStyle(e).visibility!=="hidden"){e.style.transition="transform 0.35s cubic-bezier(0.65,0,0.35,1), opacity 0.2s ease";e.style.transform="translateY(-100%)";e.style.opacity="0";setTimeout(function(){e.style.visibility="hidden";e.style.pointerEvents="none"},400)}},1500);window.addEventListener("error",function(e){if(e.message&&e.message.includes("Cannot access")){e.preventDefault();console.warn("[TDZ Guard] Caught and suppressed:",e.message)}})` 
         }} />
         {children}
       </body>

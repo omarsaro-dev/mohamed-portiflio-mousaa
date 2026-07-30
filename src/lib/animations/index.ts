@@ -1,5 +1,6 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SplitText } from 'gsap/SplitText'
 
 if (typeof document !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -12,13 +13,6 @@ if (typeof document !== 'undefined') {
 const isMobile = () => typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const hasDOM = () => typeof document !== 'undefined'
-
-function loadSplitText() {
-  return import('gsap/SplitText').then((m) => {
-    gsap.registerPlugin(m.SplitText)
-    return m.SplitText
-  })
-}
 
 const GP = { force3D: true, overwrite: 'auto' } as const
 
@@ -187,88 +181,76 @@ export const animations = {
 
   textSplitReveal: (element: string | Element, delay = 0) => {
     if (!hasDOM() || prefersReducedMotion() || isMobile()) return
-    loadSplitText().then((SplitText) => {
-      const el = $(element)
-      if (!el) return
-      const split = new SplitText(el as HTMLElement, { type: 'words,chars' })
-      gsap.fromTo(split.chars, { opacity: 0, y: 50, rotationZ: -5 }, {
-        opacity: 1, y: 0, rotationZ: 0, duration: 0.8, stagger: 0.02, delay, ease: 'power3.out',
-        onComplete: () => { try { split.revert() } catch {} },
-        ...GP,
-      })
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el as HTMLElement, { type: 'words,chars' })
+    gsap.fromTo(split.chars, { opacity: 0, y: 50, rotationZ: -5 }, {
+      opacity: 1, y: 0, rotationZ: 0, duration: 0.8, stagger: 0.02, delay, ease: 'power3.out',
+      onComplete: () => { try { split.revert() } catch {} },
+      ...GP,
     })
   },
 
   lineReveal: (element: string | Element, delay = 0) => {
     if (!hasDOM() || prefersReducedMotion() || isMobile()) return
-    loadSplitText().then((SplitText) => {
-      const el = $(element)
-      if (!el) return
-      const split = new SplitText(el as HTMLElement, { type: 'lines' })
-      gsap.fromTo(split.lines, { y: 60, opacity: 0 }, {
-        y: 0, opacity: 1, duration: 1, stagger: 0.1, delay, ease: 'power3.out',
-        onComplete: () => { try { split.revert() } catch {} },
-        ...GP,
-      })
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el as HTMLElement, { type: 'lines' })
+    gsap.fromTo(split.lines, { y: 60, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 1, stagger: 0.1, delay, ease: 'power3.out',
+      onComplete: () => { try { split.revert() } catch {} },
+      ...GP,
     })
   },
 
   wordReveal: (element: string | Element, delay = 0) => {
     if (!hasDOM() || prefersReducedMotion() || isMobile()) return
-    loadSplitText().then((SplitText) => {
-      const el = $(element)
-      if (!el) return
-      const split = new SplitText(el as HTMLElement, { type: 'words' })
-      gsap.fromTo(split.words, { opacity: 0, y: 40 }, {
-        opacity: 1, y: 0, duration: 0.9, stagger: 0.04, delay, ease: 'power3.out',
-        onComplete: () => { try { split.revert() } catch {} },
-        ...GP,
-      })
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el as HTMLElement, { type: 'words' })
+    gsap.fromTo(split.words, { opacity: 0, y: 40 }, {
+      opacity: 1, y: 0, duration: 0.9, stagger: 0.04, delay, ease: 'power3.out',
+      onComplete: () => { try { split.revert() } catch {} },
+      ...GP,
     })
   },
 
   charsReveal: (element: string | Element, delay = 0) => {
     if (!hasDOM() || prefersReducedMotion() || isMobile()) return
-    loadSplitText().then((SplitText) => {
-      const el = $(element)
-      if (!el) return
-      const split = new SplitText(el as HTMLElement, { type: 'chars' })
-      gsap.fromTo(split.chars, { opacity: 0, y: 30, rotation: -3 }, {
-        opacity: 1, y: 0, rotation: 0, duration: 0.7, stagger: 0.015, delay, ease: 'power3.out',
-        onComplete: () => { try { split.revert() } catch {} },
-        ...GP,
-      })
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el as HTMLElement, { type: 'chars' })
+    gsap.fromTo(split.chars, { opacity: 0, y: 30, rotation: -3 }, {
+      opacity: 1, y: 0, rotation: 0, duration: 0.7, stagger: 0.015, delay, ease: 'power3.out',
+      onComplete: () => { try { split.revert() } catch {} },
+      ...GP,
     })
   },
 
   splitTextReveal: (element: string | Element, config: { type?: string; stagger?: number; duration?: number; delay?: number } = {}) => {
     if (!hasDOM() || prefersReducedMotion() || isMobile()) return
     const { type = 'chars', stagger = 0.025, duration = 0.7, delay = 0 } = config
-    loadSplitText().then((SplitText) => {
-      const el = $(element)
-      if (!el) return
-      const split = new SplitText(el as HTMLElement, { type })
-      const targets = type === 'chars' ? split.chars : split.words
-      if (!targets) return
-      gsap.fromTo(targets, { opacity: 0, y: 30 }, {
-        opacity: 1, y: 0, duration, stagger, delay, ease: 'power3.out',
-        onComplete: () => { try { split.revert() } catch {} },
-        ...GP,
-      })
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el as HTMLElement, { type })
+    const targets = type === 'chars' ? split.chars : split.words
+    if (!targets) return
+    gsap.fromTo(targets, { opacity: 0, y: 30 }, {
+      opacity: 1, y: 0, duration, stagger, delay, ease: 'power3.out',
+      onComplete: () => { try { split.revert() } catch {} },
+      ...GP,
     })
   },
 
   staggerWords: (element: string | Element, delay = 0, stagger = 0.06) => {
     if (!hasDOM() || prefersReducedMotion() || isMobile()) return
-    loadSplitText().then((SplitText) => {
-      const el = $(element)
-      if (!el) return
-      const split = new SplitText(el as HTMLElement, { type: 'words' })
-      gsap.fromTo(split.words, { opacity: 0, y: 20 }, {
-        opacity: 1, y: 0, duration: 0.6, stagger, delay, ease: 'power2.out',
-        onComplete: () => { try { split.revert() } catch {} },
-        ...GP,
-      })
+    const el = $(element)
+    if (!el) return
+    const split = new SplitText(el as HTMLElement, { type: 'words' })
+    gsap.fromTo(split.words, { opacity: 0, y: 20 }, {
+      opacity: 1, y: 0, duration: 0.6, stagger, delay, ease: 'power2.out',
+      onComplete: () => { try { split.revert() } catch {} },
+      ...GP,
     })
   },
 
