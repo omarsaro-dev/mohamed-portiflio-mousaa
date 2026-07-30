@@ -12,9 +12,11 @@ function Hero() {
   const glowRef = useRef<HTMLDivElement>(null)
   const accentGlowRef = useRef<HTMLDivElement>(null)
   const mouseGlowRef = useRef<HTMLDivElement>(null)
-  const idleCtxRef = useRef<gsap.Context | null>(null)
 
   useEffect(() => {
+    let cancelled = false
+    let idleCallbackId: number | undefined
+    let removeMouseParallax: (() => void) | undefined
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
 
     const ctx = gsap.context(() => {
@@ -86,19 +88,18 @@ function Hero() {
       }
 
       if (typeof requestIdleCallback !== 'undefined') {
-        requestIdleCallback(() => {
-          if (!containerRef.current) return
-          const idleCtx = gsap.context(() => {}, containerRef)
-          const cleanMouse = animations.mouseParallax('.hero-avatar', 0.12)
-          if (typeof cleanMouse === 'function') idleCtx.add(cleanMouse)
-          idleCtxRef.current = idleCtx
+        idleCallbackId = requestIdleCallback(() => {
+          if (cancelled || !containerRef.current) return
+          removeMouseParallax = animations.mouseParallax('.hero-avatar', 0.12)
         }, { timeout: 2000 })
       }
     }, containerRef)
 
     return () => {
+      cancelled = true
+      if (idleCallbackId !== undefined && typeof cancelIdleCallback !== 'undefined') cancelIdleCallback(idleCallbackId)
+      removeMouseParallax?.()
       ctx.revert()
-      if (idleCtxRef.current) { idleCtxRef.current.revert(); idleCtxRef.current = null }
     }
   }, [])
 
