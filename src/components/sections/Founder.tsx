@@ -61,7 +61,7 @@ function Founder() {
       gsap.utils.toArray('.founder-pillar').forEach((p) => {
         if (p instanceof HTMLElement) animations.tilt3d(p, 6)
       })
-    }, containerRef.current)
+    }, containerRef.current!)
 
     return () => ctx.revert()
   }, [])

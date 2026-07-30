@@ -54,7 +54,7 @@ export default function Navigation() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.nav-link', { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out', delay: 0.2 })
-    }, navRef.current)
+    }, navRef.current!)
     return () => ctx.revert()
   }, [])
 

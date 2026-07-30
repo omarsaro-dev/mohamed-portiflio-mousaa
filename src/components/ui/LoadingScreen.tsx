@@ -39,7 +39,7 @@ export default function LoadingScreen() {
 
     const barCtx = gsap.context(() => {
       gsap.fromTo('.loading-bar', { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: 'power2.out', force3D: true })
-    }, containerRef.current)
+    }, containerRef.current!)
 
     function hideLoader() {
       if (!isMounted) return
@@ -51,7 +51,7 @@ export default function LoadingScreen() {
             .to('.loading-bar-container', { scaleY: 0, transformOrigin: 'bottom center', duration: 0.3, ease: 'power3.inOut', force3D: true }, '-=0.05')
             .to('.loading-screen', { yPercent: -100, duration: 0.5, ease: 'power3.inOut', force3D: true }, '-=0.15')
             .set('.loading-screen', { visibility: 'hidden', pointerEvents: 'none', yPercent: -100 })
-        }, containerRef.current)
+        }, containerRef.current!)
       } catch (e) {
         console.error('[LoadingScreen] GSAP exit failed, using CSS fallback:', e)
         hardHide()

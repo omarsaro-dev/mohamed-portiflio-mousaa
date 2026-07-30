@@ -31,7 +31,7 @@ function MarqueeStrip({
         repeat: -1,
         duration: speed,
       })
-    }, containerRef.current)
+    }, containerRef.current!)
 
     return () => ctx.revert()
   }, [speed, direction])

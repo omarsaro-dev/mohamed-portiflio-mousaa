@@ -43,7 +43,7 @@ export default function RevealSection({ children, className = '', direction = 'u
           },
         }
       )
-    }, containerRef.current)
+    }, containerRef.current!)
 
     return () => ctx.revert()
   }, [direction, delay])

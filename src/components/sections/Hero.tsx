@@ -93,7 +93,7 @@ function Hero() {
           removeMouseParallax = animations.mouseParallax('.hero-avatar', 0.12)
         }, { timeout: 2000 })
       }
-    }, containerRef.current)
+    }, containerRef.current!)
 
     return () => {
       cancelled = true
