@@ -11,16 +11,19 @@ export default function Background3D() {
     const isMobile = window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0
     if (isMobile) return
 
+    let disposed = false
+    let cleanup: (() => void) | null = null
+    let idleCallbackId: number | undefined
+
     const initAfterPaint = () => {
       if (!containerRef.current || !needsPaint.current) return
       needsPaint.current = false
 
-      let cleanup: (() => void) | null = null
-
       const init = async () => {
-        const THREE = await import('three')
+        try {
+          const THREE = await import('three')
 
-        if (!containerRef.current) return
+          if (disposed || !containerRef.current) return
 
         const scene = new THREE.Scene()
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -130,7 +133,7 @@ export default function Background3D() {
         }
         window.addEventListener('resize', handleResize, { passive: true })
 
-        cleanup = () => {
+          cleanup = () => {
           window.removeEventListener('resize', handleResize)
           window.removeEventListener('mousemove', throttledMouseMove)
           document.removeEventListener('visibilitychange', visibilityChange)
@@ -146,6 +149,11 @@ export default function Background3D() {
           particlesGeometry.dispose()
           particlesMaterial.dispose()
           renderer.dispose()
+          }
+        } catch (error) {
+          // The animated background is decorative. Some devices disable WebGL or
+          // fail to load Three.js, so leave the static background in place.
+          console.warn('[Background3D] Disabled:', error)
         }
       }
 
@@ -158,7 +166,7 @@ export default function Background3D() {
 
     const scheduleInit = () => {
       if (typeof requestIdleCallback !== 'undefined') {
-        requestIdleCallback(() => initAfterPaint(), { timeout: 3000 })
+        idleCallbackId = requestIdleCallback(() => initAfterPaint(), { timeout: 3000 })
       } else {
         setTimeout(() => initAfterPaint(), 1000)
       }
@@ -166,7 +174,12 @@ export default function Background3D() {
 
     scheduleInit()
 
-    return () => { needsPaint.current = false }
+    return () => {
+      disposed = true
+      needsPaint.current = false
+      if (idleCallbackId !== undefined && typeof cancelIdleCallback !== 'undefined') cancelIdleCallback(idleCallbackId)
+      cleanup?.()
+    }
   }, [])
 
   return (
