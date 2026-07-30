@@ -92,8 +92,8 @@ function Hero() {
           </a>
         </div>
 
-        <div className="hero-logo font-serif text-3xl md:text-4xl tracking-[0.35em] text-white/90 mb-6">
-          MOUSAA
+        <div className="hero-logo font-serif text-xl md:text-2xl tracking-[0.15em] text-white/90 mb-6 whitespace-nowrap">
+          Arch. Mohamed Moussa
         </div>
 
         <p className="hero-tagline text-amber-500/80 tracking-[0.3em] text-xs md:text-sm mb-6 uppercase font-mono">

@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'Mousaa',
+  name: 'Arch. Mohamed Moussa',
   description: 'Creating timeless spaces through architecture, emotion and precision.',
   founder: 'Mohamed Moussa',
   title: 'Founder & Creative Director',

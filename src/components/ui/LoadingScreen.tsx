@@ -101,8 +101,8 @@ export default function LoadingScreen() {
   return (
     <div ref={containerRef} className="loading-screen fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center">
       <div className="text-center">
-        <div className="font-serif text-3xl md:text-4xl tracking-[0.35em] text-white/90 mb-12">
-          MOUSAA
+        <div className="font-serif text-xl md:text-2xl tracking-[0.15em] text-white/90 mb-12 whitespace-nowrap">
+          Arch. Mohamed Moussa
         </div>
         <div className="loading-bar-container w-32 md:w-48 h-[1px] bg-white/10 mx-auto relative overflow-hidden">
           <div className="loading-bar absolute inset-0 bg-amber-400 origin-left" style={{ transform: 'scaleX(0)' }} />

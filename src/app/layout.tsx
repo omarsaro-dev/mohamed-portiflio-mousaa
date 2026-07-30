@@ -17,21 +17,21 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Mousaa | Mohamed Moussa - Luxury Architecture & Interior Design',
+  title: 'Arch. Mohamed Moussa - Luxury Architecture & Interior Design',
   description: 'Creating timeless spaces through architecture, emotion and precision. Founder & Creative Director specializing in luxury villas, residential, commercial, and hospitality projects across Egypt and the Middle East.',
   keywords: ['luxury architecture', 'interior design', 'Mohamed Moussa', 'Mousaa', 'Egypt architecture', 'Dubai architecture', 'luxury villas', 'commercial design', 'hospitality design'],
   authors: [{ name: 'Mohamed Moussa' }],
   creator: 'Mohamed Moussa',
   openGraph: {
-    title: 'Mousaa | Mohamed Moussa',
+    title: 'Arch. Mohamed Moussa',
     description: 'Creating timeless spaces through architecture, emotion and precision.',
     type: 'website',
     locale: 'en_US',
-    siteName: 'Mousaa',
+    siteName: 'Arch. Mohamed Moussa',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mousaa | Mohamed Moussa',
+    title: 'Arch. Mohamed Moussa',
     description: 'Creating timeless spaces through architecture, emotion and precision.',
   },
   robots: {
