@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { animations } from '@/lib/animations'
 
 function Philosophy() {

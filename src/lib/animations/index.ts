@@ -1,8 +1,6 @@
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 if (typeof document !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
   gsap.config({ autoSleep: 0, force3D: true })
   if (!(window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)) {
     gsap.ticker.lagSmoothing(0)

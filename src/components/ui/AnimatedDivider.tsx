@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 interface AnimatedDividerProps {
   variant?: 'line' | 'double' | 'diamond' | 'ornate'

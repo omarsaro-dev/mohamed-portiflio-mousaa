@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
 
