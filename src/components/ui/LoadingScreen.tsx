@@ -32,6 +32,7 @@ function withFallback<T>(promise: Promise<T>, ms: number, label: string): Promis
 
 export default function LoadingScreen() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const exitCtxRef = useRef<gsap.Context | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -44,14 +45,13 @@ export default function LoadingScreen() {
       if (!isMounted) return
       barCtx.revert()
       try {
-        const exitCtx = gsap.context(() => {
+        exitCtxRef.current = gsap.context(() => {
           gsap.timeline()
             .to('.loading-text', { opacity: 0, y: -8, duration: 0.15, force3D: true })
             .to('.loading-bar-container', { scaleY: 0, transformOrigin: 'bottom center', duration: 0.3, ease: 'power3.inOut', force3D: true }, '-=0.05')
             .to('.loading-screen', { yPercent: -100, duration: 0.5, ease: 'power3.inOut', force3D: true }, '-=0.15')
             .set('.loading-screen', { visibility: 'hidden', pointerEvents: 'none', yPercent: -100 })
         }, containerRef)
-        return () => exitCtx.revert()
       } catch (e) {
         console.error('[LoadingScreen] GSAP exit failed, using CSS fallback:', e)
         hardHide()
@@ -95,7 +95,7 @@ export default function LoadingScreen() {
       hardHide()
     })
 
-    return () => { isMounted = false; barCtx.revert(); hardHide() }
+    return () => { isMounted = false; barCtx.revert(); if (exitCtxRef.current) exitCtxRef.current.revert(); hardHide() }
   }, [])
 
   return (

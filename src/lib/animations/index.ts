@@ -295,17 +295,19 @@ export const animations = {
   },
 
   mouseParallax: (element: string | Element, intensity = 0.1) => {
-    if (!hasDOM() || isMobile()) return
+    if (!hasDOM() || isMobile()) return () => {}
     const el = $(element)
-    if (!el) return
+    if (!el) return () => {}
     const bounds = el.getBoundingClientRect()
     const centerX = bounds.left + bounds.width / 2
     const centerY = bounds.top + bounds.height / 2
-    document.addEventListener('mousemove', (e: MouseEvent) => {
+    const handler = (e: MouseEvent) => {
       const x = (e.clientX - centerX) * intensity
       const y = (e.clientY - centerY) * intensity
       gsap.to(el, { x, y, duration: 0.6, ease: 'power2.out', ...GP })
-    }, { passive: true })
+    }
+    document.addEventListener('mousemove', handler, { passive: true })
+    return () => document.removeEventListener('mousemove', handler)
   },
 
   imageParallax: (element: string | Element, speed = 0.3) => {

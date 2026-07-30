@@ -12,6 +12,7 @@ function Hero() {
   const glowRef = useRef<HTMLDivElement>(null)
   const accentGlowRef = useRef<HTMLDivElement>(null)
   const mouseGlowRef = useRef<HTMLDivElement>(null)
+  const idleCtxRef = useRef<gsap.Context | null>(null)
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
@@ -87,15 +88,18 @@ function Hero() {
       if (typeof requestIdleCallback !== 'undefined') {
         requestIdleCallback(() => {
           if (!containerRef.current) return
-          const idleCtx = gsap.context(() => {
-            animations.mouseParallax('.hero-avatar', 0.12)
-          }, containerRef)
-          return () => idleCtx.revert()
+          const idleCtx = gsap.context(() => {}, containerRef)
+          const cleanMouse = animations.mouseParallax('.hero-avatar', 0.12)
+          if (typeof cleanMouse === 'function') idleCtx.add(cleanMouse)
+          idleCtxRef.current = idleCtx
         }, { timeout: 2000 })
       }
     }, containerRef)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      if (idleCtxRef.current) { idleCtxRef.current.revert(); idleCtxRef.current = null }
+    }
   }, [])
 
   return (
