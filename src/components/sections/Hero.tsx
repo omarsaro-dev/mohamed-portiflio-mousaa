@@ -16,6 +16,7 @@ function Hero() {
     let cancelled = false
     let idleCallbackId: number | undefined
     let removeMouseParallax: (() => void) | undefined
+    let removeContainerMouse: (() => void) | undefined
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
 
     const ctx = gsap.context(() => {
@@ -83,7 +84,7 @@ function Hero() {
           gsap.to(mouseGlowRef.current, { x, y, duration: 1.2, ease: 'power2.out', overwrite: 'auto' })
         }
         container.addEventListener('mousemove', handleMouse, { passive: true })
-        ctx.add(() => container.removeEventListener('mousemove', handleMouse))
+        removeContainerMouse = () => container.removeEventListener('mousemove', handleMouse)
       }
 
       if (typeof requestIdleCallback !== 'undefined') {
@@ -93,6 +94,7 @@ function Hero() {
         }, { timeout: 2000 })
       }
     }, containerRef.current!)
+    if (removeContainerMouse) ctx.add(removeContainerMouse)
 
     return () => {
       cancelled = true
