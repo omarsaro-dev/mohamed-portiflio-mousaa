@@ -27,8 +27,8 @@ function Logo() {
 
   return (
     <div ref={logoRef}>
-      <span className="logo-text font-serif text-xs md:text-sm tracking-normal text-[#F5F5F5] whitespace-nowrap">
-        Arch. Mohamed Moussa
+      <span className="logo-text font-serif text-2xl tracking-wider text-[#F5F5F5] inline-block">
+        MOUSAA
       </span>
     </div>
   )

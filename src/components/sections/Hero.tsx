@@ -9,17 +9,25 @@ import { animations } from '@/lib/animations'
 function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
+  const introRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
 
     const ctx = gsap.context(() => {
       if (isMobile) {
-        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewX: 0, rotateX: 0 })
+        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta, .hero-intro-name', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewX: 0, rotateX: 0 })
       } else {
-        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
-
         gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 0, filter: 'blur(10px)' })
+
+        gsap.set(introRef.current, { opacity: 0, y: 20, filter: 'blur(6px)' })
+
+        const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+        introTl
+          .to(introRef.current, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 })
+          .to(introRef.current, { opacity: 0, y: -25, filter: 'blur(4px)', duration: 1.4, ease: 'power2.inOut' }, '+=3')
+
+        const tl = gsap.timeline({ defaults: { ease: 'power4.out' }, delay: 0.3 })
 
         tl.to('.hero-avatar', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.4 }, 0.4)
           .to('.hero-logo', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.6 }, 0.6)
@@ -63,7 +71,7 @@ function Hero() {
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
       <div
         ref={bgRef}
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent blur-[200px] pointer-events-none rounded-full"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent blur-[60px] pointer-events-none rounded-full"
       />
 
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
@@ -72,8 +80,17 @@ function Hero() {
       }} />
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+        <div
+          ref={introRef}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+        >
+          <span className="font-serif text-xl md:text-2xl tracking-[0.2em] text-amber-400/95">
+            Arch. Mohamed Moussa
+          </span>
+        </div>
+
         <div className="hero-avatar mb-8 inline-block">
-          <a href="#founder" data-cursor-hover className="group flex items-center gap-3 bg-white/[0.03] border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300 backdrop-blur-md">
+          <a href="#founder" data-cursor-hover className="group flex items-center gap-3 bg-white/[0.03] border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300 backdrop-blur-sm">
             <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative shrink-0">
               <Image
                 src="/images/mohamed-moussa.jpg"
@@ -92,8 +109,8 @@ function Hero() {
           </a>
         </div>
 
-        <div className="hero-logo font-serif text-xl md:text-2xl tracking-[0.15em] text-white/90 mb-6 whitespace-nowrap">
-          Arch. Mohamed Moussa
+        <div className="hero-logo font-serif text-3xl md:text-4xl tracking-[0.35em] text-white/90 mb-6">
+          MOUSAA
         </div>
 
         <p className="hero-tagline text-amber-500/80 tracking-[0.3em] text-xs md:text-sm mb-6 uppercase font-mono">
@@ -120,10 +137,10 @@ function Hero() {
           <a
             href="#founder"
             data-cursor-hover
-            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs"
+            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/25 bg-white/[0.04] backdrop-blur-sm text-white/95 font-medium text-xs tracking-widest uppercase rounded-xs"
           >
             <span className="relative z-10">The Founder</span>
-            <span className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+            <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           </a>
         </div>
 
