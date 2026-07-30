@@ -12,7 +12,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['gsap', 'three', '@react-three/fiber', '@react-three/drei'],
+    optimizePackageImports: ['three', '@react-three/fiber', '@react-three/drei'],
   },
 };
 
