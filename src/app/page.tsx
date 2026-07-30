@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from '@/lib/lenis'
 import Navigation from '@/components/ui/Navigation'
 import Hero from '@/components/sections/Hero'
@@ -19,6 +21,7 @@ import Background3D from '@/components/three/Background3D'
 
 export default function Home() {
   useLenis()
+  const mainRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fallback = setTimeout(() => {
@@ -32,31 +35,52 @@ export default function Home() {
     return () => clearTimeout(fallback)
   }, [])
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('section').forEach((section) => {
+        gsap.fromTo(section, { opacity: 0, y: 30, scale: 0.99 }, {
+          opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out',
+          scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none', invalidateOnRefresh: true },
+        })
+      })
+    }, mainRef)
+
+    ScrollTrigger.refresh()
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <>
       <LoadingScreen />
       <ScrollProgress />
-      <div className="min-h-screen">
+      <div ref={mainRef} className="min-h-screen">
         <Navigation />
         <Cursor />
         <Background3D />
         <Hero />
-        <MarqueeStrip />
+        <div className="section-transition">
+          <MarqueeStrip />
+        </div>
         <Founder />
         <AnimatedDivider variant="ornate" />
         <Philosophy />
-        <MarqueeStrip
-          text="PRECISION • ELEGANCE • EMOTION • CRAFT • LIGHT • SPACE •"
-          direction="right"
-          speed={50}
-        />
+        <div className="section-transition">
+          <MarqueeStrip
+            text="PRECISION • ELEGANCE • EMOTION • CRAFT • LIGHT • SPACE •"
+            direction="right"
+            speed={50}
+          />
+        </div>
         <Projects />
         <AnimatedDivider variant="diamond" />
         <StudioProcess />
-        <MarqueeStrip
-          text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
-          speed={45}
-        />
+        <div className="section-transition">
+          <MarqueeStrip
+            text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
+            speed={45}
+          />
+        </div>
         <MaterialExperience />
         <AnimatedDivider variant="double" />
         <Contact />

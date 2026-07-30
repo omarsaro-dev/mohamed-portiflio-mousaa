@@ -27,6 +27,12 @@ export default function Philosophy() {
       animations.counterFormatted('.philosophy-counter-1', 0, 15, '', '+', 1.5)
       animations.counterFormatted('.philosophy-counter-2', 0, 200, '', '+', 1.5)
       animations.counterFormatted('.philosophy-counter-3', 0, 50, '', '+', 1.5)
+
+      gsap.utils.toArray('.philosophy-number').forEach((num) => {
+        if (num instanceof HTMLElement) {
+          animations.outlineNumberScroll(num)
+        }
+      })
     }, containerRef)
 
     return () => ctx.revert()
@@ -42,22 +48,22 @@ export default function Philosophy() {
           Every space tells a story. Our design philosophy is rooted in the belief that architecture is not just about structure, but about the emotions and experiences it evokes.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          <div className="philosophy-item group text-center md:text-left p-6 bg-white/[0.01] border border-white/[0.03] rounded-sm hover:bg-white/[0.02] transition-all duration-500">
-            <div className="text-amber-400/80 text-6xl font-serif mb-4 group-hover:text-amber-300 transition-colors duration-500">01</div>
+          <div className="philosophy-item group text-center md:text-left p-6 bg-white/[0.01] border border-white/[0.03] rounded-sm hover:bg-white/[0.02] transition-all duration-500 will-change-transform">
+            <div className="philosophy-number text-amber-400/80 text-6xl font-serif mb-4 group-hover:text-amber-300 transition-colors duration-500">01</div>
             <h3 className="font-serif text-2xl text-[#F5F5F5] mb-4">Architecture</h3>
             <p className="text-white/50 leading-relaxed text-sm">
               Form follows emotion. Every structure tells a story, every space has a purpose.
             </p>
           </div>
-          <div className="philosophy-item group text-center md:text-left p-6 bg-white/[0.01] border border-white/[0.03] rounded-sm hover:bg-white/[0.02] transition-all duration-500">
-            <div className="text-amber-400/80 text-6xl font-serif mb-4 group-hover:text-amber-300 transition-colors duration-500">02</div>
+          <div className="philosophy-item group text-center md:text-left p-6 bg-white/[0.01] border border-white/[0.03] rounded-sm hover:bg-white/[0.02] transition-all duration-500 will-change-transform">
+            <div className="philosophy-number text-amber-400/80 text-6xl font-serif mb-4 group-hover:text-amber-300 transition-colors duration-500">02</div>
             <h3 className="font-serif text-2xl text-[#F5F5F5] mb-4">Materiality</h3>
             <p className="text-white/50 leading-relaxed text-sm">
               Stone, wood, light—materials that breathe life into space, chosen with intention.
             </p>
           </div>
-          <div className="philosophy-item group text-center md:text-left p-6 bg-white/[0.01] border border-white/[0.03] rounded-sm hover:bg-white/[0.02] transition-all duration-500">
-            <div className="text-amber-400/80 text-6xl font-serif mb-4 group-hover:text-amber-300 transition-colors duration-500">03</div>
+          <div className="philosophy-item group text-center md:text-left p-6 bg-white/[0.01] border border-white/[0.03] rounded-sm hover:bg-white/[0.02] transition-all duration-500 will-change-transform">
+            <div className="philosophy-number text-amber-400/80 text-6xl font-serif mb-4 group-hover:text-amber-300 transition-colors duration-500">03</div>
             <h3 className="font-serif text-2xl text-[#F5F5F5] mb-4">Experience</h3>
             <p className="text-white/50 leading-relaxed text-sm">
               Design is felt before it is seen. We create environments that resonate.

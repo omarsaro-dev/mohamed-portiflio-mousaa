@@ -9,35 +9,57 @@ import { animations } from '@/lib/animations'
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
+  const ambientRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
 
     const ctx = gsap.context(() => {
       if (isMobile) {
-        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-title-line, .hero-subtitle, .hero-cta', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewX: 0, rotateX: 0 })
+        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewX: 0, rotateX: 0 })
       } else {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
 
-        tl.fromTo('.hero-avatar', { opacity: 0, y: 30, scale: 0.9, filter: 'blur(5px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.2 }, 0.1)
-          .fromTo('.hero-logo', { opacity: 0, y: 40, scale: 1.2, filter: 'blur(12px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.4 }, 0.3)
-          .fromTo('.hero-tagline', { opacity: 0, x: -40, skewX: 5 }, { opacity: 1, x: 0, skewX: 0, duration: 1 }, 0.6)
-          .fromTo('.hero-title-line', { opacity: 0, y: 80, rotateX: -20, scale: 1.1 }, { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1.2, stagger: 0.2 }, 0.9)
-          .fromTo('.hero-subtitle', { opacity: 0, y: 30, filter: 'blur(5px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 }, 1.6)
-          .fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.15 }, 2)
+        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 0, filter: 'blur(10px)' })
 
-        animations.staggerChars('.hero-name', 0.9, 1.4)
+        tl.to('.hero-avatar', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.4 }, 0.4)
+          .to('.hero-logo', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.6 }, 0.6)
+          .to('.hero-tagline', { opacity: 1, x: 0, skewX: 0, duration: 1.2 }, 0.9)
+          .to('.hero-subtitle', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 1.8)
+          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }, 2.2)
+
+        animations.splitTextReveal('.hero-name', { type: 'chars', stagger: 0.025, duration: 0.7, delay: 1.2 })
+
         animations.mouseParallax('.hero-avatar', 0.12)
+
+        if (containerRef.current) {
+          const scrollTl = gsap.timeline({
+            scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: 2, invalidateOnRefresh: true },
+          })
+          scrollTl.to(containerRef.current, { yPercent: 15, scale: 0.97, opacity: 0.9, ease: 'none' }, 0)
+            .to('.hero-name', { yPercent: -20, opacity: 0.6, scale: 1.05, ease: 'none' }, 0)
+            .to('.hero-subtitle', { yPercent: -25, opacity: 0.3, ease: 'none' }, 0)
+            .to('.hero-tagline', { yPercent: -30, opacity: 0.2, ease: 'none' }, 0)
+        }
       }
 
       if (bgRef.current) {
         gsap.to(bgRef.current, {
-          scale: 1.2,
-          opacity: 0.08,
-          duration: 3,
+          scale: 1.3,
+          opacity: 0.1,
+          duration: 4,
           ease: 'sine.inOut',
           yoyo: true,
           repeat: -1,
+        })
+        gsap.to(bgRef.current, {
+          x: 40, y: -30, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1,
+        })
+      }
+
+      if (ambientRef.current) {
+        gsap.to(ambientRef.current, {
+          opacity: 0.06, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1,
         })
       }
 
@@ -48,10 +70,14 @@ export default function Hero() {
   }, [])
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20">
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
       <div
         ref={bgRef}
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-radial from-amber-500/10 via-amber-500/5 to-transparent blur-[180px] pointer-events-none rounded-full"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent blur-[200px] pointer-events-none rounded-full"
+      />
+      <div
+        ref={ambientRef}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-gradient-radial from-amber-400/5 via-transparent to-transparent blur-[120px] pointer-events-none rounded-full"
       />
 
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
@@ -61,7 +87,7 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         <div className="hero-avatar mb-8 inline-block">
-          <a href="#founder" className="group flex items-center gap-3 bg-white/[0.03] border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300 backdrop-blur-md">
+          <a href="#founder" data-cursor-hover className="group flex items-center gap-3 bg-white/[0.03] border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300 backdrop-blur-md">
             <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative shrink-0">
               <Image
                 src="/images/mohamed-moussa.jpg"
@@ -98,6 +124,7 @@ export default function Hero() {
         <div className="mt-12 flex items-center justify-center gap-4 flex-wrap">
           <a
             href="#projects"
+            data-cursor-hover
             className="hero-cta relative overflow-hidden group px-8 py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase rounded-xs"
           >
             <span className="relative z-10">Explore Selected Works</span>
@@ -105,6 +132,7 @@ export default function Hero() {
           </a>
           <a
             href="#founder"
+            data-cursor-hover
             className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs"
           >
             <span className="relative z-10">The Founder</span>

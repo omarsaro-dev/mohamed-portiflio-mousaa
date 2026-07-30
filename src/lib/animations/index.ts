@@ -33,6 +33,15 @@ const ST_DEFAULTS = {
   invalidateOnRefresh: true,
 } as const
 
+function createScrollTrigger(trigger: gsap.DOMTarget, settings: Partial<ScrollTrigger.Vars> = {}): ScrollTrigger.Vars {
+  return {
+    trigger,
+    toggleActions: 'play none none reverse',
+    invalidateOnRefresh: true,
+    ...settings,
+  }
+}
+
 export const animations = {
   fadeUp: (element: string | Element, delay = 0) => {
     gsap.fromTo(element, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1.2, delay, ease: 'power3.out', ...GP })
@@ -506,6 +515,201 @@ export const animations = {
     }
     window.addEventListener('mousemove', onMove, { passive: true })
     return () => window.removeEventListener('mousemove', onMove)
+  },
+
+  // ============================================================
+  // PREMIUM CINEMATIC ANIMATIONS
+  // ============================================================
+
+  heroCinematic: (container: HTMLElement) => {
+    if (prefersReducedMotion() || isMobile()) return
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out', ...GP } })
+    tl.set(container, { opacity: 1 })
+    return tl
+  },
+
+  splitTextReveal: (element: string | Element, options: {
+    type?: 'chars' | 'words' | 'lines',
+    stagger?: number,
+    duration?: number,
+    from?: gsap.TweenVars,
+    to?: gsap.TweenVars,
+    delay?: number,
+    revertOnComplete?: boolean,
+  } = {}) => {
+    if (prefersReducedMotion() || isMobile()) return
+    const el = $(element)
+    if (!el) return
+    const { type = 'chars', stagger = 0.02, duration = 0.8, from = {}, to = {}, delay = 0, revertOnComplete = true } = options
+    const split = new SplitText(el as HTMLElement, { type })
+    const chars = type === 'lines' ? split.lines : type === 'words' ? split.words : split.chars
+    if (!chars || chars.length === 0) return
+    const defaultFrom = { opacity: 0, y: type === 'lines' ? 60 : 40, rotateX: type === 'chars' ? -15 : 0, filter: 'blur(8px)' }
+    const defaultTo = { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }
+    gsap.fromTo(chars, { ...defaultFrom, ...from }, {
+      ...defaultTo, ...to, duration, stagger, delay, ease: 'power4.out',
+      onComplete: () => { if (revertOnComplete) { try { split.revert() } catch {} } },
+      ...GP,
+    })
+  },
+
+  scrollZoomImage: (element: string | Element, startScale = 1.25, endScale = 1) => {
+    if (isMobile()) return
+    gsap.fromTo(element, { scale: startScale }, {
+      scale: endScale, ease: 'none',
+      scrollTrigger: { trigger: element, start: 'top bottom', end: 'bottom top', scrub: 1.5, ...ST_DEFAULTS },
+      ...GP,
+    })
+  },
+
+  clipRevealImage: (element: string | Element, direction: 'up' | 'down' | 'left' | 'right' = 'up') => {
+    if (isMobile()) return
+    const clips: Record<string, string> = {
+      up: 'inset(100% 0 0 0)',
+      down: 'inset(0 0 100% 0)',
+      left: 'inset(0 100% 0 0)',
+      right: 'inset(0 0 0 100%)',
+    }
+    gsap.fromTo(element, { clipPath: clips[direction] }, {
+      clipPath: 'inset(0 0 0 0)', duration: 1.5, ease: 'power4.inOut',
+      scrollTrigger: { trigger: element, start: 'top 85%', toggleActions: 'play none none', ...ST_DEFAULTS },
+      ...GP,
+    })
+  },
+
+  magneticHoverPremium: (element: HTMLElement, strength = 0.4) => {
+    if (isMobile()) return
+    const onMove = (e: MouseEvent) => {
+      const rect = element.getBoundingClientRect()
+      const x = e.clientX - rect.left - rect.width / 2
+      const y = e.clientY - rect.top - rect.height / 2
+      gsap.to(element, { x: x * strength, y: y * strength, duration: 0.5, ease: 'power3.out', ...GP })
+    }
+    const onLeave = () => {
+      gsap.to(element, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)', ...GP })
+    }
+    element.addEventListener('mousemove', onMove, { passive: true })
+    element.addEventListener('mouseleave', onLeave, { passive: true })
+    return () => { element.removeEventListener('mousemove', onMove); element.removeEventListener('mouseleave', onLeave) }
+  },
+
+  dynamicShadow: (element: HTMLElement, intensity = 0.4) => {
+    if (isMobile()) return
+    const onMove = (e: MouseEvent) => {
+      const rect = element.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2
+      gsap.to(element, {
+        boxShadow: `${x * 20 * intensity}px ${y * 20 * intensity}px ${30 * intensity}px rgba(0,0,0,${0.3 * intensity})`,
+        duration: 0.3, ease: 'power2.out', ...GP,
+      })
+    }
+    const onLeave = () => {
+      gsap.to(element, { boxShadow: '0 0 0px rgba(0,0,0,0)', duration: 0.5, ease: 'power2.out', ...GP })
+    }
+    element.addEventListener('mousemove', onMove, { passive: true })
+    element.addEventListener('mouseleave', onLeave, { passive: true })
+    return () => { element.removeEventListener('mousemove', onMove); element.removeEventListener('mouseleave', onLeave) }
+  },
+
+  elevationHover: (element: HTMLElement, lift = -8) => {
+    if (isMobile()) return
+    const onEnter = () => {
+      gsap.to(element, { y: lift, duration: 0.4, ease: 'power3.out', ...GP })
+    }
+    const onLeave = () => {
+      gsap.to(element, { y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)', ...GP })
+    }
+    element.addEventListener('mouseenter', onEnter, { passive: true })
+    element.addEventListener('mouseleave', onLeave, { passive: true })
+    return () => { element.removeEventListener('mouseenter', onEnter); element.removeEventListener('mouseleave', onLeave) }
+  },
+
+  outlineNumberScroll: (element: string | Element) => {
+    if (isMobile()) return
+    gsap.to(element, {
+      yPercent: -20, opacity: 0.3, filter: 'blur(2px)',
+      ease: 'none',
+      scrollTrigger: { trigger: element, start: 'top 80%', end: 'top 20%', scrub: 1.5, ...ST_DEFAULTS },
+    })
+  },
+
+  navbarScrollEffect: (navEl: HTMLElement, onScrolled: (scrolled: boolean) => void) => {
+    let lastScroll = 0
+    let isHidden = false
+
+    const handleScroll = () => {
+      const currentScroll = window.scrollY
+      const isScrolled = currentScroll > 50
+      onScrolled(isScrolled)
+
+      if (isScrolled) {
+        if (currentScroll > lastScroll && currentScroll > 200) {
+          if (!isHidden) {
+            isHidden = true
+            gsap.to(navEl, { yPercent: -100, duration: 0.4, ease: 'power3.in', ...GP })
+          }
+        } else {
+          if (isHidden) {
+            isHidden = false
+            gsap.to(navEl, { yPercent: 0, duration: 0.5, ease: 'power4.out', ...GP })
+          }
+        }
+      } else {
+        if (isHidden) {
+          isHidden = false
+          gsap.to(navEl, { yPercent: 0, duration: 0.4, ease: 'power3.out', ...GP })
+        }
+      }
+      lastScroll = currentScroll
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  },
+
+  sectionFlowTransition: (element: string | Element) => {
+    if (isMobile()) return
+    gsap.fromTo(element, { opacity: 0, y: 40, scale: 0.98 }, {
+      opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out',
+      scrollTrigger: { trigger: element, start: 'top 75%', toggleActions: 'play none none', ...ST_DEFAULTS },
+      ...GP,
+    })
+  },
+
+  footerCinematicExit: (element: string | Element) => {
+    if (isMobile()) return
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: element, start: 'top 85%', toggleActions: 'play none none', ...ST_DEFAULTS },
+      defaults: { ease: 'power4.out', ...GP },
+    })
+    tl.fromTo(element, { opacity: 0, y: 80, scale: 0.95, filter: 'blur(10px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.5 })
+    return tl
+  },
+
+  blobAmbientLight: (element: string | Element) => {
+    if (prefersReducedMotion() || isMobile()) return
+    gsap.to(element, {
+      scale: 1.3, opacity: 0.15, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1,
+    })
+    gsap.to(element, {
+      x: 30, y: -20, duration: 7, ease: 'sine.inOut', yoyo: true, repeat: -1,
+    })
+  },
+
+  staggerScaleRotateReveal: (elements: string | NodeList, stagger = 0.08, delay = 0) => {
+    gsap.fromTo(elements, { opacity: 0, scale: 0.85, rotation: -3, filter: 'blur(4px)' }, {
+      opacity: 1, scale: 1, rotation: 0, filter: 'blur(0px)', duration: 1, stagger, delay, ease: 'power4.out', ...GP,
+    })
+  },
+
+  continuousParallaxLayer: (element: string | Element, speedY = 0.15, speedX = 0) => {
+    if (isMobile()) return
+    gsap.to(element, {
+      yPercent: -50 * speedY, xPercent: -50 * speedX, ease: 'none',
+      scrollTrigger: { trigger: element, start: 'top bottom', end: 'bottom top', scrub: 2, ...ST_DEFAULTS },
+      ...GP,
+    })
   },
 }
 

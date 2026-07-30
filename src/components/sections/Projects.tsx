@@ -228,6 +228,16 @@ export default function Projects() {
             yPercent: -5, ease: 'none',
             scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: 1.5 },
           })
+          animations.scrollZoomImage(img, 1.15, 1)
+        }
+      }
+    })
+    gsap.utils.toArray('.project-thumb').forEach((t) => {
+      if (t instanceof HTMLElement) {
+        const img = t.querySelector('img')
+        if (img) {
+          animations.magneticHoverPremium(t, 0.15)
+          animations.dynamicShadow(t, 0.3)
         }
       }
     })
@@ -305,9 +315,10 @@ export default function Projects() {
 
           <div className="flex flex-wrap gap-3">
             {styles.map((style) => (
-              <button
+                  <button
                 key={style}
                 onClick={() => setActiveStyle(style)}
+                data-cursor-hover
                 className={`projects-filter-btn px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 border ${
                   activeStyle === style
                     ? 'border-amber-500/60 bg-amber-500/10 text-[#F5F5F5]'
@@ -324,7 +335,7 @@ export default function Projects() {
           {groups.map(([style, items]) => (
             <div
               key={style}
-              className="category-card bg-white/[0.02] border border-white/5 p-6 rounded-sm transition-all duration-500 hover:border-amber-500/30 hover:bg-white/[0.04]"
+              className="category-card bg-white/[0.02] border border-white/5 p-6 rounded-sm transition-all duration-500 hover:border-amber-500/30 hover:bg-white/[0.04] will-change-transform"
             >
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                 <div>
@@ -349,7 +360,7 @@ export default function Projects() {
                     onClick={() => openModal(project)}
                     className="cursor-pointer group/project"
                   >
-                    <div className="aspect-[4/3] min-h-[120px] bg-neutral-900 overflow-hidden rounded-sm relative">
+                    <div className="project-thumb aspect-[4/3] min-h-[120px] bg-neutral-900 overflow-hidden rounded-sm relative will-change-transform">
                       <Image
                         src={project.mainImage}
                         alt={project.title}
@@ -358,6 +369,7 @@ export default function Projects() {
                         className="object-cover transition-transform duration-500 group-hover/project:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/5 opacity-0 group-hover/project:opacity-100 transition-opacity duration-700 pointer-events-none" />
                       <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-1 group-hover/project:translate-y-0 transition-transform duration-300">
                         <h4 className="text-sm text-white font-medium truncate">{project.title}</h4>
                         <p className="text-[11px] text-white/50 truncate">{project.location}</p>
@@ -390,7 +402,7 @@ export default function Projects() {
             className="modal-content bg-[#0D0D0D] border border-white/10 max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-sm p-6 md:p-8 relative text-[#F5F5F5]"
             onClick={(e) => e.stopPropagation()}
           >
-            <button onClick={closeModal} className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors z-10">✕</button>
+            <button onClick={closeModal} data-cursor-hover className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors z-10">✕</button>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-7">

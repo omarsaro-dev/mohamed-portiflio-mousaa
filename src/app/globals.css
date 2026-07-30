@@ -33,6 +33,21 @@
     will-change: transform;
   }
 
+  ::selection {
+    background: rgba(251, 191, 36, 0.2);
+    color: #F5F5F5;
+  }
+
+  section {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  .section-transition {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
   @media (max-width: 767px) {
     * {
       -webkit-overflow-scrolling: touch;
@@ -56,5 +71,11 @@
 
   .text-pretty {
     text-wrap: pretty;
+  }
+
+  .text-stroke-amber {
+    -webkit-text-stroke: 1px rgba(251, 191, 36, 0.4);
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 }

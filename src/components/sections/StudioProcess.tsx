@@ -85,7 +85,7 @@ export default function StudioProcess() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {processSteps.map((item) => (
-            <div key={item.step} className="process-step group relative p-6 bg-white/[0.02] border border-white/5 rounded-sm hover:border-amber-500/20 hover:bg-white/[0.04] transition-all duration-500">
+            <div key={item.step} data-cursor-hover className="process-step group relative p-6 bg-white/[0.02] border border-white/5 rounded-sm hover:border-amber-500/20 hover:bg-white/[0.04] transition-all duration-500 will-change-transform">
               <div className="flex items-center gap-4 mb-4">
                 <span className="step-icon text-amber-400/80 text-2xl transition-all duration-300">{item.icon}</span>
                 <span className="step-number text-amber-400/60 font-mono text-xs tracking-widest">{item.step}</span>

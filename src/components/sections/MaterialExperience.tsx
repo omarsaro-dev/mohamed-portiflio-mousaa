@@ -82,6 +82,7 @@ export default function MaterialExperience() {
         .fromTo('.material-preview', { opacity: 0, scale: 0.9, rotation: -2 }, { opacity: 1, scale: 1, rotation: 0, duration: 1.2 }, '-=0.8')
 
       animations.parallax('.material-preview img', 0.25)
+      animations.scrollZoomImage('.material-preview img', 1.12, 1)
     }, containerRef)
 
     return () => ctx.revert()
@@ -142,9 +143,10 @@ export default function MaterialExperience() {
           <div className="lg:col-span-5 flex flex-col justify-center">
             <div className="flex flex-col gap-3 mb-8">
               {materials.map((material) => (
-                <button
+                  <button
                   key={material.name}
                   onClick={() => handleMaterialChange(material)}
+                  data-cursor-hover
                   className={`material-btn text-left p-4 rounded-sm border transition-all duration-300 ${
                     activeMaterial.name === material.name
                       ? 'border-amber-500/60 bg-amber-500/10 text-white pl-6 shadow-lg shadow-amber-950/20'

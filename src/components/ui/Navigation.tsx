@@ -4,23 +4,51 @@ import { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Logo from './Logo'
 import { siteConfig } from '@/config/site'
+import { animations } from '@/lib/animations'
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const linksRef = useRef<(HTMLAnchorElement)[]>([])
+  const lastScrollRef = useRef(0)
+  const isHiddenRef = useRef(false)
 
   useEffect(() => {
+    const nav = navRef.current
+    if (!nav) return
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      const currentScroll = window.scrollY
+      const isScrolled = currentScroll > 50
+      setScrolled(isScrolled)
+
+      if (isScrolled && currentScroll > 200) {
+        if (currentScroll > lastScrollRef.current) {
+          if (!isHiddenRef.current) {
+            isHiddenRef.current = true
+            gsap.to(nav, { yPercent: -110, duration: 0.5, ease: 'power3.in', force3D: true })
+          }
+        } else {
+          if (isHiddenRef.current) {
+            isHiddenRef.current = false
+            gsap.to(nav, { yPercent: 0, duration: 0.6, ease: 'power4.out', force3D: true })
+          }
+        }
+      } else if (isHiddenRef.current) {
+        isHiddenRef.current = false
+        gsap.to(nav, { yPercent: 0, duration: 0.5, ease: 'power3.out', force3D: true })
+      }
+
+      lastScrollRef.current = currentScroll
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.nav-link', { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.2 })
+      gsap.fromTo('.nav-link', { opacity: 0, y: -15, filter: 'blur(4px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, stagger: 0.08, ease: 'power3.out', delay: 0.2 })
     }, navRef)
     return () => ctx.revert()
   }, [])
@@ -47,7 +75,7 @@ export default function Navigation() {
   ]
 
   return (
-    <nav ref={navRef} className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'}`}>
+    <nav ref={navRef} className={`fixed top-0 left-0 right-0 z-40 will-change-transform ${scrolled ? 'bg-black/70 backdrop-blur-xl py-4 border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)]' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Logo />
         
@@ -72,7 +100,8 @@ export default function Navigation() {
             href={siteConfig.links.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="nav-link flex items-center gap-2 px-4 py-2 bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono rounded-xs hover:bg-emerald-600 hover:text-white transition-all"
+            data-cursor-hover
+            className="nav-link flex items-center gap-2 px-4 py-2 bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono rounded-xs hover:bg-emerald-600 hover:text-white transition-all duration-300"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
             <span className="hidden sm:inline">WhatsApp</span>
