@@ -312,41 +312,6 @@ export const animations = {
     })
   },
 
-  magneticHoverPremium: (element: HTMLElement, strength = 0.15) => {
-    if (!hasDOM() || isMobile()) return () => {}
-    const handleMove = (e: MouseEvent) => {
-      const rect = element.getBoundingClientRect()
-      const x = (e.clientX - rect.left - rect.width / 2) * strength
-      const y = (e.clientY - rect.top - rect.height / 2) * strength
-      gsap.to(element, { x, y, duration: 0.4, ease: 'power2.out', ...GP })
-    }
-    const handleLeave = () => {
-      gsap.to(element, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)', ...GP })
-    }
-    element.addEventListener('mousemove', handleMove, { passive: true })
-    element.addEventListener('mouseleave', handleLeave, { passive: true })
-    return () => { element.removeEventListener('mousemove', handleMove); element.removeEventListener('mouseleave', handleLeave) }
-  },
-
-  dynamicShadow: (element: HTMLElement, intensity = 20) => {
-    if (!hasDOM() || isMobile()) return () => {}
-    const handleMove = (e: MouseEvent) => {
-      const rect = element.getBoundingClientRect()
-      const x = (e.clientX - rect.left - rect.width / 2) / rect.width
-      const y = (e.clientY - rect.top - rect.height / 2) / rect.height
-      gsap.to(element, {
-        boxShadow: `${x * intensity}px ${y * intensity}px ${intensity}px rgba(0,0,0,0.3)`,
-        duration: 0.3, ease: 'power2.out',
-      })
-    }
-    const handleLeave = () => {
-      gsap.to(element, { boxShadow: '0px 0px 0px rgba(0,0,0,0)', duration: 0.3, ease: 'power2.out' })
-    }
-    element.addEventListener('mousemove', handleMove, { passive: true })
-    element.addEventListener('mouseleave', handleLeave, { passive: true })
-    return () => { element.removeEventListener('mousemove', handleMove); element.removeEventListener('mouseleave', handleLeave) }
-  },
-
   mouseParallax: (element: string | Element, intensity = 0.1) => {
     if (!hasDOM() || isMobile()) return
     const el = $(element)

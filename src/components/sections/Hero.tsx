@@ -107,8 +107,6 @@ function Hero() {
         backgroundSize: '100px 100px',
       }} />
 
-      <div className="absolute inset-0 pointer-events-none grain-overlay" />
-
       <div
         ref={glowRef}
         className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent pointer-events-none rounded-full will-change-transform"
@@ -135,7 +133,7 @@ function Hero() {
         </div>
 
         <div className="hero-avatar mb-8 inline-block">
-          <a href="#founder" data-cursor-hover className="group flex items-center gap-3 border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300">
+          <a href="#founder" className="group flex items-center gap-3 border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300">
             <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative shrink-0">
               <Image
                 src="/images/mohamed-moussa.jpg"
@@ -173,7 +171,6 @@ function Hero() {
         <div className="mt-12 flex items-center justify-center gap-4 flex-wrap">
           <a
             href="#projects"
-            data-cursor-hover
             className="hero-cta relative overflow-hidden group px-8 py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase rounded-xs hover:scale-105 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300"
           >
             <span className="relative z-10">Explore Selected Works</span>
@@ -181,7 +178,6 @@ function Hero() {
           </a>
           <a
             href="#founder"
-            data-cursor-hover
             className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs hover:border-amber-500/60 hover:bg-white/[0.06] transition-all duration-300"
           >
             <span className="relative z-10">The Founder</span>

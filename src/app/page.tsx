@@ -14,7 +14,6 @@ const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: fa
 const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { ssr: false })
 const Projects = dynamic(() => import('@/components/sections/Projects'), { ssr: false })
 const StudioProcess = dynamic(() => import('@/components/sections/StudioProcess'), { ssr: false })
-const MaterialExperience = dynamic(() => import('@/components/sections/MaterialExperience'), { ssr: false })
 const Contact = dynamic(() => import('@/components/sections/Contact'), { ssr: false })
 
 function SectionPlaceholder() {
@@ -64,9 +63,6 @@ export default function Home() {
             text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
             speed={45}
           />
-        </Suspense>
-        <Suspense fallback={<SectionPlaceholder />}>
-          <MaterialExperience />
         </Suspense>
         <Suspense fallback={<SectionPlaceholder />}>
           <AnimatedDivider variant="double" />

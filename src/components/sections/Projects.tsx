@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, memo, useMemo, useCallback } from 'react'
 import { gsap } from 'gsap'
 import Image from 'next/image'
-import { animations } from '@/lib/animations'
 
 export interface ProjectItem {
   id: number
@@ -217,30 +216,6 @@ function Projects() {
     gsap.fromTo('.category-card', { opacity: 0, y: 50, scale: 0.97 }, {
       opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', force3D: true, overwrite: 'auto',
     })
-    gsap.utils.toArray('.category-card').forEach((c) => {
-      if (c instanceof HTMLElement) animations.tilt3d(c, 6)
-    })
-    gsap.utils.toArray('.category-card').forEach((c) => {
-      if (c instanceof HTMLElement) {
-        const img = c.querySelector('img')
-        if (img) {
-          gsap.to(img, {
-            yPercent: -5, ease: 'none',
-            scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: 1.5 },
-          })
-          animations.scrollZoomImage(img, 1.15, 1)
-        }
-      }
-    })
-    gsap.utils.toArray('.project-thumb').forEach((t) => {
-      if (t instanceof HTMLElement) {
-        const img = t.querySelector('img')
-        if (img) {
-          animations.magneticHoverPremium(t, 0.15)
-          animations.dynamicShadow(t, 0.3)
-        }
-      }
-    })
   }, [filteredProjects])
 
   useEffect(() => {
@@ -318,7 +293,6 @@ function Projects() {
                   <button
                 key={style}
                 onClick={() => setActiveStyle(style)}
-                data-cursor-hover
                 className={`projects-filter-btn px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 border ${
                   activeStyle === style
                     ? 'border-amber-500/60 bg-amber-500/10 text-[#F5F5F5]'
@@ -402,7 +376,7 @@ function Projects() {
             className="modal-content bg-[#0D0D0D] border border-white/10 max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-sm p-6 md:p-8 relative text-[#F5F5F5]"
             onClick={(e) => e.stopPropagation()}
           >
-            <button onClick={closeModal} data-cursor-hover className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors z-10">✕</button>
+             <button onClick={closeModal} className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-amber-500 transition-colors z-10">✕</button>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-7">
