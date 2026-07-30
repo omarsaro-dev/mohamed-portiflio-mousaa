@@ -1,17 +1,20 @@
 'use client'
 
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { isMobileDevice } from '@/lib/utils'
 
 export default function Cursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
   const followerRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
 
-  const isMobile = useMemo(() => typeof window !== 'undefined' && isMobileDevice(), [])
+  useEffect(() => { setMounted(true) }, [])
+
+  const isMobile = mounted && isMobileDevice()
 
   useEffect(() => {
-    if (isMobile) return
+    if (!mounted || isMobile) return
 
     const cursor = cursorRef.current
     const follower = followerRef.current
@@ -54,9 +57,9 @@ export default function Cursor() {
       document.body.removeEventListener('mouseenter', handleMouseEnter)
       document.body.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [isMobile])
+  }, [mounted, isMobile])
 
-  if (isMobile) return null
+  if (!mounted || isMobile) return null
 
   return (
     <>
