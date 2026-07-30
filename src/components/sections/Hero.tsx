@@ -9,6 +9,8 @@ import { animations } from '@/lib/animations'
 function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
+  const accentGlowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
@@ -52,6 +54,21 @@ function Hero() {
         }
       }
 
+      if (glowRef.current && accentGlowRef.current) {
+        gsap.to(glowRef.current, {
+          scale: 1.15, opacity: 0.7, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1,
+        })
+        gsap.to(glowRef.current, {
+          x: 30, y: -20, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1,
+        })
+        gsap.to(accentGlowRef.current, {
+          scale: 1.2, opacity: 0.6, duration: 7, ease: 'sine.inOut', yoyo: true, repeat: -1,
+        })
+        gsap.to(accentGlowRef.current, {
+          x: -20, y: 25, duration: 12, ease: 'sine.inOut', yoyo: true, repeat: -1,
+        })
+      }
+
       if (typeof requestIdleCallback !== 'undefined') {
         requestIdleCallback(() => {
           if (!containerRef.current) return
@@ -68,17 +85,28 @@ function Hero() {
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
-      <div className="absolute inset-0 pointer-events-none">
-        <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80"
-          alt=""
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/90" />
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1C1512] via-[#1A1410] to-[#0F0D0A] pointer-events-none" />
+
+      <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.12'%3E%3Cpath d='M50 50v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM50 10V6h-4v4h-4v4h4v4h4v-4h4v-4h-4zM10 50v-4H6v4H2v4h4v4h4v-4h4v-4H10zM10 10V6H6v4H2v4h4v4h4v-4h4v-4H10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        backgroundSize: '80px 80px',
+      }} />
+
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundSize: '200px 200px',
+        mixBlendMode: 'overlay',
+      }} />
+
+      <div
+        ref={glowRef}
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent pointer-events-none rounded-full will-change-transform"
+      />
+
+      <div
+        ref={accentGlowRef}
+        className="absolute top-2/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-amber-400/8 via-amber-400/4 to-transparent pointer-events-none rounded-full will-change-transform"
+      />
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         <div
@@ -118,11 +146,11 @@ function Hero() {
           Luxury Architecture & Interior Design
         </p>
 
-        <h1 className="hero-name font-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl text-white mb-8 leading-none tracking-tight">
+        <h1 className="hero-name font-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl text-white/95 mb-8 leading-none tracking-tight" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.5)' }}>
           Arch. Mohamed Moussa
         </h1>
 
-        <p className="hero-subtitle text-white/60 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
+        <p className="hero-subtitle text-white/75 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
           Creating timeless spaces through architecture, emotion and precision across Egypt and the Middle East.
         </p>
 
