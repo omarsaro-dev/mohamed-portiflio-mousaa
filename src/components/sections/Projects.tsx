@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo, useMemo, useCallback } from 'react'
 import { gsap } from 'gsap'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
@@ -180,24 +180,24 @@ const projects: ProjectItem[] = [
 
 const styles = ['All', 'Classic', 'New Classic', 'Modern', 'Office', 'Landscape', 'Exterior', 'Boho Style']
 
-export default function Projects() {
+function Projects() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeStyle, setActiveStyle] = useState('All')
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const modalRef = useRef<HTMLDivElement>(null)
 
-  const filteredProjects = activeStyle === 'All'
+  const filteredProjects = useMemo(() => activeStyle === 'All'
     ? projects
-    : projects.filter(p => p.style === activeStyle)
+    : projects.filter(p => p.style === activeStyle), [activeStyle])
 
-  const grouped = filteredProjects.reduce((acc, project) => {
+  const grouped = useMemo(() => filteredProjects.reduce((acc, project) => {
     if (!acc[project.style]) acc[project.style] = []
     acc[project.style].push(project)
     return acc
-  }, {} as Record<string, ProjectItem[]>)
+  }, {} as Record<string, ProjectItem[]>), [filteredProjects])
 
-  const groups = Object.entries(grouped)
+  const groups = useMemo(() => Object.entries(grouped), [grouped])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -479,3 +479,5 @@ export default function Projects() {
     </section>
   )
 }
+
+export default memo(Projects)

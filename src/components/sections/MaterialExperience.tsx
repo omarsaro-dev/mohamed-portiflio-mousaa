@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -58,7 +58,7 @@ const materials = [
   }
 ]
 
-export default function MaterialExperience() {
+function MaterialExperience() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeMaterial, setActiveMaterial] = useState(materials[0])
   const imageRef = useRef<HTMLDivElement>(null)
@@ -174,3 +174,5 @@ export default function MaterialExperience() {
     </section>
   )
 }
+
+export default memo(MaterialExperience)

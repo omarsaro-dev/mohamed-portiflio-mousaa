@@ -1,45 +1,50 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
 import Logo from './Logo'
 import { siteConfig } from '@/config/site'
-import { animations } from '@/lib/animations'
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLElement>(null)
-  const linksRef = useRef<(HTMLAnchorElement)[]>([])
   const lastScrollRef = useRef(0)
   const isHiddenRef = useRef(false)
+  const tickingRef = useRef(false)
 
   useEffect(() => {
     const nav = navRef.current
     if (!nav) return
 
     const handleScroll = () => {
-      const currentScroll = window.scrollY
-      const isScrolled = currentScroll > 50
-      setScrolled(isScrolled)
+      if (!tickingRef.current) {
+        requestAnimationFrame(() => {
+          const currentScroll = window.scrollY
+          const isScrolled = currentScroll > 50
+          setScrolled(isScrolled)
 
-      if (isScrolled && currentScroll > 200) {
-        if (currentScroll > lastScrollRef.current) {
-          if (!isHiddenRef.current) {
-            isHiddenRef.current = true
-            gsap.to(nav, { yPercent: -110, duration: 0.5, ease: 'power3.in', force3D: true })
-          }
-        } else {
-          if (isHiddenRef.current) {
+          if (isScrolled && currentScroll > 200) {
+            if (currentScroll > lastScrollRef.current) {
+              if (!isHiddenRef.current) {
+                isHiddenRef.current = true
+                gsap.to(nav, { yPercent: -110, duration: 0.5, ease: 'power3.in', force3D: true })
+              }
+            } else {
+              if (isHiddenRef.current) {
+                isHiddenRef.current = false
+                gsap.to(nav, { yPercent: 0, duration: 0.6, ease: 'power4.out', force3D: true })
+              }
+            }
+          } else if (isHiddenRef.current) {
             isHiddenRef.current = false
-            gsap.to(nav, { yPercent: 0, duration: 0.6, ease: 'power4.out', force3D: true })
+            gsap.to(nav, { yPercent: 0, duration: 0.5, ease: 'power3.out', force3D: true })
           }
-        }
-      } else if (isHiddenRef.current) {
-        isHiddenRef.current = false
-        gsap.to(nav, { yPercent: 0, duration: 0.5, ease: 'power3.out', force3D: true })
-      }
 
-      lastScrollRef.current = currentScroll
+          lastScrollRef.current = currentScroll
+          tickingRef.current = false
+        })
+        tickingRef.current = true
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -53,19 +58,19 @@ export default function Navigation() {
     return () => ctx.revert()
   }, [])
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     const link = e.currentTarget
     gsap.to(link, { color: '#F5F5F5', duration: 0.3, ease: 'power2.out' })
     const underline = link.querySelector('.nav-underline')
     if (underline) gsap.to(underline, { scaleX: 1, duration: 0.4, ease: 'power3.out' })
-  }
+  }, [])
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     const link = e.currentTarget
     gsap.to(link, { color: 'rgba(255,255,255,0.6)', duration: 0.3, ease: 'power2.out' })
     const underline = link.querySelector('.nav-underline')
     if (underline) gsap.to(underline, { scaleX: 0, duration: 0.4, ease: 'power3.out' })
-  }
+  }, [])
 
   const links = [
     { href: '#founder', label: 'FOUNDER' },
@@ -81,10 +86,9 @@ export default function Navigation() {
         
         <div className="flex items-center gap-8">
           <div className="hidden md:flex gap-8 text-xs tracking-widest text-white/60 font-mono">
-            {links.map((link, i) => (
+            {links.map((link) => (
               <a
                 key={link.href}
-                ref={(el) => { if (el) linksRef.current[i] = el }}
                 href={link.href}
                 className="nav-link relative"
                 onMouseEnter={handleMouseEnter}

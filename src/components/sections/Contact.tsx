@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { animations } from '@/lib/animations'
 import { siteConfig } from '@/config/site'
 
-export default function Contact() {
+function Contact() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [formState, setFormState] = useState({
     name: '',
@@ -272,3 +272,5 @@ export default function Contact() {
     </section>
   )
 }
+
+export default memo(Contact)

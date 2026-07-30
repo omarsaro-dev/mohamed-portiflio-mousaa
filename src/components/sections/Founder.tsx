@@ -1,13 +1,13 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
 import { siteConfig } from '@/config/site'
 
-export default function Founder() {
+function Founder() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -182,3 +182,5 @@ export default function Founder() {
     </section>
   )
 }
+
+export default memo(Founder)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
 
 interface MarqueeStripProps {
@@ -10,7 +10,7 @@ interface MarqueeStripProps {
   className?: string
 }
 
-export default function MarqueeStrip({
+function MarqueeStrip({
   text = 'LUXURY ARCHITECTURE • INTERIOR DESIGN • SPATIAL EXPERIENCE •',
   speed = 40,
   direction = 'left',
@@ -63,3 +63,5 @@ export default function MarqueeStrip({
     </div>
   )
 }
+
+export default memo(MarqueeStrip)

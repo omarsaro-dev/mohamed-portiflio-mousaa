@@ -39,13 +39,11 @@
   }
 
   section {
-    will-change: transform, opacity;
-    backface-visibility: hidden;
+    contain: layout style paint;
   }
 
   .section-transition {
-    will-change: transform;
-    transform: translateZ(0);
+    contain: layout style paint;
   }
 
   img {
@@ -64,6 +62,18 @@
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
       background-color: rgba(8, 8, 8, 0.96) !important;
+    }
+
+    section {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 500px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .below-fold {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 1000px;
     }
   }
 }

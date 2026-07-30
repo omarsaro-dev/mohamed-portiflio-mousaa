@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
 
-export default function Logo() {
+function Logo() {
   const logoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -33,3 +33,5 @@ export default function Logo() {
     </div>
   )
 }
+
+export default memo(Logo)

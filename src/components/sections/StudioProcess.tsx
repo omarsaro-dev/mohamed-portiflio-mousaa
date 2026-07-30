@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { animations } from '@/lib/animations'
@@ -14,7 +14,7 @@ const processSteps = [
   { step: '06', title: 'Reveal', description: 'Final delivery and project completion', icon: '✦' },
 ]
 
-export default function StudioProcess() {
+function StudioProcess() {
   const containerRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
 
@@ -99,3 +99,5 @@ export default function StudioProcess() {
     </section>
   )
 }
+
+export default memo(StudioProcess)

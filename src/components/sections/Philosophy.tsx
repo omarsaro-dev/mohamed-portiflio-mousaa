@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { animations } from '@/lib/animations'
 
-export default function Philosophy() {
+function Philosophy() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -89,3 +89,5 @@ export default function Philosophy() {
     </section>
   )
 }
+
+export default memo(Philosophy)

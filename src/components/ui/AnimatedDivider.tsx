@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -9,7 +9,7 @@ interface AnimatedDividerProps {
   className?: string
 }
 
-export default function AnimatedDivider({ variant = 'line', className = '' }: AnimatedDividerProps) {
+function AnimatedDivider({ variant = 'line', className = '' }: AnimatedDividerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
 
@@ -76,3 +76,5 @@ export default function AnimatedDivider({ variant = 'line', className = '' }: An
     </div>
   )
 }
+
+export default memo(AnimatedDivider)

@@ -1,15 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { animations } from '@/lib/animations'
 
-export default function Hero() {
+function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
-  const ambientRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
@@ -46,20 +45,10 @@ export default function Hero() {
           if (!containerRef.current) return
           const idleCtx = gsap.context(() => {
             animations.mouseParallax('.hero-avatar', 0.12)
-            animations.float('.hero-avatar', 6, 4, 3)
 
             if (bgRef.current) {
-              gsap.to(bgRef.current, {
-                scale: 1.3, opacity: 0.1, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1,
-              })
-              gsap.to(bgRef.current, {
-                x: 40, y: -30, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1,
-              })
-            }
-            if (ambientRef.current) {
-              gsap.to(ambientRef.current, {
-                opacity: 0.06, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1,
-              })
+              gsap.to(bgRef.current, { scale: 1.3, opacity: 0.1, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 })
+              gsap.to(bgRef.current, { x: 40, y: -30, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1 })
             }
           }, containerRef)
           return () => idleCtx.revert()
@@ -75,10 +64,6 @@ export default function Hero() {
       <div
         ref={bgRef}
         className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent blur-[200px] pointer-events-none rounded-full"
-      />
-      <div
-        ref={ambientRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-gradient-radial from-amber-400/5 via-transparent to-transparent blur-[120px] pointer-events-none rounded-full"
       />
 
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
@@ -150,3 +135,5 @@ export default function Hero() {
     </section>
   )
 }
+
+export default memo(Hero)

@@ -38,8 +38,8 @@ export default function MagneticButton({ children, className, onClick }: Magneti
       })
     }
 
-    button.addEventListener('mousemove', handleMouseMove)
-    button.addEventListener('mouseleave', handleMouseLeave)
+    button.addEventListener('mousemove', handleMouseMove, { passive: true })
+    button.addEventListener('mouseleave', handleMouseLeave, { passive: true })
 
     return () => {
       button.removeEventListener('mousemove', handleMouseMove)
