@@ -208,7 +208,7 @@ function Projects() {
         opacity: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out', delay: 0.3, force3D: true,
         scrollTrigger: { trigger: '.projects-filter-btn', start: 'top 75%', toggleActions: 'play none none reverse', fastScrollEnd: true, preventOverlaps: true },
       })
-    }, containerRef)
+    }, containerRef.current)
     return () => ctx.revert()
   }, [])
 

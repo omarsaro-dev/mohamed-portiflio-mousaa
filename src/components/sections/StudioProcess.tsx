@@ -66,7 +66,7 @@ function StudioProcess() {
           })
         }
       })
-    }, containerRef)
+    }, containerRef.current)
 
     return () => ctx.revert()
   }, [])

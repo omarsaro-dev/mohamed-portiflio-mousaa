@@ -50,7 +50,7 @@ function Contact() {
           gsap.to(el, { borderColor: 'rgba(255, 255, 255, 0.1)', boxShadow: 'none', duration: 0.3, ease: 'power2.out', force3D: true })
         })
       })
-    }, containerRef)
+    }, containerRef.current)
 
     return () => ctx.revert()
   }, [])

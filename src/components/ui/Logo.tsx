@@ -20,7 +20,7 @@ function Logo() {
           delay: 0.1,
         }
       )
-    }, logoRef)
+    }, logoRef.current)
 
     return () => ctx.revert()
   }, [])

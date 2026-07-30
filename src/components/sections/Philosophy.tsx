@@ -33,7 +33,7 @@ function Philosophy() {
           animations.outlineNumberScroll(num)
         }
       })
-    }, containerRef)
+    }, containerRef.current)
 
     return () => ctx.revert()
   }, [])

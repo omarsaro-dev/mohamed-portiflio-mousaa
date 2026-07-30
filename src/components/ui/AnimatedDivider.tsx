@@ -31,7 +31,7 @@ function AnimatedDivider({ variant = 'line', className = '' }: AnimatedDividerPr
           }
         )
       }
-    }, containerRef)
+    }, containerRef.current)
 
     return () => ctx.revert()
   }, [])
