@@ -191,6 +191,14 @@ export default function Projects() {
     ? projects
     : projects.filter(p => p.style === activeStyle)
 
+  const grouped = filteredProjects.reduce((acc, project) => {
+    if (!acc[project.style]) acc[project.style] = []
+    acc[project.style].push(project)
+    return acc
+  }, {} as Record<string, ProjectItem[]>)
+
+  const groups = Object.entries(grouped)
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.projects-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, {
@@ -206,14 +214,13 @@ export default function Projects() {
   }, [])
 
   useEffect(() => {
-    gsap.fromTo('.project-card', { opacity: 0, y: 50, scale: 0.97, filter: 'blur(4px)' }, {
+    gsap.fromTo('.category-card', { opacity: 0, y: 50, scale: 0.97, filter: 'blur(4px)' }, {
       opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, ease: 'power3.out', force3D: true, overwrite: 'auto',
     })
-    gsap.utils.toArray('.project-card').forEach((c) => {
+    gsap.utils.toArray('.category-card').forEach((c) => {
       if (c instanceof HTMLElement) animations.tilt3d(c, 6)
     })
-
-    gsap.utils.toArray('.project-card').forEach((c) => {
+    gsap.utils.toArray('.category-card').forEach((c) => {
       if (c instanceof HTMLElement) {
         const img = c.querySelector('img')
         if (img) {
@@ -280,6 +287,8 @@ export default function Projects() {
     })
   }, [selectedProject])
 
+  const singleGroup = groups.length === 1
+
   return (
     <section id="projects" ref={containerRef} className="py-32 bg-[#080808]">
       <div className="max-w-7xl mx-auto px-6">
@@ -311,45 +320,59 @@ export default function Projects() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {filteredProjects.map((project) => (
+        <div className={`grid gap-10 ${singleGroup ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
+          {groups.map(([style, items]) => (
             <div
-              key={project.id}
-              onClick={() => openModal(project)}
-              className="project-card group cursor-pointer bg-white/[0.02] border border-white/5 p-4 rounded-sm transition-all duration-500 hover:border-amber-500/30 hover:bg-white/[0.04]"
+              key={style}
+              className="category-card bg-white/[0.02] border border-white/5 p-6 rounded-sm transition-all duration-500 hover:border-amber-500/30 hover:bg-white/[0.04]"
             >
-              <div className="aspect-[4/3] min-h-[240px] bg-neutral-900 overflow-hidden mb-6 relative rounded-sm">
-                <Image
-                  src={project.mainImage}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[10px] tracking-widest text-amber-300 uppercase border border-amber-500/30">
-                    {project.style}
-                  </span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                  <span className="text-xs text-white/80 tracking-widest uppercase bg-black/70 px-3 py-1.5 backdrop-blur-md border border-white/10">
-                    View Project Gallery →
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-start mb-3">
+              <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                 <div>
-                  <h3 className="font-serif text-2xl text-[#F5F5F5] group-hover:text-amber-200 transition-colors">{project.title}</h3>
-                  <p className="text-white/40 text-sm mt-1">{project.location}</p>
+                  <h3 className="font-serif text-2xl text-[#F5F5F5]">{style}</h3>
+                  <p className="text-white/40 text-xs mt-1 font-mono tracking-wider">
+                    {items.length} project{items.length !== 1 ? 's' : ''}
+                  </p>
                 </div>
-                <span className="text-amber-500/70 font-mono text-sm">{project.year}</span>
+                <span className="px-3 py-1 bg-amber-500/10 text-[10px] tracking-widest text-amber-300 uppercase border border-amber-500/20 rounded-xs flex-shrink-0 ml-4">
+                  {style}
+                </span>
               </div>
 
-              <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/5">
-                {project.materials.map((mat) => (
-                  <span key={mat} className="text-[11px] text-white/50 bg-white/5 px-2.5 py-1 rounded-xs">{mat}</span>
+              <div className={`grid gap-3 ${
+                items.length === 1
+                  ? 'grid-cols-1'
+                  : 'grid-cols-2'
+              }`}>
+                {items.map((project) => (
+                  <div
+                    key={project.id}
+                    onClick={() => openModal(project)}
+                    className="cursor-pointer group/project"
+                  >
+                    <div className="aspect-[4/3] min-h-[120px] bg-neutral-900 overflow-hidden rounded-sm relative">
+                      <Image
+                        src={project.mainImage}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-500 group-hover/project:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-1 group-hover/project:translate-y-0 transition-transform duration-300">
+                        <h4 className="text-sm text-white font-medium truncate">{project.title}</h4>
+                        <p className="text-[11px] text-white/50 truncate">{project.location}</p>
+                        <p className="text-amber-400/70 text-[10px] font-mono mt-0.5">{project.year}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {project.materials.slice(0, 2).map((mat) => (
+                        <span key={mat} className="text-[10px] text-white/40 bg-white/5 px-1.5 py-0.5 rounded-xs truncate">{mat}</span>
+                      ))}
+                      {project.materials.length > 2 && (
+                        <span className="text-[10px] text-white/30">+{project.materials.length - 2}</span>
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
