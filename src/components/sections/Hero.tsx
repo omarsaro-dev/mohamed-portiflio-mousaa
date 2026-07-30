@@ -71,11 +71,11 @@ function Hero() {
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
       <div
         ref={bgRef}
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/10 via-amber-500/5 to-transparent blur-[30px] pointer-events-none rounded-full"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/6 via-amber-500/3 to-transparent blur-[20px] pointer-events-none rounded-full"
       />
 
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(251, 191, 36, 0.2) 1px, transparent 0)`,
+      <div className="absolute inset-0 opacity-[0.012] pointer-events-none" style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(251, 191, 36, 0.12) 1px, transparent 0)`,
         backgroundSize: '40px 40px',
       }} />
 
@@ -84,13 +84,13 @@ function Hero() {
           ref={introRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
         >
-          <span className="font-serif text-xl md:text-2xl tracking-[0.2em] text-amber-400/95">
+          <span className="font-serif text-xl md:text-2xl tracking-[0.2em] text-amber-400">
             Arch. Mohamed Moussa
           </span>
         </div>
 
         <div className="hero-avatar mb-8 inline-block">
-          <a href="#founder" data-cursor-hover className="group flex items-center gap-3 bg-white/[0.02] border border-white/5 hover:border-amber-500/40 px-4 py-2 rounded-full transition-all duration-300">
+          <a href="#founder" data-cursor-hover className="group flex items-center gap-3 border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300">
             <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative shrink-0">
               <Image
                 src="/images/mohamed-moussa.jpg"
@@ -104,16 +104,16 @@ function Hero() {
             </div>
             <div className="text-left pr-2">
               <p className="text-[11px] text-white font-serif tracking-wide">Arch. Mohamed Moussa</p>
-              <p className="text-[9px] text-amber-400/80 font-mono tracking-widest uppercase">Founder & Creative Director</p>
+              <p className="text-[9px] text-amber-400 font-mono tracking-widest uppercase">Founder & Creative Director</p>
             </div>
           </a>
         </div>
 
-        <div className="hero-logo font-serif text-xl md:text-2xl tracking-[0.15em] text-white/90 mb-6 whitespace-nowrap">
+        <div className="hero-logo font-serif text-xl md:text-2xl tracking-[0.15em] text-white mb-6 whitespace-nowrap">
           Arch. Mohamed Moussa
         </div>
 
-        <p className="hero-tagline text-amber-500/80 tracking-[0.3em] text-xs md:text-sm mb-6 uppercase font-mono">
+        <p className="hero-tagline text-amber-500 tracking-[0.3em] text-xs md:text-sm mb-6 uppercase font-mono">
           Luxury Architecture & Interior Design
         </p>
 
@@ -137,7 +137,7 @@ function Hero() {
           <a
             href="#founder"
             data-cursor-hover
-            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 bg-white/[0.03] text-white/90 font-medium text-xs tracking-widest uppercase rounded-xs"
+            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs"
           >
             <span className="relative z-10">The Founder</span>
             <span className="absolute inset-0 bg-white/8 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
