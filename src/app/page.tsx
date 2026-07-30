@@ -2,7 +2,6 @@
 
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import { useLenis } from '@/lib/lenis'
 import Navigation from '@/components/ui/Navigation'
 import Hero from '@/components/sections/Hero'
 import LoadingScreen from '@/components/ui/LoadingScreen'
@@ -21,8 +20,6 @@ function SectionPlaceholder() {
 }
 
 export default function Home() {
-  useLenis()
-
   return (
     <>
       <LoadingScreen />

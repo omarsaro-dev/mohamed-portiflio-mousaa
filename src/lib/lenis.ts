@@ -2,8 +2,6 @@
 
 import { useEffect } from 'react'
 import Lenis from '@studio-freight/lenis'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export function useLenis() {
   useEffect(() => {
@@ -19,8 +17,6 @@ export function useLenis() {
       touchMultiplier: 0.8,
       infinite: false,
     })
-
-    lenis.on('scroll', ScrollTrigger.update)
 
     let rafId: number
     function raf(time: number) {
