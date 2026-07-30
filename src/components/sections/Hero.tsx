@@ -8,7 +8,6 @@ import { animations } from '@/lib/animations'
 
 function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const bgRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -18,7 +17,12 @@ function Hero() {
       if (isMobile) {
         gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta, .hero-intro-name', { opacity: 1, y: 0, scale: 1, skewX: 0, rotateX: 0 })
       } else {
-        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 0 })
+        gsap.set('.hero-avatar', { opacity: 0, y: 40 })
+        gsap.set('.hero-logo', { opacity: 0, y: 30 })
+        gsap.set('.hero-tagline', { opacity: 0, y: 25, x: -20, skewX: 3 })
+        gsap.set('.hero-name', { opacity: 0 })
+        gsap.set('.hero-subtitle', { opacity: 0, y: 20 })
+        gsap.set('.hero-cta', { opacity: 0, y: 15 })
 
         gsap.set(introRef.current, { opacity: 0, y: 15 })
 
@@ -31,7 +35,7 @@ function Hero() {
 
         tl.to('.hero-avatar', { opacity: 1, y: 0, scale: 1, duration: 1.4 }, 0.4)
           .to('.hero-logo', { opacity: 1, y: 0, scale: 1, duration: 1.6 }, 0.6)
-          .to('.hero-tagline', { opacity: 1, x: 0, skewX: 0, duration: 1.2 }, 0.9)
+          .to('.hero-tagline', { opacity: 1, x: 0, y: 0, skewX: 0, duration: 1.2 }, 0.9)
           .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1.2 }, 1.8)
           .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }, 2.2)
 
@@ -53,11 +57,6 @@ function Hero() {
           if (!containerRef.current) return
           const idleCtx = gsap.context(() => {
             animations.mouseParallax('.hero-avatar', 0.12)
-
-            if (bgRef.current) {
-              gsap.to(bgRef.current, { scale: 1.3, opacity: 0.1, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 })
-              gsap.to(bgRef.current, { x: 40, y: -30, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1 })
-            }
           }, containerRef)
           return () => idleCtx.revert()
         }, { timeout: 2000 })
@@ -69,15 +68,17 @@ function Hero() {
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
-      <div
-        ref={bgRef}
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/6 via-amber-500/3 to-transparent pointer-events-none rounded-full"
-      />
-
-      <div className="absolute inset-0 opacity-[0.012] pointer-events-none" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(251, 191, 36, 0.12) 1px, transparent 0)`,
-        backgroundSize: '40px 40px',
-      }} />
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80"
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/90" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         <div
@@ -113,7 +114,7 @@ function Hero() {
           Arch. Mohamed Moussa
         </div>
 
-        <p className="hero-tagline text-amber-500 tracking-[0.3em] text-xs md:text-sm mb-6 uppercase font-mono">
+        <p className="hero-tagline bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent tracking-[0.35em] text-xs md:text-sm mb-6 uppercase font-mono">
           Luxury Architecture & Interior Design
         </p>
 
@@ -129,7 +130,7 @@ function Hero() {
           <a
             href="#projects"
             data-cursor-hover
-            className="hero-cta relative overflow-hidden group px-8 py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase rounded-xs"
+            className="hero-cta relative overflow-hidden group px-8 py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase rounded-xs hover:scale-105 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300"
           >
             <span className="relative z-10">Explore Selected Works</span>
             <span className="absolute inset-0 bg-amber-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -137,7 +138,7 @@ function Hero() {
           <a
             href="#founder"
             data-cursor-hover
-            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs"
+            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs hover:border-amber-500/60 hover:bg-white/[0.06] transition-all duration-300"
           >
             <span className="relative z-10">The Founder</span>
             <span className="absolute inset-0 bg-white/8 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
