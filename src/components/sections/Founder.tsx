@@ -35,12 +35,10 @@ function Founder() {
         opacity: 0,
         scale: 0.8,
         rotation: -5,
-        filter: 'blur(10px)',
       }, {
         opacity: 1,
         scale: 1,
         rotation: 0,
-        filter: 'blur(0px)',
         duration: 1.5,
         ease: 'power4.out',
         force3D: true,
@@ -70,8 +68,8 @@ function Founder() {
 
   return (
     <section id="founder" ref={containerRef} className="relative min-h-screen py-32 bg-[#060606] overflow-hidden border-b border-white/5">
-      <div className="hidden md:block absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-500/5 blur-[140px] pointer-events-none rounded-full" />
-      <div className="hidden md:block absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-emerald-500/5 blur-[140px] pointer-events-none rounded-full" />
+      <div className="hidden md:block absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-500/5 pointer-events-none rounded-full" />
+      <div className="hidden md:block absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-emerald-500/5 pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -96,7 +94,7 @@ function Founder() {
               <div className="absolute inset-0 bg-amber-500/5 mix-blend-overlay" />
 
               <div className="absolute top-6 left-6 right-6 flex justify-between items-center">
-                <span className="px-3 py-1 bg-black/70 backdrop-blur-md text-[10px] tracking-[0.2em] text-amber-300 uppercase border border-amber-500/30">
+                <span className="px-3 py-1 bg-black/70 text-[10px] tracking-[0.2em] text-amber-300 uppercase border border-amber-500/30">
                   Principal Architect
                 </span>
                 <span className="text-white/40 text-[10px] font-mono tracking-widest uppercase">

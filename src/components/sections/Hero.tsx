@@ -16,23 +16,23 @@ function Hero() {
 
     const ctx = gsap.context(() => {
       if (isMobile) {
-        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta, .hero-intro-name', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewX: 0, rotateX: 0 })
+        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta, .hero-intro-name', { opacity: 1, y: 0, scale: 1, skewX: 0, rotateX: 0 })
       } else {
-        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 0, filter: 'blur(10px)' })
+        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta', { opacity: 0 })
 
-        gsap.set(introRef.current, { opacity: 0, y: 15, filter: 'blur(4px)' })
+        gsap.set(introRef.current, { opacity: 0, y: 15 })
 
         const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
         introTl
-          .to(introRef.current, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 })
-          .to(introRef.current, { opacity: 0, y: -20, filter: 'blur(2px)', duration: 1, ease: 'power2.inOut' }, '+=2.5')
+          .to(introRef.current, { opacity: 1, y: 0, duration: 0.8 })
+          .to(introRef.current, { opacity: 0, y: -20, duration: 1, ease: 'power2.inOut' }, '+=2.5')
 
         const tl = gsap.timeline({ defaults: { ease: 'power4.out' }, delay: 0.3 })
 
-        tl.to('.hero-avatar', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.4 }, 0.4)
-          .to('.hero-logo', { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.6 }, 0.6)
+        tl.to('.hero-avatar', { opacity: 1, y: 0, scale: 1, duration: 1.4 }, 0.4)
+          .to('.hero-logo', { opacity: 1, y: 0, scale: 1, duration: 1.6 }, 0.6)
           .to('.hero-tagline', { opacity: 1, x: 0, skewX: 0, duration: 1.2 }, 0.9)
-          .to('.hero-subtitle', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 1.8)
+          .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1.2 }, 1.8)
           .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }, 2.2)
 
         animations.splitTextReveal('.hero-name', { type: 'chars', stagger: 0.025, duration: 0.7, delay: 1.2 })
@@ -71,7 +71,7 @@ function Hero() {
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
       <div
         ref={bgRef}
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/6 via-amber-500/3 to-transparent blur-[20px] pointer-events-none rounded-full"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-amber-500/6 via-amber-500/3 to-transparent pointer-events-none rounded-full"
       />
 
       <div className="absolute inset-0 opacity-[0.012] pointer-events-none" style={{

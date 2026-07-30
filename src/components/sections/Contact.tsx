@@ -33,7 +33,7 @@ function Contact() {
         defaults: { ease: 'power3.out' },
       })
 
-      tl.fromTo('.contact-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 })
+      tl.fromTo('.contact-title', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2 })
         .fromTo('.contact-subtitle', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
         .fromTo('.contact-actions', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.4')
         .fromTo('.contact-detail-card', { opacity: 0, x: -40, skewX: 3 }, { opacity: 1, x: 0, skewX: 0, duration: 0.8, stagger: 0.1 }, '-=0.4')

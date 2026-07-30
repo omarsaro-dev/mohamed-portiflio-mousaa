@@ -201,8 +201,8 @@ function Projects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.projects-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, {
-        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out', force3D: true,
+      gsap.fromTo('.projects-title', { opacity: 0, y: 50 }, {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out', force3D: true,
         scrollTrigger: { trigger: '.projects-title', start: 'top 75%', toggleActions: 'play none none reverse', invalidateOnRefresh: true, fastScrollEnd: true, preventOverlaps: true },
       })
       gsap.fromTo('.projects-filter-btn', { opacity: 0, y: 20 }, {
@@ -214,8 +214,8 @@ function Projects() {
   }, [])
 
   useEffect(() => {
-    gsap.fromTo('.category-card', { opacity: 0, y: 50, scale: 0.97, filter: 'blur(4px)' }, {
-      opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, ease: 'power3.out', force3D: true, overwrite: 'auto',
+    gsap.fromTo('.category-card', { opacity: 0, y: 50, scale: 0.97 }, {
+      opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', force3D: true, overwrite: 'auto',
     })
     gsap.utils.toArray('.category-card').forEach((c) => {
       if (c instanceof HTMLElement) animations.tilt3d(c, 6)
@@ -395,7 +395,7 @@ function Projects() {
       {selectedProject && (
         <div
           ref={modalRef}
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 md:p-8 overflow-y-auto"
           onClick={closeModal}
         >
           <div

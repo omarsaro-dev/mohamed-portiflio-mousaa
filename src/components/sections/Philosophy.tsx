@@ -20,7 +20,7 @@ function Philosophy() {
         defaults: { ease: 'power3.out', force3D: true, overwrite: 'auto' },
       })
 
-      tl.fromTo('.philosophy-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 })
+      tl.fromTo('.philosophy-title', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2 })
         .fromTo('.philosophy-desc', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
         .fromTo('.philosophy-item', { opacity: 0, y: 60, rotateY: -15, scale: 0.9 }, { opacity: 1, y: 0, rotateY: 0, scale: 1, duration: 1.2, stagger: 0.2 }, '-=0.4')
 

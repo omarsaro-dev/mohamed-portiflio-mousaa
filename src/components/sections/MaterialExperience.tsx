@@ -76,7 +76,7 @@ function MaterialExperience() {
         defaults: { ease: 'power3.out' },
       })
 
-      tl.fromTo('.materials-title', { opacity: 0, y: 50, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 })
+      tl.fromTo('.materials-title', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 })
         .fromTo('.materials-desc', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.6')
         .fromTo('.material-btn', { opacity: 0, x: -40, skewX: 3 }, { opacity: 1, x: 0, skewX: 0, duration: 0.7, stagger: 0.08 }, '-=0.4')
         .fromTo('.material-preview', { opacity: 0, scale: 0.9, rotation: -2 }, { opacity: 1, scale: 1, rotation: 0, duration: 1.2 }, '-=0.8')
@@ -96,7 +96,7 @@ function MaterialExperience() {
   useEffect(() => {
     if (prevMaterial.current !== activeMaterial) {
       if (imageRef.current) {
-        gsap.fromTo(imageRef.current, { opacity: 0, scale: 0.92, filter: 'blur(8px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' })
+        gsap.fromTo(imageRef.current, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' })
       }
       if (descRef.current) {
         gsap.fromTo(descRef.current, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.2 })
@@ -132,7 +132,7 @@ function MaterialExperience() {
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
             <div className="absolute top-4 left-4">
-              <span className="bg-amber-500/20 text-amber-300 text-[10px] tracking-widest px-3 py-1 uppercase border border-amber-500/30 backdrop-blur-md">
+              <span className="bg-amber-500/20 text-amber-300 text-[10px] tracking-widest px-3 py-1 uppercase border border-amber-500/30">
                 {activeMaterial.tag}
               </span>
             </div>
