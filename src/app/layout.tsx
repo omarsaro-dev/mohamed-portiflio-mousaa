@@ -51,6 +51,9 @@ export default function RootLayout({
         <link rel="preload" href="/images/mohamed-moussa.jpg" as="image" type="image/jpeg" fetchPriority="high" />
       </head>
       <body>
+        <script dangerouslySetInnerHTML={{
+          __html: `setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&getComputedStyle(e).visibility!=="hidden"){e.style.transition="transform 0.5s ease, opacity 0.3s ease";e.style.transform="translateY(-100%)";e.style.opacity="0";setTimeout(function(){e.style.visibility="hidden";e.style.pointerEvents="none"},600)}},3000)`
+        }} />
         {children}
       </body>
     </html>
