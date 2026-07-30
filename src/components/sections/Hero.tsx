@@ -11,6 +11,7 @@ function Hero() {
   const introRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
   const accentGlowRef = useRef<HTMLDivElement>(null)
+  const mouseGlowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
@@ -69,6 +70,18 @@ function Hero() {
         })
       }
 
+      const container = containerRef.current
+      if (!isMobile && container && mouseGlowRef.current) {
+        const handleMouse = (e: MouseEvent) => {
+          const rect = container.getBoundingClientRect()
+          const x = e.clientX - rect.left - rect.width / 2
+          const y = e.clientY - rect.top - rect.height / 2
+          gsap.to(mouseGlowRef.current, { x, y, duration: 1.2, ease: 'power2.out', overwrite: 'auto' })
+        }
+        container.addEventListener('mousemove', handleMouse, { passive: true })
+        ctx.add(() => container.removeEventListener('mousemove', handleMouse))
+      }
+
       if (typeof requestIdleCallback !== 'undefined') {
         requestIdleCallback(() => {
           if (!containerRef.current) return
@@ -87,9 +100,9 @@ function Hero() {
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
       <div className="absolute inset-0 bg-gradient-to-br from-[#1C1512] via-[#1A1410] to-[#0F0D0A] pointer-events-none" />
 
-      <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.12'%3E%3Cpath d='M50 50v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM50 10V6h-4v4h-4v4h4v4h4v-4h4v-4h-4zM10 50v-4H6v4H2v4h4v4h4v-4h4v-4H10zM10 10V6H6v4H2v4h4v4h4v-4h4v-4H10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        backgroundSize: '80px 80px',
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='g' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 100 0 L 0 0 0 100' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3C/svg%3E")`,
+        backgroundSize: '100px 100px',
       }} />
 
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{
@@ -106,6 +119,11 @@ function Hero() {
       <div
         ref={accentGlowRef}
         className="absolute top-2/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-amber-400/8 via-amber-400/4 to-transparent pointer-events-none rounded-full will-change-transform"
+      />
+
+      <div
+        ref={mouseGlowRef}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-radial from-amber-400/10 via-amber-400/5 to-transparent pointer-events-none rounded-full will-change-transform"
       />
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
@@ -173,9 +191,30 @@ function Hero() {
           </a>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
-          <span className="text-[8px] tracking-[0.3em] uppercase font-mono">Scroll</span>
-          <div className="w-[1px] h-8 bg-gradient-to-b from-white/30 to-transparent" />
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-5xl px-6">
+          <div className="flex items-center justify-center gap-8 md:gap-14 text-white/30 font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase">
+            <span className="flex items-center gap-2">
+              <span className="text-amber-400/60 font-medium">+15</span>
+              <span>Years Experience</span>
+            </span>
+            <span className="hidden sm:block w-[1px] h-3 bg-white/10" />
+            <span className="flex items-center gap-2">
+              <span className="text-amber-400/60 font-medium">50+</span>
+              <span>Iconic Projects</span>
+            </span>
+            <span className="hidden sm:block w-[1px] h-3 bg-white/10" />
+            <span className="flex items-center gap-2">
+              <span className="text-amber-400/60 font-medium">EG · UAE</span>
+              <span className="hidden md:inline">Egypt &amp; Middle East</span>
+              <span className="md:hidden">Regional</span>
+            </span>
+            <span className="hidden sm:block w-[1px] h-3 bg-white/10" />
+            <span className="flex items-center gap-2">
+              <span className="text-amber-400/60 font-medium">Luxury</span>
+              <span className="hidden md:inline">Residential &amp; Commercial</span>
+              <span className="md:hidden">Architecture</span>
+            </span>
+          </div>
         </div>
       </div>
     </section>
