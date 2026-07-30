@@ -9,8 +9,6 @@ import LoadingScreen from '@/components/ui/LoadingScreen'
 const Background3D = dynamic(() => import('@/components/three/Background3D'), { ssr: false })
 const MarqueeStrip = dynamic(() => import('@/components/ui/MarqueeStrip'), { ssr: false })
 const AnimatedDivider = dynamic(() => import('@/components/ui/AnimatedDivider'), { ssr: false })
-const Cursor = dynamic(() => import('@/components/ui/Cursor'), { ssr: false })
-const ScrollProgress = dynamic(() => import('@/components/ui/ScrollProgress'), { ssr: false })
 
 const Founder = dynamic(() => import('@/components/sections/Founder'), { ssr: false })
 const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { ssr: false })
@@ -29,10 +27,8 @@ export default function Home() {
   return (
     <>
       <LoadingScreen />
-      <ScrollProgress />
       <div className="min-h-screen">
         <Navigation />
-        <Cursor />
         <Background3D />
         <Hero />
         <Suspense fallback={<SectionPlaceholder />}>

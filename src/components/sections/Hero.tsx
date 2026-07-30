@@ -48,10 +48,12 @@ function Hero() {
           const scrollTl = gsap.timeline({
             scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: 2, invalidateOnRefresh: true },
           })
-          scrollTl.to(containerRef.current, { yPercent: 15, scale: 0.97, opacity: 0.9, ease: 'none' }, 0)
-            .to('.hero-name', { yPercent: -20, opacity: 0.6, scale: 1.05, ease: 'none' }, 0)
-            .to('.hero-subtitle', { yPercent: -25, opacity: 0.3, ease: 'none' }, 0)
-            .to('.hero-tagline', { yPercent: -30, opacity: 0.2, ease: 'none' }, 0)
+          scrollTl.to(containerRef.current, { yPercent: 12, scale: 0.97, opacity: 0.9, ease: 'none' }, 0)
+            .to(glowRef.current, { scale: 1.4, yPercent: -15, ease: 'none' }, 0)
+            .to(accentGlowRef.current, { scale: 1.5, yPercent: -10, ease: 'none' }, 0)
+            .to('.hero-name', { yPercent: -25, opacity: 0.5, scale: 1.05, ease: 'none' }, 0)
+            .to('.hero-subtitle', { yPercent: -30, opacity: 0.2, ease: 'none' }, 0)
+            .to('.hero-tagline', { yPercent: -35, opacity: 0.15, ease: 'none' }, 0)
         }
       }
 
@@ -105,11 +107,7 @@ function Hero() {
         backgroundSize: '100px 100px',
       }} />
 
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-        backgroundSize: '200px 200px',
-        mixBlendMode: 'overlay',
-      }} />
+      <div className="absolute inset-0 pointer-events-none grain-overlay" />
 
       <div
         ref={glowRef}

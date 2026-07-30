@@ -25,10 +25,10 @@ function ScrollProgress() {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5">
+    <div className="fixed top-0 left-0 right-0 h-[1.5px] z-[60] bg-white/5">
       <div
         ref={barRef}
-        className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-amber-400 via-amber-500 to-amber-300"
+        className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-amber-400/60 via-amber-500 to-amber-300/60"
         style={{ transform: 'scaleX(0)' }}
       />
     </div>

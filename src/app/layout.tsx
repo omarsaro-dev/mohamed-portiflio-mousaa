@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import Cursor from '@/components/ui/Cursor'
+import ScrollProgress from '@/components/ui/ScrollProgress'
 import './globals.css'
 
 const inter = Inter({ 
@@ -51,8 +53,10 @@ export default function RootLayout({
         <link rel="preload" href="/images/mohamed-moussa.jpg" as="image" type="image/jpeg" fetchPriority="high" />
       </head>
       <body>
+        <Cursor />
+        <ScrollProgress />
         <script dangerouslySetInnerHTML={{
-          __html: `setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&getComputedStyle(e).visibility!=="hidden"){e.style.transition="transform 0.5s ease, opacity 0.3s ease";e.style.transform="translateY(-100%)";e.style.opacity="0";setTimeout(function(){e.style.visibility="hidden";e.style.pointerEvents="none"},600)}},3000)`
+          __html: `setTimeout(function(){var e=document.querySelector(".loading-screen");if(e&&getComputedStyle(e).visibility!=="hidden"){e.style.transition="transform 0.35s cubic-bezier(0.65,0,0.35,1), opacity 0.2s ease";e.style.transform="translateY(-100%)";e.style.opacity="0";setTimeout(function(){e.style.visibility="hidden";e.style.pointerEvents="none"},400)}},1500)`
         }} />
         {children}
       </body>
