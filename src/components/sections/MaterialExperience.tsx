@@ -53,7 +53,7 @@ const materials = [
     name: 'Living Wall',
     subtitle: 'Biophilic Vertical Garden',
     description: 'A thriving vertical ecosystem of cascading greenery, moss, and ferns integrated into architectural surfaces. This living texture purifies the air while creating a stunning visual dialogue between built form and nature\'s untamed elegance.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80&fit=crop',
+    image: '/images/generated/living-wall.svg',
     tag: 'BIOPHILIC DESIGN'
   }
 ]
