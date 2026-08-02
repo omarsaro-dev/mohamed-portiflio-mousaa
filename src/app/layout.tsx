@@ -48,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <head>
-        <link rel="preload" href="/images/mohamed-moussa.jpg" as="image" type="image/jpeg" fetchPriority="high" />
+        <link rel="preload" href="/images/founder-portrait.jpg" as="image" type="image/jpeg" fetchPriority="high" />
       </head>
       <body>
         <script dangerouslySetInnerHTML={{

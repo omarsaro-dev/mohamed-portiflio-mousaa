@@ -74,18 +74,18 @@ export default function Navigation() {
 
   const links = [
     { href: '#founder', label: 'FOUNDER' },
-    { href: '#philosophy', label: 'PHILOSOPHY' },
     { href: '#projects', label: 'PROJECTS' },
+    { href: '#philosophy', label: 'PHILOSOPHY' },
     { href: '#contact', label: 'CONTACT' },
   ]
 
   return (
-    <nav ref={navRef} className={`fixed top-0 left-0 right-0 z-40 will-change-transform ${scrolled ? 'bg-black/80 py-4 border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)]' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <nav ref={navRef} className={`fixed top-0 left-0 right-0 z-40 will-change-transform ${scrolled ? 'bg-black/80 py-3 border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)]' : 'bg-transparent py-4'}`}>
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex justify-between items-center">
         <Logo />
         
-        <div className="flex items-center gap-8">
-          <div className="hidden md:flex gap-8 text-xs tracking-widest text-white/60 font-mono">
+        <div className="flex items-center gap-10">
+          <div className="hidden md:flex gap-10 text-xs tracking-widest text-white/60 font-mono">
             {links.map((link) => (
               <a
                 key={link.href}

@@ -2,218 +2,128 @@
 
 import { useEffect, useRef, memo } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
-import { animations } from '@/lib/animations'
+
+if (typeof document !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
+const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")`
 
 function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const introRef = useRef<HTMLDivElement>(null)
-  const glowRef = useRef<HTMLDivElement>(null)
-  const accentGlowRef = useRef<HTMLDivElement>(null)
-  const mouseGlowRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    let cancelled = false
-    let idleCallbackId: number | undefined
-    let removeMouseParallax: (() => void) | undefined
-    let removeContainerMouse: (() => void) | undefined
-    const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
+    const container = containerRef.current
+    if (!container) return
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0
 
     const ctx = gsap.context(() => {
-      if (isMobile) {
-        gsap.set('.hero-avatar, .hero-logo, .hero-tagline, .hero-name, .hero-subtitle, .hero-cta, .hero-intro-name', { opacity: 1, y: 0, scale: 1, skewX: 0, rotateX: 0 })
-      } else {
-        gsap.set('.hero-avatar', { opacity: 0, y: 40 })
-        gsap.set('.hero-logo', { opacity: 0, y: 30 })
-        gsap.set('.hero-tagline', { opacity: 0, y: 25, x: -20, skewX: 3 })
-        gsap.set('.hero-name', { opacity: 0 })
-        gsap.set('.hero-subtitle', { opacity: 0, y: 20 })
-        gsap.set('.hero-cta', { opacity: 0, y: 15 })
+      if (reduceMotion) {
+        gsap.set('.hero-label, .hero-title, .hero-desc, .hero-cta, .hero-portrait-inner', { opacity: 1, y: 0, scale: 1 })
+        gsap.set('.hero-portrait-frame', { clipPath: 'inset(0% 0% 0% 0%)' })
+        return
+      }
 
-        gsap.set(introRef.current, { opacity: 0, y: 15 })
+      gsap.set('.hero-label', { opacity: 0, y: 18 })
+      gsap.set('.hero-title', { opacity: 0, y: 42 })
+      gsap.set('.hero-desc', { opacity: 0, y: 26 })
+      gsap.set('.hero-cta', { opacity: 0, y: 16 })
+      gsap.set('.hero-portrait-frame', { clipPath: 'inset(100% 0% 0% 0%)' })
+      gsap.set('.hero-portrait-inner', { scale: 1.12 })
 
-        const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-        introTl
-          .to(introRef.current, { opacity: 1, y: 0, duration: 0.8 })
-          .to(introRef.current, { opacity: 0, y: -20, duration: 1, ease: 'power2.inOut' }, '+=2.5')
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.4 })
+      tl.to('.hero-label', { opacity: 1, y: 0, duration: 0.9 }, 0.1)
+        .to('.hero-title', { opacity: 1, y: 0, duration: 1.1 }, 0.3)
+        .to('.hero-desc', { opacity: 1, y: 0, duration: 0.9 }, 0.65)
+        .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.85)
+        .to('.hero-portrait-frame', { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.9, ease: 'power4.inOut' }, 0.45)
+        .to('.hero-portrait-inner', { scale: 1, duration: 2.6, ease: 'power2.out' }, 0.45)
 
-        const tl = gsap.timeline({ defaults: { ease: 'power4.out' }, delay: 0.3 })
+      if (!isMobile) {
+        const scrollTl = gsap.timeline({
+          scrollTrigger: { trigger: container, start: 'top top', end: 'bottom top', scrub: 1.2, invalidateOnRefresh: true },
+        })
+        scrollTl
+          .to('.hero-portrait', { yPercent: -7, ease: 'none' }, 0)
+          .to('.hero-portrait-inner', { yPercent: 6, scale: 1.06, ease: 'none' }, 0)
+          .to('.hero-copy', { yPercent: 4, opacity: 0.5, ease: 'none' }, 0)
 
-        tl.to('.hero-avatar', { opacity: 1, y: 0, scale: 1, duration: 1.4 }, 0.4)
-          .to('.hero-logo', { opacity: 1, y: 0, scale: 1, duration: 1.6 }, 0.6)
-          .to('.hero-tagline', { opacity: 1, x: 0, y: 0, skewX: 0, duration: 1.2 }, 0.9)
-          .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1.2 }, 1.8)
-          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }, 2.2)
-
-        animations.splitTextReveal('.hero-name', { type: 'chars', stagger: 0.025, duration: 0.7, delay: 1.2 })
-
-        if (containerRef.current) {
-          const scrollTl = gsap.timeline({
-            scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: 2, invalidateOnRefresh: true },
-          })
-          scrollTl.to(containerRef.current, { yPercent: 12, scale: 0.97, opacity: 0.9, ease: 'none' }, 0)
-            .to(glowRef.current, { scale: 1.4, yPercent: -15, ease: 'none' }, 0)
-            .to(accentGlowRef.current, { scale: 1.5, yPercent: -10, ease: 'none' }, 0)
-            .to('.hero-name', { yPercent: -25, opacity: 0.5, scale: 1.05, ease: 'none' }, 0)
-            .to('.hero-subtitle', { yPercent: -30, opacity: 0.2, ease: 'none' }, 0)
-            .to('.hero-tagline', { yPercent: -35, opacity: 0.15, ease: 'none' }, 0)
+        const portrait = container.querySelector<HTMLElement>('.hero-portrait')
+        if (portrait) {
+          const handleMouse = (e: MouseEvent) => {
+            const rect = portrait.getBoundingClientRect()
+            const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.02
+            const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.02
+            gsap.to('.hero-portrait-inner', { x: dx, y: dy, duration: 1.4, ease: 'power2.out', overwrite: 'auto' })
+          }
+          document.addEventListener('mousemove', handleMouse, { passive: true })
+          return () => document.removeEventListener('mousemove', handleMouse)
         }
       }
+    }, container)
 
-      if (glowRef.current && accentGlowRef.current) {
-        gsap.to(glowRef.current, {
-          scale: 1.15, opacity: 0.7, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        })
-        gsap.to(glowRef.current, {
-          x: 30, y: -20, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        })
-        gsap.to(accentGlowRef.current, {
-          scale: 1.2, opacity: 0.6, duration: 7, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        })
-        gsap.to(accentGlowRef.current, {
-          x: -20, y: 25, duration: 12, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        })
-      }
-
-      const container = containerRef.current
-      if (!isMobile && container && mouseGlowRef.current) {
-        const handleMouse = (e: MouseEvent) => {
-          const rect = container.getBoundingClientRect()
-          const x = e.clientX - rect.left - rect.width / 2
-          const y = e.clientY - rect.top - rect.height / 2
-          gsap.to(mouseGlowRef.current, { x, y, duration: 1.2, ease: 'power2.out', overwrite: 'auto' })
-        }
-        container.addEventListener('mousemove', handleMouse, { passive: true })
-        removeContainerMouse = () => container.removeEventListener('mousemove', handleMouse)
-      }
-
-      if (typeof requestIdleCallback !== 'undefined') {
-        idleCallbackId = requestIdleCallback(() => {
-          if (cancelled || !containerRef.current) return
-          removeMouseParallax = animations.mouseParallax('.hero-avatar', 0.12)
-        }, { timeout: 2000 })
-      }
-    }, containerRef.current!)
-    if (removeContainerMouse) ctx.add(removeContainerMouse)
-
-    return () => {
-      cancelled = true
-      if (idleCallbackId !== undefined && typeof cancelIdleCallback !== 'undefined') cancelIdleCallback(idleCallbackId)
-      removeMouseParallax?.()
-      ctx.revert()
-    }
+    return () => ctx.revert()
   }, [])
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505] pt-20 will-change-transform">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1C1512] via-[#1A1410] to-[#0F0D0A] pointer-events-none" />
+    <section ref={containerRef} className="relative min-h-screen flex items-center overflow-hidden bg-[#050505] pt-24 pb-16 lg:pt-28 lg:pb-24">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#14100A] via-[#0B0806] to-[#050505] pointer-events-none" aria-hidden />
+      <div className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay" style={{ backgroundImage: GRAIN, backgroundSize: '160px 160px' }} aria-hidden />
 
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='g' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 100 0 L 0 0 0 100' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3C/svg%3E")`,
-        backgroundSize: '100px 100px',
-      }} />
-
-      <div
-        ref={glowRef}
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-radial from-amber-500/15 via-amber-500/8 to-transparent pointer-events-none rounded-full will-change-transform"
-      />
-
-      <div
-        ref={accentGlowRef}
-        className="absolute top-2/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-amber-400/8 via-amber-400/4 to-transparent pointer-events-none rounded-full will-change-transform"
-      />
-
-      <div
-        ref={mouseGlowRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-radial from-amber-400/10 via-amber-400/5 to-transparent pointer-events-none rounded-full will-change-transform"
-      />
-
-      <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-        <div
-          ref={introRef}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
-        >
-          <span className="font-serif text-xl md:text-2xl tracking-[0.2em] text-amber-400">
-            Arch. Mohamed Moussa
-          </span>
-        </div>
-
-        <div className="hero-avatar mb-8 inline-block">
-          <a href="#founder" className="group flex items-center gap-3 border border-white/10 hover:border-amber-500/50 px-4 py-2 rounded-full transition-all duration-300">
-            <div className="w-10 h-10 rounded-full overflow-hidden border border-amber-500/40 relative shrink-0">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row-reverse lg:items-center gap-16 lg:gap-10">
+        <div className="hero-portrait relative w-full lg:w-[55%] flex justify-center lg:justify-end will-change-transform">
+          <div className="hero-portrait-frame relative w-full max-w-[560px] lg:max-w-none lg:w-[88%] aspect-[4/5] max-h-[72vh] lg:max-h-[80vh] overflow-hidden">
+            <div className="hero-portrait-inner absolute inset-0 will-change-transform">
               <Image
-                src="/images/mohamed-moussa.jpg"
-                alt="Arch. Mohamed Moussa"
+                src="/images/founder-portrait.jpg"
+                alt="Arch. Mohamed Moussa — Founder & Creative Director"
                 fill
-                sizes="40px"
                 priority
-                decoding="async"
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                sizes="(max-width: 1024px) 92vw, 45vw"
+                quality={90}
+                className="object-cover object-center"
               />
             </div>
-            <div className="text-left pr-2">
-              <p className="text-[11px] text-white font-serif tracking-wide">Arch. Mohamed Moussa</p>
-              <p className="text-[9px] text-amber-400 font-mono tracking-widest uppercase">Founder & Creative Director</p>
-            </div>
-          </a>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30 pointer-events-none" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-tr from-amber-950/25 via-transparent to-amber-900/10 pointer-events-none" aria-hidden />
+            <div className="absolute inset-0 shadow-[inset_0_0_160px_rgba(0,0,0,0.55)] pointer-events-none" aria-hidden />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" aria-hidden />
+            <div className="absolute inset-3 sm:inset-4 border border-white/[0.10] pointer-events-none" aria-hidden />
+          </div>
         </div>
 
-        <div className="hero-logo font-serif text-xl md:text-2xl tracking-[0.15em] text-white mb-6 whitespace-nowrap">
-          Arch. Mohamed Moussa
-        </div>
+        <div className="hero-copy relative z-10 w-full lg:w-[45%] flex flex-col items-center lg:items-start text-center lg:text-left">
+          <p className="hero-label font-mono text-[11px] md:text-xs tracking-[0.34em] uppercase text-[#C9A962]">
+            Luxury Architecture &amp; Interior Design
+          </p>
 
-        <p className="hero-tagline bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent tracking-[0.35em] text-xs md:text-sm mb-6 uppercase font-mono">
-          Luxury Architecture & Interior Design
-        </p>
+          <h1 className="hero-title font-serif text-[2.7rem] leading-[1.04] tracking-tight text-white sm:text-6xl xl:text-[4.6rem] mt-7">
+            Arch. Mohamed
+            <br />
+            Moussa
+          </h1>
 
-        <h1 className="hero-name font-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl text-white/95 mb-8 leading-none tracking-tight" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.5)' }}>
-          Arch. Mohamed Moussa
-        </h1>
+          <p className="hero-desc text-white/70 text-base md:text-lg leading-relaxed max-w-md mt-7 text-pretty">
+            Creating timeless spaces through architecture, emotion and precision across Egypt and the Middle East.
+          </p>
 
-        <p className="hero-subtitle text-white/75 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
-          Creating timeless spaces through architecture, emotion and precision across Egypt and the Middle East.
-        </p>
-
-        <div className="mt-12 flex items-center justify-center gap-4 flex-wrap">
-          <a
-            href="#projects"
-            className="hero-cta relative overflow-hidden group px-8 py-4 bg-amber-500 text-black font-medium text-xs tracking-widest uppercase rounded-xs hover:scale-105 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300"
-          >
-            <span className="relative z-10">Explore Selected Works</span>
-            <span className="absolute inset-0 bg-amber-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-          </a>
-          <a
-            href="#founder"
-            className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 text-white font-medium text-xs tracking-widest uppercase rounded-xs hover:border-amber-500/60 hover:bg-white/[0.06] transition-all duration-300"
-          >
-            <span className="relative z-10">The Founder</span>
-            <span className="absolute inset-0 bg-white/8 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-          </a>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-5xl px-6">
-          <div className="flex items-center justify-center gap-8 md:gap-14 text-white/30 font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase">
-            <span className="flex items-center gap-2">
-              <span className="text-amber-400/60 font-medium">+15</span>
-              <span>Years Experience</span>
-            </span>
-            <span className="hidden sm:block w-[1px] h-3 bg-white/10" />
-            <span className="flex items-center gap-2">
-              <span className="text-amber-400/60 font-medium">50+</span>
-              <span>Iconic Projects</span>
-            </span>
-            <span className="hidden sm:block w-[1px] h-3 bg-white/10" />
-            <span className="flex items-center gap-2">
-              <span className="text-amber-400/60 font-medium">EG · UAE</span>
-              <span className="hidden md:inline">Egypt &amp; Middle East</span>
-              <span className="md:hidden">Regional</span>
-            </span>
-            <span className="hidden sm:block w-[1px] h-3 bg-white/10" />
-            <span className="flex items-center gap-2">
-              <span className="text-amber-400/60 font-medium">Luxury</span>
-              <span className="hidden md:inline">Residential &amp; Commercial</span>
-              <span className="md:hidden">Architecture</span>
-            </span>
+          <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 md:gap-5">
+            <a
+              href="#projects"
+              className="hero-cta inline-flex items-center gap-3 px-9 py-4 bg-[#C9A962] text-[#0B0A09] text-[11px] md:text-xs tracking-[0.22em] uppercase font-mono font-medium transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03] hover:bg-[#D8B878]"
+            >
+              Explore Selected Works
+            </a>
+            <a
+              href="#founder"
+              className="hero-cta inline-flex items-center gap-3 px-9 py-4 border border-white/25 text-white/80 text-[11px] md:text-xs tracking-[0.22em] uppercase font-mono transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03] hover:border-white/70 hover:text-white"
+            >
+              The Founder
+            </a>
           </div>
         </div>
       </div>
