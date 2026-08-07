@@ -9,7 +9,7 @@ export const siteConfig = {
     email: 'Arch.Mohamed_mousa@yahoo.com',
     phone: '01063300788',
     whatsapp: 'https://wa.me/201063300788',
-    instagram: 'https://instagram.com/mousaa',
+    instagram: 'https://www.instagram.com/mousaadesigns/',
     linkedin: 'https://linkedin.com/in/mohamedmoussa',
   },
 }

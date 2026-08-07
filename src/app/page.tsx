@@ -14,6 +14,8 @@ const Philosophy = dynamic(() => import('@/components/sections/Philosophy'), { s
 const Projects = dynamic(() => import('@/components/sections/Projects'), { ssr: false })
 const StudioProcess = dynamic(() => import('@/components/sections/StudioProcess'), { ssr: false })
 const Contact = dynamic(() => import('@/components/sections/Contact'), { ssr: false })
+const Instagram = dynamic(() => import('@/components/sections/Instagram'), { ssr: false })
+const FloatingInstagram = dynamic(() => import('@/components/ui/FloatingInstagram'), { ssr: false })
 
 function SectionPlaceholder() {
   return <div className="min-h-[200px] bg-[#070707]" />
@@ -56,6 +58,9 @@ export default function Home() {
           <StudioProcess />
         </Suspense>
         <Suspense fallback={<SectionPlaceholder />}>
+          <Instagram />
+        </Suspense>
+        <Suspense fallback={<SectionPlaceholder />}>
           <MarqueeStrip
             text="STONE • WOOD • LIGHT • TEXTURE • FORM • SHADOW •"
             speed={45}
@@ -68,6 +73,9 @@ export default function Home() {
           <Contact />
         </Suspense>
       </div>
+      <Suspense fallback={null}>
+        <FloatingInstagram />
+      </Suspense>
     </>
   )
 }

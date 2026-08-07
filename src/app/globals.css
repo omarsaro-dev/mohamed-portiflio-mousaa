@@ -95,3 +95,67 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Instagram experience ─────────────────────────────── */
+
+@keyframes ig-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ig-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: ig-marquee var(--ig-marquee-speed, 38s) linear infinite;
+  will-change: transform;
+}
+
+.ig-marquee:hover .ig-marquee-track {
+  animation-play-state: paused;
+}
+
+.ig-marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@keyframes ig-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.ig-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.ig-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.07) 50%, transparent 70%);
+  animation: ig-shimmer 1.8s infinite;
+}
+
+@keyframes ig-card-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.ig-card-float {
+  animation: ig-card-float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .ig-card-float {
+    animation: none;
+  }
+}
