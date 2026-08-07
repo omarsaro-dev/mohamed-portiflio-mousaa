@@ -14,6 +14,13 @@ if (typeof document !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
+function formatCompact(value: number): string {
+  if (value >= 1000) {
+    return value.toLocaleString('en-US', { notation: 'compact', maximumFractionDigits: 1 })
+  }
+  return value.toLocaleString('en-US')
+}
+
 interface InstagramProfileCardProps {
   feed: InstagramFeed | null
   status: 'loading' | 'ready' | 'error'
@@ -26,7 +33,7 @@ function StatCounter({ value, label, delay = 0 }: { value: number; label: string
     const el = ref.current
     if (!el) return
     if (prefersReducedMotion()) {
-      el.textContent = value.toLocaleString('en-US')
+      el.textContent = formatCompact(value)
       return
     }
     const obj = { v: 0 }
@@ -36,7 +43,7 @@ function StatCounter({ value, label, delay = 0 }: { value: number; label: string
       delay,
       ease: 'power2.out',
       onUpdate: () => {
-        el.textContent = Math.round(obj.v).toLocaleString('en-US')
+        el.textContent = formatCompact(Math.round(obj.v))
       },
       scrollTrigger: { trigger: el, start: 'top 92%', once: true },
     })

@@ -17,9 +17,9 @@ export const INSTAGRAM_PROFILE = {
 } as const
 
 export const INSTAGRAM_PLACEHOLDER_STATS = {
-  posts: 128,
-  followers: 12400,
-  following: 312,
+  posts: 375,
+  followers: 33200,
+  following: 54,
 } as const
 
 export const INSTAGRAM_MARQUEE_WORDS = [
