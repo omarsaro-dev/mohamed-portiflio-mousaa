@@ -68,10 +68,16 @@ function validateField(field: keyof FormValues, values: FormValues): string | un
 
 type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error'
 
+interface ContactApiResponse {
+  ok?: boolean
+  error?: string
+}
+
 export default function ProjectInquiryForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM)
   const [touched, setTouched] = useState<Partial<Record<keyof FormValues, boolean>>>({})
   const [status, setStatus] = useState<SubmitStatus>('idle')
+  const [submitError, setSubmitError] = useState('')
   const successRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -104,6 +110,7 @@ export default function ProjectInquiryForm() {
     setValues(EMPTY_FORM)
     setTouched({})
     setStatus('idle')
+    setSubmitError('')
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -126,6 +133,7 @@ export default function ProjectInquiryForm() {
     }
 
     setStatus('submitting')
+    setSubmitError('')
 
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 15000)
@@ -150,7 +158,10 @@ export default function ProjectInquiryForm() {
         signal: controller.signal,
       })
 
-      if (!response.ok) throw new Error(`Inquiry delivery failed with ${response.status}`)
+      const result = (await response.json().catch(() => null)) as ContactApiResponse | null
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || `Inquiry delivery failed with ${response.status}`)
+      }
 
       setStatus('success')
       setValues(EMPTY_FORM)
@@ -159,6 +170,7 @@ export default function ProjectInquiryForm() {
       if (process.env.NODE_ENV !== 'production') {
         console.error('[contact] Failed to submit project inquiry', error)
       }
+      setSubmitError(error instanceof Error ? error.message : '')
       setStatus('error')
     } finally {
       clearTimeout(timeout)
@@ -300,7 +312,9 @@ export default function ProjectInquiryForm() {
 
           {status === 'error' && (
             <div role="alert" className="mt-10 border border-amber-400/20 bg-amber-400/[0.04] px-5 py-4">
-              <p className="font-serif text-lg text-amber-100">Something went wrong.</p>
+              <p className="font-serif text-lg text-amber-100">
+                {submitError || 'Something went wrong.'}
+              </p>
               <p className="mt-1 text-sm leading-relaxed text-white/60">
                 Please try again, or email{' '}
                 <a

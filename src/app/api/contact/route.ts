@@ -94,7 +94,13 @@ export async function POST(request: Request) {
       if (isDevelopment()) {
         console.warn(`[contact] n8n webhook responded with ${response.status}`)
       }
-      return NextResponse.json({ ok: false, error: 'Delivery failed' }, { status: 502 })
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `The automation webhook rejected this request (HTTP ${response.status}).`,
+        },
+        { status: 502 }
+      )
     }
 
     return NextResponse.json({ ok: true })
@@ -102,7 +108,10 @@ export async function POST(request: Request) {
     if (isDevelopment()) {
       console.error('[contact] Failed to deliver inquiry to n8n webhook', error)
     }
-    return NextResponse.json({ ok: false, error: 'Delivery failed' }, { status: 502 })
+    const message = error instanceof Error && error.name === 'AbortError'
+      ? 'The automation webhook timed out. Please try again.'
+      : 'The automation webhook could not be reached. Please try again.'
+    return NextResponse.json({ ok: false, error: message }, { status: 502 })
   } finally {
     clearTimeout(timeout)
   }
